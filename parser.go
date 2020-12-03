@@ -30,11 +30,16 @@ func (p *Parser) nextToken() {
 func (p *Parser) ParserProgram() *Program {
 	program := &Program{}
 	program.Statements = []Statement{}
+	program.Structs = map[string]*StructStatement{}
 
 	for p.curToken.Type != TOK_EOF {
 		stmt := p.parseStatement()
 		if stmt != nil {
 			program.Statements = append(program.Statements, stmt)
+			switch stmt := stmt.(type) {
+			case *StructStatement:
+				program.Structs[stmt.Name.Value] = stmt
+			}
 		}
 		p.nextToken()
 	}
@@ -42,7 +47,7 @@ func (p *Parser) ParserProgram() *Program {
 }
 
 func (p *Parser) parseStatement() Statement {
-	fmt.Printf("*** %#v\n", p.curToken)
+	//fmt.Printf("*** %#v\n", p.curToken)
 	switch p.curToken.Type {
 	case TOK_AT:
 		return p.parseOptionStatement()
@@ -164,8 +169,8 @@ func (p *Parser) parseEnumerations() []Enumeration {
 			p.nextToken()
 		}
 
-		fmt.Printf("-- %s\n", enum.String())
-		fmt.Printf("   %s\n", p.curToken.Literal)
+		//fmt.Printf("-- %s\n", enum.String())
+		//fmt.Printf("   %s\n", p.curToken.Literal)
 	}
 
 	return ret
@@ -266,7 +271,7 @@ func (p *Parser) parseInterfaceDefinitionStatement() *InterfaceDefinitionStateme
 		p.nextToken()
 	}
 
-	fmt.Printf("-- %s\n", stmt.String())
+	//fmt.Printf("-- %s\n", stmt.String())
 	return stmt
 }
 

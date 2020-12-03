@@ -21,6 +21,7 @@ type Expression interface {
 
 type Program struct {
 	Statements []Statement
+	Structs    map[string]*StructStatement
 }
 
 func (p *Program) TokenLiteral() string {
