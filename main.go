@@ -11,7 +11,7 @@ import (
 
 func main() {
 	filePath := ""
-	flag.StringVar(&filePath, "I", ".", "Add search path for imports")
+	flag.StringVar(&filePath, "I", "./erpc_idl/rpc_system.erpc", "Add search path for imports")
 	flag.Parse()
 
 	err := run(filePath)
@@ -73,17 +73,20 @@ func run(filePath string) error {
 	for _, stmt := range program.Statements {
 		switch stmt := stmt.(type) {
 		case *InterfaceStatement:
-			if false {
-				fmt.Printf("enum _%s_ids\n", stmt.Name.Value)
-				fmt.Printf("{\n")
-				fmt.Printf("    k%s_service_id = %d,\n", stmt.Name.Value, sid)
-				for j, x := range stmt.Interfaces {
-					fmt.Printf("    k%s_%s_id = %d,\n", stmt.Name.Value, x.Name.Value, j+1)
-				}
-				fmt.Printf("};\n")
+			fmt.Printf("enum _%s_ids\n", stmt.Name.Value)
+			fmt.Printf("{\n")
+			fmt.Printf("    k%s_service_id = %d,\n", stmt.Name.Value, sid)
+			for j, x := range stmt.Interfaces {
+				fmt.Printf("    k%s_%s_id = %d,\n", stmt.Name.Value, x.Name.Value, j+1)
 			}
+			fmt.Printf("};\n")
 			sid++
+		}
+	}
 
+	for _, stmt := range program.Statements {
+		switch stmt := stmt.(type) {
+		case *InterfaceStatement:
 			for _, x := range stmt.Interfaces {
 				typ := strings.Join(x.Return.Type, " ")
 				if rm, ok := retMap[typ]; ok {
