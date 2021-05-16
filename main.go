@@ -288,12 +288,55 @@ FOR_LOOP:
 	return ret, nil
 }
 
+type GoArgument struct {
+	In       bool
+	Out      bool
+	Name     string
+	Typ      []string
+	Nullable bool
+}
+
+func (a GoArgument) Type() string {
+	return strings.Join(a.Typ, " ")
+}
+
+func (a GoArgument) Size() int {
+	ret := 0
+	switch a.Type() {
+	case "uint8", "int8", "bool":
+		ret = 1
+	case "uint16", "int16":
+		ret = 2
+	case "uint32", "int32":
+		ret = 4
+	}
+	if strings.HasPrefix(a.Type(), "RPC_T") {
+		ret = 4
+	}
+	return ret
+}
+
+func (a GoArgument) String() string {
+	return fmt.Sprintf("%s %s", a.Name, a.Type())
+}
+
+func (a *GoArgument) SetNullable(opt []string) {
+	f := false
+	for _, o := range opt {
+		if o == "nullable" {
+			f = true
+		}
+	}
+	a.Nullable = f
+}
+
 func generateGoCode(p *Program) error {
 	sid := 1
 
 	fmt.Printf("package main\n")
 	fmt.Printf("\n")
 	fmt.Printf("import (\n")
+	fmt.Printf("	\"encoding/binary\"\n")
 	fmt.Printf("	\"fmt\"\n")
 	fmt.Printf(")\n")
 	fmt.Printf("\n")
@@ -318,15 +361,92 @@ func generateGoCode(p *Program) error {
 					typ = "[]byte"
 				}
 
+				arguments := []GoArgument{}
+				for _, arg := range x.Arguments {
+					a := GoArgument{
+						In: true,
+					}
+					for _, t := range arg.Type {
+						if t == "in" || t == "out" || t == "inout" {
+							if t == "in" {
+								a.In = true
+								a.Out = false
+							} else if t == "inout" {
+								a.In = true
+								a.Out = true
+							} else { // out
+								a.In = false
+								a.Out = true
+							}
+							continue
+						}
+						if t == "binary" {
+							t = "[]byte"
+						}
+						a.Typ = append(a.Typ, t)
+					}
+					a.Name = arg.Name
+					if a.Name == "func" {
+						a.Name = "fn"
+					}
+					a.SetNullable(arg.Options)
+					arguments = append(arguments, a)
+				}
+
+				argStr := []string{}
+				for _, arg := range arguments {
+					argStr = append(argStr, arg.String())
+				}
 				if typ == "" || typ == "void" {
-					fmt.Printf("func %s() error {\n", x.Name.Value)
+					fmt.Printf("func %s(%s) error {\n", x.Name.Value, strings.Join(argStr, ", "))
 				} else {
-					fmt.Printf("func %s() (%s, error) {\n", x.Name.Value, typ)
+					fmt.Printf("func %s(%s) (%s, error) {\n", x.Name.Value, strings.Join(argStr, ", "), typ)
 				}
 				fmt.Printf("	if debug {\n")
+
 				fmt.Printf("		fmt.Printf(\"%s()\\n\")\n", x.Name.Value)
 				fmt.Printf("	}\n")
 				fmt.Printf("	msg := startWriteMessage(0x00, 0x%02X, 0x%02X, uint32(seq))\n", sid, j+1)
+				fmt.Printf("\n")
+
+				if len(arguments) > 0 {
+					for _, a := range arguments {
+						if !a.In {
+							continue
+						}
+						fmt.Printf("	// %s : %d byte %#v\n", a.Name, a.Size(), a)
+						if a.Size() > 0 {
+							if a.Type() == "bool" {
+								fmt.Printf("	if %s {\n", a.Name)
+								fmt.Printf("		msg = append(msg, 1)\n")
+								fmt.Printf("	} else {\n")
+								fmt.Printf("		msg = append(msg, 0)\n")
+								fmt.Printf("	}\n")
+							} else {
+								for i := 0; i < a.Size(); i++ {
+									fmt.Printf("	msg = append(msg, byte(%s>>%d))\n", a.Name, i*8)
+								}
+							}
+						} else if a.Type() == "string" {
+							if a.Nullable {
+								fmt.Printf("	if len(%s) == 0 {\n", a.Name)
+								fmt.Printf("		msg = append(msg, 1)\n")
+								fmt.Printf("	} else {\n")
+								fmt.Printf("		msg = append(msg, 0)\n")
+								fmt.Printf("		msg = append(msg, byte(len(%s)), byte(len(%s)>>8), byte(len(%s)>>16), byte(len(%s)>>24))\n", a.Name, a.Name, a.Name, a.Name)
+								fmt.Printf("		msg = append(msg, []byte(%s)...)\n", a.Name)
+								fmt.Printf("	}\n")
+							} else {
+								fmt.Printf("	msg = append(msg, byte(len(%s)), byte(len(%s)>>8), byte(len(%s)>>16), byte(len(%s)>>24))\n", a.Name, a.Name, a.Name, a.Name)
+								fmt.Printf("	msg = append(msg, []byte(%s)...)\n", a.Name)
+							}
+						} else {
+							fmt.Printf("	msg = append(msg, %s...)\n", a.Name)
+						}
+					}
+				}
+				fmt.Printf("\n")
+
 				fmt.Printf("	err := performRequest(msg)\n")
 				fmt.Printf("	if err != nil {\n")
 				if typ == "" || typ == "void" {
@@ -344,13 +464,73 @@ func generateGoCode(p *Program) error {
 				fmt.Printf("\n")
 				fmt.Printf("	<-received\n")
 
+				useWindex := false
+				for _, a := range arguments {
+					if a.Out {
+						useWindex = true
+					}
+				}
+				if typ != "" && typ != "void" {
+					useWindex = true
+				}
+				if useWindex {
+					fmt.Printf("	widx := 8\n")
+				}
+
+				if len(arguments) > 0 {
+					for _, a := range arguments {
+						if !a.Out {
+							continue
+						}
+						fmt.Printf("	// %s : %d byte %#v\n", a.Name, a.Size(), a)
+						if a.Size() > 0 {
+							if a.Type() == "bool" {
+								fmt.Println("// not impl")
+							} else {
+								fmt.Println("// not impl")
+							}
+						} else if a.Type() == "string" || a.Type() == "[]byte" {
+							if a.Nullable {
+								fmt.Printf("	%s_length := binary.LittleEndian.Uint32(payload[widx:])\n", a.Name)
+								fmt.Printf("	widx += 1\n")
+								fmt.Printf("	if %s_length == 1 {\n", a.Name)
+								fmt.Printf("		%s_length = binary.LittleEndian.Uint32(payload[widx:])\n", a.Name)
+								fmt.Printf("		widx += 4\n")
+								fmt.Printf("	}\n")
+							} else {
+								fmt.Printf("	%s_length := binary.LittleEndian.Uint32(payload[widx:])\n", a.Name)
+								fmt.Printf("	widx += 4\n")
+							}
+
+							fmt.Printf("	if %s_length > 0 {\n", a.Name)
+							if a.Type() == "string" {
+								fmt.Printf("		%s = string(payload[widx:widx+int(%s_length)])\n", a.Name, a.Name)
+							} else {
+								fmt.Printf("		copy(%s, payload[widx:widx+int(%s_length)])\n", a.Name, a.Name)
+							}
+							fmt.Printf("		widx += int(%s_length)\n", a.Name)
+							fmt.Printf("	}\n")
+						} else {
+							fmt.Println("// not impl")
+						}
+					}
+					fmt.Printf("\n")
+				}
+
 				if typ == "" || typ == "void" {
 				} else if typ == "[]byte" {
 					fmt.Printf("	var result []byte\n")
+					fmt.Printf("	%s_length := binary.LittleEndian.Uint32(payload[widx:])\n", "result")
+					fmt.Printf("	widx += 4\n")
+					fmt.Printf("	copy(result, payload[widx:%s_length])\n", "result")
+				} else if typ == "bool" {
+					fmt.Printf("	var result %s\n", typ)
+					fmt.Printf("	result = binary.LittleEndian.Uint32(payload[widx:]) == 1\n")
 				} else {
 					fmt.Printf("	var result %s\n", typ)
+					fmt.Printf("	result = %s(binary.LittleEndian.Uint32(payload[widx:]))\n", typ)
 				}
-				fmt.Printf("	//err = readInt32(&result)\n")
+
 				fmt.Printf("\n")
 				fmt.Printf("	seq++\n")
 				if typ == "" || typ == "void" {

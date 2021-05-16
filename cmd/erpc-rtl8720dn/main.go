@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"time"
 
 	"go.bug.st/serial"
 )
@@ -71,54 +72,53 @@ func run(port string) error {
 			return err
 		}
 	}
-	return nil
 
-	//	if reconnect {
-	//		_, err = rpc_wifi_off()
-	//		if err != nil {
-	//			return err
-	//		}
-	//
-	//		_, err = rpc_wifi_on(0x00000001)
-	//		if err != nil {
-	//			return err
-	//		}
-	//
-	//		_, err = rpc_wifi_disconnect()
-	//		if err != nil {
-	//			return err
-	//		}
-	//
-	//		ret, err := rpc_wifi_connect(ssid, password, securityType, -1, 0)
-	//		if err != nil {
-	//			return err
-	//		}
-	//		if ret != 0 {
-	//			return fmt.Errorf("wifi connect failed\n")
-	//		}
-	//
-	//		_, err = rpc_tcpip_adapter_dhcpc_start(0)
-	//		if err != nil {
-	//			return err
-	//		}
-	//
-	//		for i := 0; i < 3; i++ {
-	//			_, err = rpc_wifi_is_connected_to_ap()
-	//			if err != nil {
-	//				return err
-	//			}
-	//			time.Sleep(1 * time.Second)
-	//		}
-	//	}
-	//
-	//	ip_info := make([]byte, 12)
-	//	_, err = rpc_tcpip_adapter_get_ip_info(0, ip_info)
-	//	if err != nil {
-	//		return err
-	//	}
-	//	ip := newIPInfo(ip_info)
-	//	ip.Dump()
-	//
+	if reconnect {
+		_, err = rpc_wifi_off()
+		if err != nil {
+			return err
+		}
+
+		_, err = rpc_wifi_on(0x00000001)
+		if err != nil {
+			return err
+		}
+
+		_, err = rpc_wifi_disconnect()
+		if err != nil {
+			return err
+		}
+
+		ret, err := rpc_wifi_connect(ssid, password, securityType, -1, 0)
+		if err != nil {
+			return err
+		}
+		if ret != 0 {
+			return fmt.Errorf("wifi connect failed\n")
+		}
+
+		_, err = rpc_tcpip_adapter_dhcpc_start(0)
+		if err != nil {
+			return err
+		}
+
+		for i := 0; i < 3; i++ {
+			_, err = rpc_wifi_is_connected_to_ap()
+			if err != nil {
+				return err
+			}
+			time.Sleep(1 * time.Second)
+		}
+	}
+
+	ip_info := make([]byte, 12)
+	_, err = rpc_tcpip_adapter_get_ip_info(0, ip_info)
+	if err != nil {
+		return err
+	}
+	ip := newIPInfo(ip_info)
+	ip.Dump()
+
 	//	addr := make([]byte, 4)
 	//	_, err = rpc_dns_gethostbyname_addrtype(`192.168.1.110`, addr, 0x00006d61, []byte{0x61, 0x6d, 0x00, 0x00, 0x38, 0x94, 0x00, 0x20}, 0x02)
 	//	//_, err = rpc_dns_gethostbyname_addrtype(`tinygo.org`, addr, 0x00006d61, []byte{0x61, 0x6d, 0x00, 0x00, 0x38, 0x94, 0x00, 0x20}, 0x02)
