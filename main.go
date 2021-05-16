@@ -38,167 +38,175 @@ func run(filePath string) error {
 		return fmt.Errorf("ParserProgram() returned nil")
 	}
 
-	sid := 1
-	retMap := map[string]string{
-		"":       "void",
-		"string": "char *",
-		"binary": "binary_t *",
-		"int8":   "int8_t",
-		"uint8":  "uint8_t",
-		"int16":  "int16_t",
-		"uint16": "uint16_t",
-		"int32":  "int32_t",
-		"uint32": "uint32_t",
-	}
-	argMap := map[string]string{
-		"":       "void",
-		"string": "char",
-		"binary": "binary_t",
-		"int8":   "int8_t",
-		"uint8":  "uint8_t",
-		"int16":  "int16_t",
-		"uint16": "uint16_t",
-		"int32":  "int32_t",
-		"uint32": "uint32_t",
-	}
-	primitiveArgMap := map[string]string{
-		"int8":   "int8_t",
-		"uint8":  "uint8_t",
-		"int16":  "int16_t",
-		"uint16": "uint16_t",
-		"int32":  "int32_t",
-		"uint32": "uint32_t",
-	}
-
-	for _, stmt := range program.Statements {
-		switch stmt := stmt.(type) {
-		case *InterfaceStatement:
-			fmt.Printf("enum _%s_ids\n", stmt.Name.Value)
-			fmt.Printf("{\n")
-			fmt.Printf("    k%s_service_id = %d,\n", stmt.Name.Value, sid)
-			for j, x := range stmt.Interfaces {
-				fmt.Printf("    k%s_%s_id = %d,\n", stmt.Name.Value, x.Name.Value, j+1)
-			}
-			fmt.Printf("};\n")
-			sid++
+	if true {
+		err = generateGoCode(program)
+		if err != nil {
+			return err
 		}
-	}
 
-	for _, stmt := range program.Statements {
-		switch stmt := stmt.(type) {
-		case *InterfaceStatement:
-			for _, x := range stmt.Interfaces {
-				typ := strings.Join(x.Return.Type, " ")
-				if rm, ok := retMap[typ]; ok {
-					typ = rm
+	} else {
+		sid := 1
+		retMap := map[string]string{
+			"":       "void",
+			"string": "char *",
+			"binary": "binary_t *",
+			"int8":   "int8_t",
+			"uint8":  "uint8_t",
+			"int16":  "int16_t",
+			"uint16": "uint16_t",
+			"int32":  "int32_t",
+			"uint32": "uint32_t",
+		}
+		argMap := map[string]string{
+			"":       "void",
+			"string": "char",
+			"binary": "binary_t",
+			"int8":   "int8_t",
+			"uint8":  "uint8_t",
+			"int16":  "int16_t",
+			"uint16": "uint16_t",
+			"int32":  "int32_t",
+			"uint32": "uint32_t",
+		}
+		primitiveArgMap := map[string]string{
+			"int8":   "int8_t",
+			"uint8":  "uint8_t",
+			"int16":  "int16_t",
+			"uint16": "uint16_t",
+			"int32":  "int32_t",
+			"uint32": "uint32_t",
+		}
+
+		for _, stmt := range program.Statements {
+			switch stmt := stmt.(type) {
+			case *InterfaceStatement:
+				fmt.Printf("enum _%s_ids\n", stmt.Name.Value)
+				fmt.Printf("{\n")
+				fmt.Printf("    k%s_service_id = %d,\n", stmt.Name.Value, sid)
+				for j, x := range stmt.Interfaces {
+					fmt.Printf("    k%s_%s_id = %d,\n", stmt.Name.Value, x.Name.Value, j+1)
 				}
-				fmt.Printf("%s ", typ)
+				fmt.Printf("};\n")
+				sid++
+			}
+		}
 
-				if strings.Join(x.Return.Options, " ") == "nullable" {
-					if !strings.HasSuffix(typ, " *") {
-						fmt.Printf("* ")
+		for _, stmt := range program.Statements {
+			switch stmt := stmt.(type) {
+			case *InterfaceStatement:
+				for _, x := range stmt.Interfaces {
+					typ := strings.Join(x.Return.Type, " ")
+					if rm, ok := retMap[typ]; ok {
+						typ = rm
 					}
-				}
-				fmt.Printf("%s(", x.Name.Value)
-				if len(x.Arguments) == 0 {
-					fmt.Printf("void")
-				} else {
-					for i, arg := range x.Arguments {
-						if i != 0 {
-							fmt.Printf(", ")
-						}
-						typ := ""
-						isPointer := false
-						isConst := false
-						isOut := false
+					fmt.Printf("%s ", typ)
 
-						for _, t := range arg.Type {
-							switch t {
-							case "string":
-								isPointer = true
-								isConst = true
-							case "binary":
-								isPointer = true
-								isConst = true
-							}
-							if _, ok := program.Structs[t]; ok {
-								isPointer = true
-								isConst = true
-							}
+					if strings.Join(x.Return.Options, " ") == "nullable" {
+						if !strings.HasSuffix(typ, " *") {
+							fmt.Printf("* ")
 						}
+					}
+					fmt.Printf("%s(", x.Name.Value)
+					if len(x.Arguments) == 0 {
+						fmt.Printf("void")
+					} else {
+						for i, arg := range x.Arguments {
+							if i != 0 {
+								fmt.Printf(", ")
+							}
+							typ := ""
+							isPointer := false
+							isConst := false
+							isOut := false
 
-						for _, t := range arg.Type {
-							switch t {
-							case "in":
-								isPointer = true
-								isConst = true
-							case "out":
-								isPointer = true
-								isOut = true
-								isConst = false
-							case "inout":
-								isPointer = true
-								isOut = true
-								isConst = false
-							default:
-								if _, ok := primitiveArgMap[t]; ok {
-									if !isOut {
-										isPointer = false
-									}
+							for _, t := range arg.Type {
+								switch t {
+								case "string":
+									isPointer = true
+									isConst = true
+								case "binary":
+									isPointer = true
+									isConst = true
+								}
+								if _, ok := program.Structs[t]; ok {
+									isPointer = true
+									isConst = true
+								}
+							}
+
+							for _, t := range arg.Type {
+								switch t {
+								case "in":
+									isPointer = true
+									isConst = true
+								case "out":
+									isPointer = true
+									isOut = true
 									isConst = false
+								case "inout":
+									isPointer = true
+									isOut = true
+									isConst = false
+								default:
+									if _, ok := primitiveArgMap[t]; ok {
+										if !isOut {
+											isPointer = false
+										}
+										isConst = false
+									}
+
+									if typ == "" {
+										typ = t
+									} else {
+										typ += fmt.Sprintf(" %s", t)
+									}
 								}
+							}
 
-								if typ == "" {
-									typ = t
-								} else {
-									typ += fmt.Sprintf(" %s", t)
+							for _, o := range arg.Options {
+								switch o {
+								case "nullable":
+									//isConst = false
 								}
 							}
-						}
 
-						for _, o := range arg.Options {
-							switch o {
-							case "nullable":
-								//isConst = false
+							sz := arg.ArraySize
+							if sz != "" {
+								if !isOut {
+									isConst = true
+								}
+								isPointer = false
 							}
-						}
 
-						sz := arg.ArraySize
-						if sz != "" {
-							if !isOut {
-								isConst = true
+							// struct or enum で処理が変わる
+							if am, ok := argMap[typ]; ok {
+								typ = am
 							}
-							isPointer = false
-						}
 
-						// struct or enum で処理が変わる
-						if am, ok := argMap[typ]; ok {
-							typ = am
-						}
+							// 基本型の場合は const * つけない
+							if isPointer && isConst {
+								fmt.Printf("const %s * %s", typ, arg.Name)
+							} else if isConst {
+								fmt.Printf("const %s %s", typ, arg.Name)
+							} else if isPointer {
+								fmt.Printf("%s * %s", typ, arg.Name)
+							} else {
+								fmt.Printf("%s %s", typ, arg.Name)
+							}
 
-						// 基本型の場合は const * つけない
-						if isPointer && isConst {
-							fmt.Printf("const %s * %s", typ, arg.Name)
-						} else if isConst {
-							fmt.Printf("const %s %s", typ, arg.Name)
-						} else if isPointer {
-							fmt.Printf("%s * %s", typ, arg.Name)
-						} else {
-							fmt.Printf("%s %s", typ, arg.Name)
-						}
-
-						if sz != "" {
-							fmt.Printf("[%s]", sz)
+							if sz != "" {
+								fmt.Printf("[%s]", sz)
+							}
 						}
 					}
+					fmt.Printf(");\n")
 				}
-				fmt.Printf(");\n")
+			default:
 			}
-		default:
-		}
-		if false {
-			fmt.Printf("--\n")
-			fmt.Printf("%s\n", stmt)
+			if false {
+				fmt.Printf("--\n")
+				fmt.Printf("%s\n", stmt)
+			}
 		}
 	}
 
@@ -278,4 +286,83 @@ FOR_LOOP:
 	}
 
 	return ret, nil
+}
+
+func generateGoCode(p *Program) error {
+	sid := 1
+
+	fmt.Printf("package main\n")
+	fmt.Printf("\n")
+	fmt.Printf("import (\n")
+	fmt.Printf("	\"fmt\"\n")
+	fmt.Printf(")\n")
+	fmt.Printf("\n")
+	fmt.Printf("var (\n")
+	fmt.Printf("	debug = true\n")
+	fmt.Printf(")\n")
+	fmt.Printf("\n")
+
+	for _, stmt := range p.Statements {
+		switch stmt := stmt.(type) {
+		case *InterfaceStatement:
+			//if stmt.Name.Value != "rpc_wifi_tcpip" {
+			//	sid++
+			//	continue
+			//}
+			for j, x := range stmt.Interfaces {
+				//if x.Name.Value != "rpc_tcpip_adapter_init" {
+				//	continue
+				//}
+				typ := strings.Join(x.Return.Type, " ")
+				if typ == "binary" {
+					typ = "[]byte"
+				}
+
+				if typ == "" || typ == "void" {
+					fmt.Printf("func %s() error {\n", x.Name.Value)
+				} else {
+					fmt.Printf("func %s() (%s, error) {\n", x.Name.Value, typ)
+				}
+				fmt.Printf("	if debug {\n")
+				fmt.Printf("		fmt.Printf(\"%s()\\n\")\n", x.Name.Value)
+				fmt.Printf("	}\n")
+				fmt.Printf("	msg := startWriteMessage(0x00, 0x%02X, 0x%02X, uint32(seq))\n", sid, j+1)
+				fmt.Printf("	err := performRequest(msg)\n")
+				fmt.Printf("	if err != nil {\n")
+				if typ == "" || typ == "void" {
+					fmt.Printf("		return err\n")
+				} else if typ == "bool" {
+					fmt.Printf("		return false, err\n")
+				} else if typ == "string" {
+					fmt.Printf("		return \"\", err\n")
+				} else if typ == "[]byte" {
+					fmt.Printf("		return nil, err\n")
+				} else {
+					fmt.Printf("		return 0, err\n")
+				}
+				fmt.Printf("	}\n")
+				fmt.Printf("\n")
+				fmt.Printf("	<-received\n")
+
+				if typ == "" || typ == "void" {
+				} else if typ == "[]byte" {
+					fmt.Printf("	var result []byte\n")
+				} else {
+					fmt.Printf("	var result %s\n", typ)
+				}
+				fmt.Printf("	//err = readInt32(&result)\n")
+				fmt.Printf("\n")
+				fmt.Printf("	seq++\n")
+				if typ == "" || typ == "void" {
+					fmt.Printf("	return err\n")
+				} else {
+					fmt.Printf("	return result, err\n")
+				}
+				fmt.Printf("}\n")
+				fmt.Printf("\n")
+			}
+			sid++
+		}
+	}
+	return nil
 }
