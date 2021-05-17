@@ -22,8 +22,8 @@ var (
 	payload [1024]byte
 )
 
-func ReadThread(r io.ReadWriter) {
-	p = r
+func (r *RTL8720DN) ReadThread() {
+	p = r.port
 	received = make(chan bool, 1)
 	for {
 		n, _ := io.ReadFull(p, buf[:])

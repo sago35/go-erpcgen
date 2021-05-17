@@ -419,9 +419,9 @@ func generateGoCode(p *Program) error {
 				funcName := x.Name.Value
 				funcName = strings.ToUpper(funcName[0:1]) + funcName[1:]
 				if typ == "" || typ == "void" {
-					fmt.Printf("func %s(%s) error {\n", funcName, strings.Join(argStr, ", "))
+					fmt.Printf("func (r *RTL8720DN) %s(%s) error {\n", funcName, strings.Join(argStr, ", "))
 				} else {
-					fmt.Printf("func %s(%s) (%s, error) {\n", funcName, strings.Join(argStr, ", "), typ)
+					fmt.Printf("func (r *RTL8720DN) %s(%s) (%s, error) {\n", funcName, strings.Join(argStr, ", "), typ)
 				}
 				fmt.Printf("	if Debug {\n")
 

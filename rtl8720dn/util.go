@@ -70,7 +70,3 @@ func performRequest(msg []byte) error {
 	//}
 	return nil
 }
-
-func SetSeq(s uint64) {
-	seq = s
-}

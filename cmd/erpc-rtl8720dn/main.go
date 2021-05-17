@@ -64,34 +64,36 @@ func run(port string, seq uint64) error {
 		return err
 	}
 
-	rtl8720dn.SetSeq(seq)
+	rtl := rtl8720dn.New(p)
 
-	go rtl8720dn.ReadThread(p)
+	rtl.SetSeq(seq)
+
+	go rtl.ReadThread()
 
 	if adapterInit {
-		_, err = rtl8720dn.Rpc_tcpip_adapter_init()
+		_, err = rtl.Rpc_tcpip_adapter_init()
 		if err != nil {
 			return err
 		}
 	}
 
 	if reconnect {
-		_, err = rtl8720dn.Rpc_wifi_off()
+		_, err = rtl.Rpc_wifi_off()
 		if err != nil {
 			return err
 		}
 
-		_, err = rtl8720dn.Rpc_wifi_on(0x00000001)
+		_, err = rtl.Rpc_wifi_on(0x00000001)
 		if err != nil {
 			return err
 		}
 
-		_, err = rtl8720dn.Rpc_wifi_disconnect()
+		_, err = rtl.Rpc_wifi_disconnect()
 		if err != nil {
 			return err
 		}
 
-		ret, err := rtl8720dn.Rpc_wifi_connect(ssid, password, securityType, -1, 0)
+		ret, err := rtl.Rpc_wifi_connect(ssid, password, securityType, -1, 0)
 		if err != nil {
 			return err
 		}
@@ -99,13 +101,13 @@ func run(port string, seq uint64) error {
 			return fmt.Errorf("wifi connect failed\n")
 		}
 
-		_, err = rtl8720dn.Rpc_tcpip_adapter_dhcpc_start(0)
+		_, err = rtl.Rpc_tcpip_adapter_dhcpc_start(0)
 		if err != nil {
 			return err
 		}
 
 		for i := 0; i < 3; i++ {
-			_, err = rtl8720dn.Rpc_wifi_is_connected_to_ap()
+			_, err = rtl.Rpc_wifi_is_connected_to_ap()
 			if err != nil {
 				return err
 			}
@@ -114,7 +116,7 @@ func run(port string, seq uint64) error {
 	}
 
 	ip_info := make([]byte, 12)
-	_, err = rtl8720dn.Rpc_tcpip_adapter_get_ip_info(0, ip_info)
+	_, err = rtl.Rpc_tcpip_adapter_get_ip_info(0, ip_info)
 	if err != nil {
 		return err
 	}
@@ -122,20 +124,20 @@ func run(port string, seq uint64) error {
 	ip.Dump()
 
 	//	addr := make([]byte, 4)
-	//	_, err = rtl8720dn.Rpc_dns_gethostbyname_addrtype(`192.168.1.110`, addr, 0x00006d61, []byte{0x61, 0x6d, 0x00, 0x00, 0x38, 0x94, 0x00, 0x20}, 0x02)
-	//	//_, err = rtl8720dn.Rpc_dns_gethostbyname_addrtype(`tinygo.org`, addr, 0x00006d61, []byte{0x61, 0x6d, 0x00, 0x00, 0x38, 0x94, 0x00, 0x20}, 0x02)
+	//	_, err = rtl.Rpc_dns_gethostbyname_addrtype(`192.168.1.110`, addr, 0x00006d61, []byte{0x61, 0x6d, 0x00, 0x00, 0x38, 0x94, 0x00, 0x20}, 0x02)
+	//	//_, err = rtl.Rpc_dns_gethostbyname_addrtype(`tinygo.org`, addr, 0x00006d61, []byte{0x61, 0x6d, 0x00, 0x00, 0x38, 0x94, 0x00, 0x20}, 0x02)
 	//	if err != nil {
 	//		return err
 	//	}
 	//	fmt.Printf("addr : %#v\n", addr)
 	//
-	//	socket, err := rtl8720dn.Rpc_lwip_socket(0x02, 0x01, 0x00)
+	//	socket, err := rtl.Rpc_lwip_socket(0x02, 0x01, 0x00)
 	//	if err != nil {
 	//		return err
 	//	}
 	//
 	//	name := []byte{0x00, 0x02, 0x00, 0x50, 0xc0, 0xa8, 0x01, 0x6e, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
-	//	_, err = rtl8720dn.Rpc_lwip_connect(socket, name, uint32(len(name)))
+	//	_, err = rtl.Rpc_lwip_connect(socket, name, uint32(len(name)))
 	//	if err != nil {
 	//		return err
 	//	}
@@ -144,13 +146,13 @@ func run(port string, seq uint64) error {
 	//	writeset := []byte{0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 	//	exceptset := []byte{}
 	//	timeout := []byte{}
-	//	_, err = rtl8720dn.Rpc_lwip_select(0x01, readset, writeset, exceptset, timeout)
+	//	_, err = rtl.Rpc_lwip_select(0x01, readset, writeset, exceptset, timeout)
 	//	if err != nil {
 	//		return err
 	//	}
 	//
 	//	optlen := uint32(4)
-	//	_, err = rtl8720dn.Rpc_lwip_getsockopt(socket, 0x00000FFF, 0x00001007, []byte{0xA5, 0xA5, 0xA5, 0xA5}, nil, &optlen)
+	//	_, err = rtl.Rpc_lwip_getsockopt(socket, 0x00000FFF, 0x00001007, []byte{0xA5, 0xA5, 0xA5, 0xA5}, nil, &optlen)
 	//	if err != nil {
 	//		return err
 	//	}
@@ -160,24 +162,24 @@ func run(port string, seq uint64) error {
 	//		writeset := []byte{0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 	//		exceptset := []byte{}
 	//		timeout := []byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x42, 0x0f, 0x00, 0xff, 0xff, 0xff, 0xff}
-	//		_, err = rtl8720dn.Rpc_lwip_select(0x01, readset, writeset, exceptset, timeout)
+	//		_, err = rtl.Rpc_lwip_select(0x01, readset, writeset, exceptset, timeout)
 	//		if err != nil {
 	//			return err
 	//		}
 	//	}
 	//
-	//	//_, err = rtl8720dn.Rpc_lwip_send(socket, []byte("GET /index.html HTTP/1.0\n\n"), 0x00000008)
-	//	//_, err = rtl8720dn.Rpc_lwip_send(socket, []byte("GET / HTTP/1.1\n\n"), 0x00000008)
-	//	_, err = rtl8720dn.Rpc_lwip_send(socket, []byte("GET /index.html HTTP/1.1\nHost: 192.168.1.110\n\n"), 0x00000008)
-	//	//_, err = rtl8720dn.Rpc_lwip_send(socket, []byte("GET /index.html HTTP/1.1\n\n"), 0x00000008)
-	//	//_, err = rtl8720dn.Rpc_lwip_send(socket, []byte("GET /index.html HTTP/1.1\nHost: 192.168.1.110\nUser-Agent: curl/7.68.0\nAccept: */*\nConnection: close\n\n"), 0x00000008)
-	//	//_, err = rtl8720dn.Rpc_lwip_send(socket, []byte("GET /index.html HTTP/1.1\nHost: 192.168.1.110\n\n"), 0x00000008)
+	//	//_, err = rtl.Rpc_lwip_send(socket, []byte("GET /index.html HTTP/1.0\n\n"), 0x00000008)
+	//	//_, err = rtl.Rpc_lwip_send(socket, []byte("GET / HTTP/1.1\n\n"), 0x00000008)
+	//	_, err = rtl.Rpc_lwip_send(socket, []byte("GET /index.html HTTP/1.1\nHost: 192.168.1.110\n\n"), 0x00000008)
+	//	//_, err = rtl.Rpc_lwip_send(socket, []byte("GET /index.html HTTP/1.1\n\n"), 0x00000008)
+	//	//_, err = rtl.Rpc_lwip_send(socket, []byte("GET /index.html HTTP/1.1\nHost: 192.168.1.110\nUser-Agent: curl/7.68.0\nAccept: */*\nConnection: close\n\n"), 0x00000008)
+	//	//_, err = rtl.Rpc_lwip_send(socket, []byte("GET /index.html HTTP/1.1\nHost: 192.168.1.110\n\n"), 0x00000008)
 	//	if err != nil {
 	//		return err
 	//	}
 	//
 	//	rcvBuf := make([]byte, 0x0400)
-	//	rcvLen, err := rtl8720dn.Rpc_lwip_recv(socket, rcvBuf, uint32(len(rcvBuf)), 0x00000008, 0x00002800)
+	//	rcvLen, err := rtl.Rpc_lwip_recv(socket, rcvBuf, uint32(len(rcvBuf)), 0x00000008, 0x00002800)
 	//	if err != nil {
 	//		return err
 	//	}
@@ -186,7 +188,7 @@ func run(port string, seq uint64) error {
 	//		fmt.Printf("rcv:\n--\n%s\n--\n", string(rcvBuf[:rcvLen]))
 	//	}
 	//
-	//	_, err = rtl8720dn.Rpc_lwip_close(socket)
+	//	_, err = rtl.Rpc_lwip_close(socket)
 	//	if err != nil {
 	//		return err
 	//	}
