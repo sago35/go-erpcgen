@@ -16,13 +16,13 @@ var (
 	seq         uint64
 	adapterInit bool
 	reconnect   bool
+	port        string
+	ssid        string
+	password    string
 )
 
 var (
-	ssid         = ""
-	password     = ""
 	securityType = uint32(0x00400004)
-	port         = ""
 )
 
 func main() {
