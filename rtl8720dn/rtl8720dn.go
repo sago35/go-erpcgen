@@ -10,12 +10,16 @@ type RTL8720DN struct {
 }
 
 func New(r io.ReadWriter) *RTL8720DN {
-	return &RTL8720DN{
+	ret := &RTL8720DN{
 		port:     r,
 		seq:      1,
 		received: make(chan bool, 1),
 		debug:    false,
 	}
+
+	go ret.readThread()
+
+	return ret
 }
 
 func (r *RTL8720DN) SetSeq(s uint64) {

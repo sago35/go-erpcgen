@@ -545,7 +545,9 @@ func generateGoCode(p *Program) error {
 					fmt.Printf("	result = binary.LittleEndian.Uint32(payload[widx:]) == 1\n")
 				} else if typ == "string" {
 					fmt.Printf("	var result %s\n", typ)
-					fmt.Printf("	result = %s(payload[widx:])\n", typ)
+					fmt.Printf("	%s_length := binary.LittleEndian.Uint32(payload[widx:])\n", "result")
+					fmt.Printf("	widx += 4\n")
+					fmt.Printf("	result = %s(payload[widx:widx+int(%s_length)])\n", typ, "result")
 				} else {
 					fmt.Printf("	var result %s\n", typ)
 					fmt.Printf("	result = %s(binary.LittleEndian.Uint32(payload[widx:]))\n", typ)

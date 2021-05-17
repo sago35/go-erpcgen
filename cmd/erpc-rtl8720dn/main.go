@@ -17,6 +17,7 @@ var (
 	adapterInit bool
 	reconnect   bool
 	port        string
+	debug       bool
 	ssid        string
 	password    string
 )
@@ -30,6 +31,7 @@ func main() {
 	flag.BoolVar(&adapterInit, "init", false, "init")
 	flag.BoolVar(&reconnect, "reconnect", false, "init")
 	flag.StringVar(&port, "port", "", "port")
+	flag.BoolVar(&debug, "debug", false, "debug")
 	flag.Parse()
 
 	if adapterInit {
@@ -37,7 +39,7 @@ func main() {
 		seq = 1
 	}
 
-	err := run(port, seq)
+	err := run(port, seq, debug)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -48,7 +50,7 @@ func main() {
 	//}
 }
 
-func run(port string, seq uint64) error {
+func run(port string, seq uint64, debug bool) error {
 	// request := createRequest()
 	// startWriteMessage(type, service, request, sequence)
 	// performRequest(request)
@@ -60,10 +62,8 @@ func run(port string, seq uint64) error {
 	}
 
 	rtl := rtl8720dn.New(p)
-	rtl.Debug(true)
+	rtl.Debug(debug)
 	rtl.SetSeq(seq)
-
-	go rtl.ReadThread()
 
 	if adapterInit {
 		_, err = rtl.Rpc_tcpip_adapter_init()

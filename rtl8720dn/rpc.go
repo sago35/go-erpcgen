@@ -20,7 +20,9 @@ func (r *RTL8720DN) Rpc_system_version() (string, error) {
 	<-r.received
 	widx := 8
 	var result string
-	result = string(payload[widx:])
+	result_length := binary.LittleEndian.Uint32(payload[widx:])
+	widx += 4
+	result = string(payload[widx:widx+int(result_length)])
 
 	r.seq++
 	return result, err
@@ -5953,7 +5955,9 @@ func (r *RTL8720DN) Rpc_ip4addr_ntoa(ip4_addr_in []byte) (string, error) {
 	widx := 8
 
 	var result string
-	result = string(payload[widx:])
+	result_length := binary.LittleEndian.Uint32(payload[widx:])
+	widx += 4
+	result = string(payload[widx:widx+int(result_length)])
 
 	r.seq++
 	return result, err
