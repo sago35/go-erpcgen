@@ -1,4 +1,4 @@
-package main
+package rtl8720dn
 
 // TODO: 後で整理する
 // https://github.com/Seeed-Studio/seeed-ambd-firmware/blob/master/erpc_idl/erpc_shim/rpc_system_header.h

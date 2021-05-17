@@ -1,4 +1,4 @@
-package main
+package rtl8720dn
 
 import (
 	"fmt"
@@ -22,7 +22,9 @@ var (
 	payload [1024]byte
 )
 
-func readThread(received chan<- bool) {
+func ReadThread(r io.ReadWriter) {
+	p = r
+	received = make(chan bool, 1)
 	for {
 		n, _ := io.ReadFull(p, buf[:])
 		fmt.Printf("rx : %2d : %s\n", n, dumpHex(buf[:n]))

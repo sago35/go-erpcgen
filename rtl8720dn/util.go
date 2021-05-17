@@ -1,11 +1,20 @@
-package main
+package rtl8720dn
 
-import "fmt"
+import (
+	"fmt"
+	"io"
+)
 
 var (
 	headerBuf            [4]byte
 	readBuf              [4]byte
 	startWriteMessageBuf [1024]byte
+)
+
+var (
+	seq      uint64
+	received chan bool
+	p        io.ReadWriter
 )
 
 const (
@@ -60,4 +69,8 @@ func performRequest(msg []byte) error {
 	//	fmt.Printf("rx : %2d : %#v\n", n, startWriteMessageBuf[:n])
 	//}
 	return nil
+}
+
+func SetSeq(s uint64) {
+	seq = s
 }

@@ -351,7 +351,7 @@ func (a *GoArgument) SetNullable(opt []string) {
 func generateGoCode(p *Program) error {
 	sid := 1
 
-	fmt.Printf("package main\n")
+	fmt.Printf("package rtl8720dn\n")
 	fmt.Printf("\n")
 	fmt.Printf("import (\n")
 	fmt.Printf("	\"encoding/binary\"\n")

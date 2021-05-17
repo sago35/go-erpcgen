@@ -1,4 +1,4 @@
-package main
+package rtl8720dn
 
 import (
 	"encoding/binary"

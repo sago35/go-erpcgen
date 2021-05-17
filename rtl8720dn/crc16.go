@@ -1,4 +1,4 @@
-package main
+package rtl8720dn
 
 // https://github.com/EmbeddedRPC/erpc/blob/develop/erpc_python/erpc/crc16.py
 
