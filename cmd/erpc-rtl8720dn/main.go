@@ -48,24 +48,19 @@ func main() {
 	//}
 }
 
-var (
-	p serial.Port
-)
-
 func run(port string, seq uint64) error {
 	// request := createRequest()
 	// startWriteMessage(type, service, request, sequence)
 	// performRequest(request)
 	//   この中で応答の header + sequence の 4byte を読み込む
 	// read(&result)
-	var err error
-	p, err = serial.Open(port, &serial.Mode{BaudRate: 115200})
+	p, err := serial.Open(port, &serial.Mode{BaudRate: 115200})
 	if err != nil {
 		return err
 	}
 
 	rtl := rtl8720dn.New(p)
-
+	rtl.Debug(true)
 	rtl.SetSeq(seq)
 
 	go rtl.ReadThread()

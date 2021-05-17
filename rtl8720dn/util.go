@@ -2,19 +2,12 @@ package rtl8720dn
 
 import (
 	"fmt"
-	"io"
 )
 
 var (
 	headerBuf            [4]byte
 	readBuf              [4]byte
 	startWriteMessageBuf [1024]byte
-)
-
-var (
-	seq      uint64
-	received chan bool
-	p        io.ReadWriter
 )
 
 const (
@@ -35,25 +28,25 @@ func startWriteMessage(msgType, service, requestNumber, sequence uint32) []byte 
 	return startWriteMessageBuf[:8]
 }
 
-func performRequest(msg []byte) error {
+func (r *RTL8720DN) performRequest(msg []byte) error {
 	crc := computeCRC16(msg)
 	headerBuf[0] = byte(len(msg))
 	headerBuf[1] = byte(len(msg) >> 8)
 	headerBuf[2] = byte(crc)
 	headerBuf[3] = byte(crc >> 8)
 
-	if Debug {
+	if r.debug {
 		fmt.Printf("tx : %2d : %s\n", len(headerBuf), dumpHex(headerBuf[:]))
 	}
 
-	p.Write(headerBuf[:])
+	r.port.Write(headerBuf[:])
 
-	if Debug {
+	if r.debug {
 		fmt.Printf("tx : %2d : %s\n", len(msg), dumpHex(msg))
 	}
-	p.Write(msg)
+	r.port.Write(msg)
 
-	//n, err := io.ReadFull(p, headerBuf[:])
+	//n, err := io.ReadFull(r.port, headerBuf[:])
 	//if err != nil {
 	//	return err
 	//}
@@ -61,7 +54,7 @@ func performRequest(msg []byte) error {
 	//	fmt.Printf("rx : %2d : %#v\n", n, headerBuf[:n])
 	//}
 
-	//n, err = io.ReadFull(p, startWriteMessageBuf[:8])
+	//n, err = io.ReadFull(r.port, startWriteMessageBuf[:8])
 	//if err != nil {
 	//	return err
 	//}

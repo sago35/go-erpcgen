@@ -358,10 +358,6 @@ func generateGoCode(p *Program) error {
 	fmt.Printf("	\"fmt\"\n")
 	fmt.Printf(")\n")
 	fmt.Printf("\n")
-	fmt.Printf("var (\n")
-	fmt.Printf("	Debug = true\n")
-	fmt.Printf(")\n")
-	fmt.Printf("\n")
 
 	for _, stmt := range p.Statements {
 		switch stmt := stmt.(type) {
@@ -423,11 +419,11 @@ func generateGoCode(p *Program) error {
 				} else {
 					fmt.Printf("func (r *RTL8720DN) %s(%s) (%s, error) {\n", funcName, strings.Join(argStr, ", "), typ)
 				}
-				fmt.Printf("	if Debug {\n")
+				fmt.Printf("	if r.debug {\n")
 
 				fmt.Printf("		fmt.Printf(\"%s()\\n\")\n", x.Name.Value)
 				fmt.Printf("	}\n")
-				fmt.Printf("	msg := startWriteMessage(0x00, 0x%02X, 0x%02X, uint32(seq))\n", sid, j+1)
+				fmt.Printf("	msg := startWriteMessage(0x00, 0x%02X, 0x%02X, uint32(r.seq))\n", sid, j+1)
 				fmt.Printf("\n")
 
 				if len(arguments) > 0 {
@@ -468,7 +464,7 @@ func generateGoCode(p *Program) error {
 				}
 				fmt.Printf("\n")
 
-				fmt.Printf("	err := performRequest(msg)\n")
+				fmt.Printf("	err := r.performRequest(msg)\n")
 				fmt.Printf("	if err != nil {\n")
 				if typ == "" || typ == "void" {
 					fmt.Printf("		return err\n")
@@ -483,7 +479,7 @@ func generateGoCode(p *Program) error {
 				}
 				fmt.Printf("	}\n")
 				fmt.Printf("\n")
-				fmt.Printf("	<-received\n")
+				fmt.Printf("	<-r.received\n")
 
 				useWindex := false
 				for _, a := range arguments {
@@ -556,7 +552,7 @@ func generateGoCode(p *Program) error {
 				}
 
 				fmt.Printf("\n")
-				fmt.Printf("	seq++\n")
+				fmt.Printf("	r.seq++\n")
 				if typ == "" || typ == "void" {
 					fmt.Printf("	return err\n")
 				} else {

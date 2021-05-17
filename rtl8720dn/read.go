@@ -23,20 +23,18 @@ var (
 )
 
 func (r *RTL8720DN) ReadThread() {
-	p = r.port
-	received = make(chan bool, 1)
 	for {
-		n, _ := io.ReadFull(p, buf[:])
+		n, _ := io.ReadFull(r.port, buf[:])
 		fmt.Printf("rx : %2d : %s\n", n, dumpHex(buf[:n]))
 
 		length := uint16(buf[0]) + uint16(buf[1])<<8
 		crc := uint16(buf[2]) + uint16(buf[3])<<8
 		//fmt.Printf("len %d (%X) crc %04X\n", length, length, crc)
 
-		//n, _ = io.ReadFull(p, payload[:length])
+		//n, _ = io.ReadFull(r.port, payload[:length])
 		fmt.Printf("rx : %2d : ", length)
 		for i := 0; i < int(length); i++ {
-			n, _ = io.ReadFull(p, payload[i:i+1])
+			n, _ = io.ReadFull(r.port, payload[i:i+1])
 			if i == 0 {
 				fmt.Printf("%02X", payload[i:i+1])
 			} else {
@@ -52,7 +50,7 @@ func (r *RTL8720DN) ReadThread() {
 			fmt.Printf("err CRC16: got %04X want %04X\n", g, e)
 		}
 		if payload[0] == 0x02 {
-			received <- true
+			r.received <- true
 		}
 	}
 }
