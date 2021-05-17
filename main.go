@@ -317,6 +317,24 @@ func (a GoArgument) Size() int {
 }
 
 func (a GoArgument) String() string {
+	str := []string{a.Name, ":"}
+	if a.In && a.Out {
+		str = append(str, "inout")
+	} else if a.Out {
+		str = append(str, "out")
+	} else {
+		str = append(str, "in")
+	}
+
+	str = append(str, a.Type())
+
+	if a.Nullable {
+		str = append(str, "nullable")
+	}
+	return strings.Join(str, " ")
+}
+
+func (a GoArgument) ArgString() string {
 	return fmt.Sprintf("%s %s", a.Name, a.Type())
 }
 
@@ -341,7 +359,7 @@ func generateGoCode(p *Program) error {
 	fmt.Printf(")\n")
 	fmt.Printf("\n")
 	fmt.Printf("var (\n")
-	fmt.Printf("	debug = true\n")
+	fmt.Printf("	Debug = true\n")
 	fmt.Printf(")\n")
 	fmt.Printf("\n")
 
@@ -395,14 +413,17 @@ func generateGoCode(p *Program) error {
 
 				argStr := []string{}
 				for _, arg := range arguments {
-					argStr = append(argStr, arg.String())
+					argStr = append(argStr, arg.ArgString())
 				}
+
+				funcName := x.Name.Value
+				funcName = strings.ToUpper(funcName[0:1]) + funcName[1:]
 				if typ == "" || typ == "void" {
-					fmt.Printf("func %s(%s) error {\n", x.Name.Value, strings.Join(argStr, ", "))
+					fmt.Printf("func %s(%s) error {\n", funcName, strings.Join(argStr, ", "))
 				} else {
-					fmt.Printf("func %s(%s) (%s, error) {\n", x.Name.Value, strings.Join(argStr, ", "), typ)
+					fmt.Printf("func %s(%s) (%s, error) {\n", funcName, strings.Join(argStr, ", "), typ)
 				}
-				fmt.Printf("	if debug {\n")
+				fmt.Printf("	if Debug {\n")
 
 				fmt.Printf("		fmt.Printf(\"%s()\\n\")\n", x.Name.Value)
 				fmt.Printf("	}\n")
@@ -414,7 +435,7 @@ func generateGoCode(p *Program) error {
 						if !a.In {
 							continue
 						}
-						fmt.Printf("	// %s : %d byte %#v\n", a.Name, a.Size(), a)
+						fmt.Printf("	// %s\n", a.String())
 						if a.Size() > 0 {
 							if a.Type() == "bool" {
 								fmt.Printf("	if %s {\n", a.Name)
@@ -482,7 +503,7 @@ func generateGoCode(p *Program) error {
 						if !a.Out {
 							continue
 						}
-						fmt.Printf("	// %s : %d byte %#v\n", a.Name, a.Size(), a)
+						fmt.Printf("	// %s\n", a.String())
 						if a.Size() > 0 {
 							if a.Type() == "bool" {
 								fmt.Println("// not impl")
@@ -526,6 +547,9 @@ func generateGoCode(p *Program) error {
 				} else if typ == "bool" {
 					fmt.Printf("	var result %s\n", typ)
 					fmt.Printf("	result = binary.LittleEndian.Uint32(payload[widx:]) == 1\n")
+				} else if typ == "string" {
+					fmt.Printf("	var result %s\n", typ)
+					fmt.Printf("	result = %s(payload[widx:])\n", typ)
 				} else {
 					fmt.Printf("	var result %s\n", typ)
 					fmt.Printf("	result = %s(binary.LittleEndian.Uint32(payload[widx:]))\n", typ)

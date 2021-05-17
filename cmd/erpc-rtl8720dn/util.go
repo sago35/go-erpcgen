@@ -33,13 +33,13 @@ func performRequest(msg []byte) error {
 	headerBuf[2] = byte(crc)
 	headerBuf[3] = byte(crc >> 8)
 
-	if debug {
+	if Debug {
 		fmt.Printf("tx : %2d : %s\n", len(headerBuf), dumpHex(headerBuf[:]))
 	}
 
 	p.Write(headerBuf[:])
 
-	if debug {
+	if Debug {
 		fmt.Printf("tx : %2d : %s\n", len(msg), dumpHex(msg))
 	}
 	p.Write(msg)
@@ -48,7 +48,7 @@ func performRequest(msg []byte) error {
 	//if err != nil {
 	//	return err
 	//}
-	//if debug {
+	//if Debug {
 	//	fmt.Printf("rx : %2d : %#v\n", n, headerBuf[:n])
 	//}
 
@@ -56,7 +56,7 @@ func performRequest(msg []byte) error {
 	//if err != nil {
 	//	return err
 	//}
-	//if debug {
+	//if Debug {
 	//	fmt.Printf("rx : %2d : %#v\n", n, startWriteMessageBuf[:n])
 	//}
 	return nil
