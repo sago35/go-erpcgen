@@ -1,43 +1,22 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"log"
 	"time"
-
-	"github.com/sago35/go-erpcgen/rtl8720dn"
-	"go.bug.st/serial"
 )
 
 func main() {
-	adapterInit := flag.Bool("init", false, "init")
-	port := flag.String("port", "", "port")
-	debug := flag.Bool("debug", false, "debug")
-	flag.Parse()
-
-	err := run(*port, *debug, *adapterInit)
+	err := run()
 	if err != nil {
 		log.Fatal(err)
 	}
 }
 
-func run(port string, debug bool, adapterInit bool) error {
-	p, err := serial.Open(port, &serial.Mode{BaudRate: 115200})
+func run() error {
+	rtl, err := setupRTL8720DN()
 	if err != nil {
 		return err
-	}
-
-	rtl := rtl8720dn.New(p)
-	rtl.Debug(debug)
-
-	// WiFi.mode(WIFI_STA);
-
-	if adapterInit {
-		_, err = rtl.Rpc_tcpip_adapter_init()
-		if err != nil {
-			return err
-		}
 	}
 
 	_, err = rtl.Rpc_wifi_off()
