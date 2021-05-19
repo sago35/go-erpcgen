@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
-	"log"
+	"time"
 )
 
 func main() {
 	err := run()
-	if err != nil {
-		log.Fatal(err)
+	for err != nil {
+		fmt.Printf("error: %s\r\n", err.Error())
+		time.Sleep(5 * time.Second)
 	}
 }
 
