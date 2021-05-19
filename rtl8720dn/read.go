@@ -3,6 +3,7 @@ package rtl8720dn
 import (
 	"fmt"
 	"io"
+	"time"
 )
 
 func dumpHex(b []byte) string {
@@ -25,6 +26,9 @@ var (
 func (r *RTL8720DN) readThread() {
 	for {
 		n, _ := io.ReadFull(r.port, buf[:])
+		if n == 0 {
+			continue
+		}
 
 		if r.debug {
 			fmt.Printf("rx : %2d : %s\r\n", n, dumpHex(buf[:n]))
@@ -49,7 +53,7 @@ func (r *RTL8720DN) readThread() {
 			}
 		}
 		if r.debug {
-			fmt.Printf("\n")
+			fmt.Printf("\r\n")
 		}
 		n = int(length)
 		//fmt.Printf("rx : %2d : %s\n", n, dumpHex(payload[:n]))
@@ -60,6 +64,9 @@ func (r *RTL8720DN) readThread() {
 		}
 		if payload[0] == 0x02 {
 			r.received <- true
+
+			// switch goroutine
+			time.Sleep(1)
 		}
 	}
 }

@@ -23,7 +23,11 @@ func run() error {
 	if err != nil {
 		return err
 	}
-	fmt.Printf("RTL8720 Firmware Version: %#v\n", ver)
+	fmt.Printf("RTL8720 Firmware Version: %#v\r\n", ver)
+
+	for {
+		time.Sleep(1 * time.Hour)
+	}
 
 	return nil
 }

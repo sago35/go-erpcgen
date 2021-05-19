@@ -24,6 +24,13 @@ func handleInterrupt(interrupt.Interrupt) {
 func setupRTL8720DN() (*rtl8720dn.RTL8720DN, error) {
 	debug := true
 
+	machine.RTL8720D_CHIP_PU.Configure(machine.PinConfig{Mode: machine.PinOutput})
+	machine.RTL8720D_CHIP_PU.Low()
+	time.Sleep(100 * time.Millisecond)
+	machine.RTL8720D_CHIP_PU.High()
+	time.Sleep(1000 * time.Millisecond)
+	waitSerial()
+
 	uart = &machine.UART{
 		Buffer: machine.NewRingBuffer(),
 		Bus:    sam.SERCOM0_USART_INT,
@@ -32,13 +39,6 @@ func setupRTL8720DN() (*rtl8720dn.RTL8720DN, error) {
 
 	uart.Interrupt = interrupt.New(sam.IRQ_SERCOM0_2, handleInterrupt)
 	uart.Configure(machine.UARTConfig{TX: machine.PB24, RX: machine.PC24, BaudRate: 614400})
-
-	machine.RTL8720D_CHIP_PU.Configure(machine.PinConfig{Mode: machine.PinOutput})
-	machine.RTL8720D_CHIP_PU.Low()
-	time.Sleep(100 * time.Millisecond)
-	machine.RTL8720D_CHIP_PU.High()
-	time.Sleep(1000 * time.Millisecond)
-	waitSerial()
 
 	rtl := rtl8720dn.New(uart)
 	rtl.Debug(debug)
