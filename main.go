@@ -421,7 +421,7 @@ func generateGoCode(p *Program) error {
 				}
 				fmt.Printf("	if r.debug {\n")
 
-				fmt.Printf("		fmt.Printf(\"%s()\\n\")\n", x.Name.Value)
+				fmt.Printf("		fmt.Printf(\"%s()\\r\\n\")\n", x.Name.Value)
 				fmt.Printf("	}\n")
 				fmt.Printf("	msg := startWriteMessage(0x00, 0x%02X, 0x%02X, uint32(r.seq))\n", sid, j+1)
 				fmt.Printf("\n")

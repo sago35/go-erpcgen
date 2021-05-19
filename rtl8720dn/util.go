@@ -36,13 +36,13 @@ func (r *RTL8720DN) performRequest(msg []byte) error {
 	headerBuf[3] = byte(crc >> 8)
 
 	if r.debug {
-		fmt.Printf("tx : %2d : %s\n", len(headerBuf), dumpHex(headerBuf[:]))
+		fmt.Printf("tx : %2d : %s\r\n", len(headerBuf), dumpHex(headerBuf[:]))
 	}
 
 	r.port.Write(headerBuf[:])
 
 	if r.debug {
-		fmt.Printf("tx : %2d : %s\n", len(msg), dumpHex(msg))
+		fmt.Printf("tx : %2d : %s\r\n", len(msg), dumpHex(msg))
 	}
 	r.port.Write(msg)
 

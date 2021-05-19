@@ -7,7 +7,7 @@ import (
 
 func (r *RTL8720DN) Rpc_system_version() (string, error) {
 	if r.debug {
-		fmt.Printf("rpc_system_version()\n")
+		fmt.Printf("rpc_system_version()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x01, 0x01, uint32(r.seq))
 
@@ -30,7 +30,7 @@ func (r *RTL8720DN) Rpc_system_version() (string, error) {
 
 func (r *RTL8720DN) Rpc_system_ack(c uint8) (uint8, error) {
 	if r.debug {
-		fmt.Printf("rpc_system_ack()\n")
+		fmt.Printf("rpc_system_ack()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x01, 0x02, uint32(r.seq))
 
@@ -54,7 +54,7 @@ func (r *RTL8720DN) Rpc_system_ack(c uint8) (uint8, error) {
 
 func (r *RTL8720DN) Rpc_ble_init() (bool, error) {
 	if r.debug {
-		fmt.Printf("rpc_ble_init()\n")
+		fmt.Printf("rpc_ble_init()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x02, 0x01, uint32(r.seq))
 
@@ -75,7 +75,7 @@ func (r *RTL8720DN) Rpc_ble_init() (bool, error) {
 
 func (r *RTL8720DN) Rpc_ble_start() error {
 	if r.debug {
-		fmt.Printf("rpc_ble_start()\n")
+		fmt.Printf("rpc_ble_start()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x02, 0x02, uint32(r.seq))
 
@@ -93,7 +93,7 @@ func (r *RTL8720DN) Rpc_ble_start() error {
 
 func (r *RTL8720DN) Rpc_ble_deinit() error {
 	if r.debug {
-		fmt.Printf("rpc_ble_deinit()\n")
+		fmt.Printf("rpc_ble_deinit()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x02, 0x03, uint32(r.seq))
 
@@ -111,7 +111,7 @@ func (r *RTL8720DN) Rpc_ble_deinit() error {
 
 func (r *RTL8720DN) Rpc_gap_set_param(param RPC_T_GAP_PARAM_TYPE, value []byte) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_gap_set_param()\n")
+		fmt.Printf("rpc_gap_set_param()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x03, 0x01, uint32(r.seq))
 
@@ -140,7 +140,7 @@ func (r *RTL8720DN) Rpc_gap_set_param(param RPC_T_GAP_PARAM_TYPE, value []byte) 
 
 func (r *RTL8720DN) Rpc_gap_get_param(param RPC_T_GAP_PARAM_TYPE, value []byte) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_gap_get_param()\n")
+		fmt.Printf("rpc_gap_get_param()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x03, 0x02, uint32(r.seq))
 
@@ -174,7 +174,7 @@ func (r *RTL8720DN) Rpc_gap_get_param(param RPC_T_GAP_PARAM_TYPE, value []byte) 
 
 func (r *RTL8720DN) Rpc_gap_set_pairable_mode() (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_gap_set_pairable_mode()\n")
+		fmt.Printf("rpc_gap_set_pairable_mode()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x03, 0x03, uint32(r.seq))
 
@@ -195,7 +195,7 @@ func (r *RTL8720DN) Rpc_gap_set_pairable_mode() (RPC_T_GAP_CAUSE, error) {
 
 func (r *RTL8720DN) Rpc_le_bond_set_param(param RPC_T_LE_BOND_PARAM_TYPE, value []byte) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_bond_set_param()\n")
+		fmt.Printf("rpc_le_bond_set_param()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x04, 0x01, uint32(r.seq))
 
@@ -224,7 +224,7 @@ func (r *RTL8720DN) Rpc_le_bond_set_param(param RPC_T_LE_BOND_PARAM_TYPE, value 
 
 func (r *RTL8720DN) Rpc_le_bond_get_param(param RPC_T_LE_BOND_PARAM_TYPE, value []byte) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_bond_get_param()\n")
+		fmt.Printf("rpc_le_bond_get_param()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x04, 0x02, uint32(r.seq))
 
@@ -258,7 +258,7 @@ func (r *RTL8720DN) Rpc_le_bond_get_param(param RPC_T_LE_BOND_PARAM_TYPE, value 
 
 func (r *RTL8720DN) Rpc_le_bond_pair(conn_id uint8) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_bond_pair()\n")
+		fmt.Printf("rpc_le_bond_pair()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x04, 0x03, uint32(r.seq))
 
@@ -282,7 +282,7 @@ func (r *RTL8720DN) Rpc_le_bond_pair(conn_id uint8) (RPC_T_GAP_CAUSE, error) {
 
 func (r *RTL8720DN) Rpc_le_bond_get_display_key(conn_id uint8, key uint32) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_bond_get_display_key()\n")
+		fmt.Printf("rpc_le_bond_get_display_key()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x04, 0x04, uint32(r.seq))
 
@@ -308,7 +308,7 @@ func (r *RTL8720DN) Rpc_le_bond_get_display_key(conn_id uint8, key uint32) (RPC_
 
 func (r *RTL8720DN) Rpc_le_bond_passkey_input_confirm(conn_id uint8, passcode uint32, cause RPC_T_GAP_CFM_CAUSE) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_bond_passkey_input_confirm()\n")
+		fmt.Printf("rpc_le_bond_passkey_input_confirm()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x04, 0x05, uint32(r.seq))
 
@@ -342,7 +342,7 @@ func (r *RTL8720DN) Rpc_le_bond_passkey_input_confirm(conn_id uint8, passcode ui
 
 func (r *RTL8720DN) Rpc_le_bond_oob_input_confirm(conn_id uint8, cause RPC_T_GAP_CFM_CAUSE) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_bond_oob_input_confirm()\n")
+		fmt.Printf("rpc_le_bond_oob_input_confirm()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x04, 0x06, uint32(r.seq))
 
@@ -371,7 +371,7 @@ func (r *RTL8720DN) Rpc_le_bond_oob_input_confirm(conn_id uint8, cause RPC_T_GAP
 
 func (r *RTL8720DN) Rpc_le_bond_just_work_confirm(conn_id uint8, cause RPC_T_GAP_CFM_CAUSE) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_bond_just_work_confirm()\n")
+		fmt.Printf("rpc_le_bond_just_work_confirm()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x04, 0x07, uint32(r.seq))
 
@@ -400,7 +400,7 @@ func (r *RTL8720DN) Rpc_le_bond_just_work_confirm(conn_id uint8, cause RPC_T_GAP
 
 func (r *RTL8720DN) Rpc_le_bond_passkey_display_confirm(conn_id uint8, cause RPC_T_GAP_CFM_CAUSE) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_bond_passkey_display_confirm()\n")
+		fmt.Printf("rpc_le_bond_passkey_display_confirm()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x04, 0x08, uint32(r.seq))
 
@@ -429,7 +429,7 @@ func (r *RTL8720DN) Rpc_le_bond_passkey_display_confirm(conn_id uint8, cause RPC
 
 func (r *RTL8720DN) Rpc_le_bond_user_confirm(conn_id uint8, cause RPC_T_GAP_CFM_CAUSE) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_bond_user_confirm()\n")
+		fmt.Printf("rpc_le_bond_user_confirm()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x04, 0x09, uint32(r.seq))
 
@@ -458,7 +458,7 @@ func (r *RTL8720DN) Rpc_le_bond_user_confirm(conn_id uint8, cause RPC_T_GAP_CFM_
 
 func (r *RTL8720DN) Rpc_le_bond_cfg_local_key_distribute(init_dist uint8, rsp_dist uint8) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_bond_cfg_local_key_distribute()\n")
+		fmt.Printf("rpc_le_bond_cfg_local_key_distribute()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x04, 0x0A, uint32(r.seq))
 
@@ -484,7 +484,7 @@ func (r *RTL8720DN) Rpc_le_bond_cfg_local_key_distribute(init_dist uint8, rsp_di
 
 func (r *RTL8720DN) Rpc_le_bond_clear_all_keys() error {
 	if r.debug {
-		fmt.Printf("rpc_le_bond_clear_all_keys()\n")
+		fmt.Printf("rpc_le_bond_clear_all_keys()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x04, 0x0B, uint32(r.seq))
 
@@ -502,7 +502,7 @@ func (r *RTL8720DN) Rpc_le_bond_clear_all_keys() error {
 
 func (r *RTL8720DN) Rpc_le_bond_delete_by_idx(idx uint8) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_bond_delete_by_idx()\n")
+		fmt.Printf("rpc_le_bond_delete_by_idx()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x04, 0x0C, uint32(r.seq))
 
@@ -526,7 +526,7 @@ func (r *RTL8720DN) Rpc_le_bond_delete_by_idx(idx uint8) (RPC_T_GAP_CAUSE, error
 
 func (r *RTL8720DN) Rpc_le_bond_delete_by_bd(bd_addr uint8, bd_type RPC_T_GAP_REMOTE_ADDR_TYPE) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_bond_delete_by_bd()\n")
+		fmt.Printf("rpc_le_bond_delete_by_bd()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x04, 0x0D, uint32(r.seq))
 
@@ -555,7 +555,7 @@ func (r *RTL8720DN) Rpc_le_bond_delete_by_bd(bd_addr uint8, bd_type RPC_T_GAP_RE
 
 func (r *RTL8720DN) Rpc_le_bond_get_sec_level(conn_id uint8, sec_type RPC_T_GAP_SEC_LEVEL) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_bond_get_sec_level()\n")
+		fmt.Printf("rpc_le_bond_get_sec_level()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x04, 0x0E, uint32(r.seq))
 
@@ -581,7 +581,7 @@ func (r *RTL8720DN) Rpc_le_bond_get_sec_level(conn_id uint8, sec_type RPC_T_GAP_
 
 func (r *RTL8720DN) Rpc_le_gap_init(link_num uint8) (bool, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_gap_init()\n")
+		fmt.Printf("rpc_le_gap_init()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x05, 0x01, uint32(r.seq))
 
@@ -605,7 +605,7 @@ func (r *RTL8720DN) Rpc_le_gap_init(link_num uint8) (bool, error) {
 
 func (r *RTL8720DN) Rpc_le_gap_msg_info_way(use_msg bool) error {
 	if r.debug {
-		fmt.Printf("rpc_le_gap_msg_info_way()\n")
+		fmt.Printf("rpc_le_gap_msg_info_way()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x05, 0x02, uint32(r.seq))
 
@@ -630,7 +630,7 @@ func (r *RTL8720DN) Rpc_le_gap_msg_info_way(use_msg bool) error {
 
 func (r *RTL8720DN) Rpc_le_get_max_link_num() (uint8, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_get_max_link_num()\n")
+		fmt.Printf("rpc_le_get_max_link_num()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x05, 0x03, uint32(r.seq))
 
@@ -651,7 +651,7 @@ func (r *RTL8720DN) Rpc_le_get_max_link_num() (uint8, error) {
 
 func (r *RTL8720DN) Rpc_le_set_gap_param(param RPC_T_GAP_LE_PARAM_TYPE, value []byte) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_set_gap_param()\n")
+		fmt.Printf("rpc_le_set_gap_param()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x05, 0x04, uint32(r.seq))
 
@@ -680,7 +680,7 @@ func (r *RTL8720DN) Rpc_le_set_gap_param(param RPC_T_GAP_LE_PARAM_TYPE, value []
 
 func (r *RTL8720DN) Rpc_le_get_gap_param(param RPC_T_GAP_LE_PARAM_TYPE, value []byte) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_get_gap_param()\n")
+		fmt.Printf("rpc_le_get_gap_param()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x05, 0x05, uint32(r.seq))
 
@@ -714,7 +714,7 @@ func (r *RTL8720DN) Rpc_le_get_gap_param(param RPC_T_GAP_LE_PARAM_TYPE, value []
 
 func (r *RTL8720DN) Rpc_le_modify_white_list(operation RPC_T_GAP_WHITE_LIST_OP, bd_addr uint8, bd_type RPC_T_GAP_REMOTE_ADDR_TYPE) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_modify_white_list()\n")
+		fmt.Printf("rpc_le_modify_white_list()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x05, 0x06, uint32(r.seq))
 
@@ -748,7 +748,7 @@ func (r *RTL8720DN) Rpc_le_modify_white_list(operation RPC_T_GAP_WHITE_LIST_OP, 
 
 func (r *RTL8720DN) Rpc_le_gen_rand_addr(rand_addr_type RPC_T_GAP_RAND_ADDR_TYPE, random_bd uint8) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_gen_rand_addr()\n")
+		fmt.Printf("rpc_le_gen_rand_addr()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x05, 0x07, uint32(r.seq))
 
@@ -777,7 +777,7 @@ func (r *RTL8720DN) Rpc_le_gen_rand_addr(rand_addr_type RPC_T_GAP_RAND_ADDR_TYPE
 
 func (r *RTL8720DN) Rpc_le_set_rand_addr(random_bd uint8) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_set_rand_addr()\n")
+		fmt.Printf("rpc_le_set_rand_addr()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x05, 0x08, uint32(r.seq))
 
@@ -801,7 +801,7 @@ func (r *RTL8720DN) Rpc_le_set_rand_addr(random_bd uint8) (RPC_T_GAP_CAUSE, erro
 
 func (r *RTL8720DN) Rpc_le_cfg_local_identity_address(addr uint8, ident_addr_type RPC_T_GAP_IDENT_ADDR_TYPE) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_cfg_local_identity_address()\n")
+		fmt.Printf("rpc_le_cfg_local_identity_address()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x05, 0x09, uint32(r.seq))
 
@@ -830,7 +830,7 @@ func (r *RTL8720DN) Rpc_le_cfg_local_identity_address(addr uint8, ident_addr_typ
 
 func (r *RTL8720DN) Rpc_le_set_host_chann_classif(p_channel_map uint8) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_set_host_chann_classif()\n")
+		fmt.Printf("rpc_le_set_host_chann_classif()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x05, 0x0A, uint32(r.seq))
 
@@ -854,7 +854,7 @@ func (r *RTL8720DN) Rpc_le_set_host_chann_classif(p_channel_map uint8) (RPC_T_GA
 
 func (r *RTL8720DN) Rpc_le_write_default_data_len(tx_octets uint16, tx_time uint16) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_write_default_data_len()\n")
+		fmt.Printf("rpc_le_write_default_data_len()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x05, 0x0B, uint32(r.seq))
 
@@ -882,7 +882,7 @@ func (r *RTL8720DN) Rpc_le_write_default_data_len(tx_octets uint16, tx_time uint
 
 func (r *RTL8720DN) Rpc_gap_config_cccd_not_check(cccd_not_check_flag RPC_T_GAP_CONFIG_GATT_CCCD_NOT_CHECK) error {
 	if r.debug {
-		fmt.Printf("rpc_gap_config_cccd_not_check()\n")
+		fmt.Printf("rpc_gap_config_cccd_not_check()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x06, 0x01, uint32(r.seq))
 
@@ -906,7 +906,7 @@ func (r *RTL8720DN) Rpc_gap_config_cccd_not_check(cccd_not_check_flag RPC_T_GAP_
 
 func (r *RTL8720DN) Rpc_gap_config_ccc_bits_count(gatt_server_ccc_bits_count uint8, gatt_storage_ccc_bits_count uint8) error {
 	if r.debug {
-		fmt.Printf("rpc_gap_config_ccc_bits_count()\n")
+		fmt.Printf("rpc_gap_config_ccc_bits_count()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x06, 0x02, uint32(r.seq))
 
@@ -929,7 +929,7 @@ func (r *RTL8720DN) Rpc_gap_config_ccc_bits_count(gatt_server_ccc_bits_count uin
 
 func (r *RTL8720DN) Rpc_gap_config_max_attribute_table_count(gatt_max_attribute_table_count uint8) error {
 	if r.debug {
-		fmt.Printf("rpc_gap_config_max_attribute_table_count()\n")
+		fmt.Printf("rpc_gap_config_max_attribute_table_count()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x06, 0x03, uint32(r.seq))
 
@@ -950,7 +950,7 @@ func (r *RTL8720DN) Rpc_gap_config_max_attribute_table_count(gatt_max_attribute_
 
 func (r *RTL8720DN) Rpc_gap_config_max_mtu_size(att_max_mtu_size uint16) error {
 	if r.debug {
-		fmt.Printf("rpc_gap_config_max_mtu_size()\n")
+		fmt.Printf("rpc_gap_config_max_mtu_size()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x06, 0x04, uint32(r.seq))
 
@@ -972,7 +972,7 @@ func (r *RTL8720DN) Rpc_gap_config_max_mtu_size(att_max_mtu_size uint16) error {
 
 func (r *RTL8720DN) Rpc_gap_config_bte_pool_size(bte_pool_size uint8) error {
 	if r.debug {
-		fmt.Printf("rpc_gap_config_bte_pool_size()\n")
+		fmt.Printf("rpc_gap_config_bte_pool_size()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x06, 0x05, uint32(r.seq))
 
@@ -993,7 +993,7 @@ func (r *RTL8720DN) Rpc_gap_config_bte_pool_size(bte_pool_size uint8) error {
 
 func (r *RTL8720DN) Rpc_gap_config_bt_report_buf_num(bt_report_buf_num uint8) error {
 	if r.debug {
-		fmt.Printf("rpc_gap_config_bt_report_buf_num()\n")
+		fmt.Printf("rpc_gap_config_bt_report_buf_num()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x06, 0x06, uint32(r.seq))
 
@@ -1014,7 +1014,7 @@ func (r *RTL8720DN) Rpc_gap_config_bt_report_buf_num(bt_report_buf_num uint8) er
 
 func (r *RTL8720DN) Rpc_gap_config_le_key_storage_flag(le_key_storage_flag uint16) error {
 	if r.debug {
-		fmt.Printf("rpc_gap_config_le_key_storage_flag()\n")
+		fmt.Printf("rpc_gap_config_le_key_storage_flag()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x06, 0x07, uint32(r.seq))
 
@@ -1036,7 +1036,7 @@ func (r *RTL8720DN) Rpc_gap_config_le_key_storage_flag(le_key_storage_flag uint1
 
 func (r *RTL8720DN) Rpc_gap_config_max_le_paired_device(max_le_paired_device uint8) error {
 	if r.debug {
-		fmt.Printf("rpc_gap_config_max_le_paired_device()\n")
+		fmt.Printf("rpc_gap_config_max_le_paired_device()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x06, 0x08, uint32(r.seq))
 
@@ -1057,7 +1057,7 @@ func (r *RTL8720DN) Rpc_gap_config_max_le_paired_device(max_le_paired_device uin
 
 func (r *RTL8720DN) Rpc_gap_config_max_le_link_num(le_link_num uint8) error {
 	if r.debug {
-		fmt.Printf("rpc_gap_config_max_le_link_num()\n")
+		fmt.Printf("rpc_gap_config_max_le_link_num()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x06, 0x09, uint32(r.seq))
 
@@ -1078,7 +1078,7 @@ func (r *RTL8720DN) Rpc_gap_config_max_le_link_num(le_link_num uint8) error {
 
 func (r *RTL8720DN) Rpc_le_adv_set_param(param RPC_T_LE_ADV_PARAM_TYPE, value []byte) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_adv_set_param()\n")
+		fmt.Printf("rpc_le_adv_set_param()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x07, 0x01, uint32(r.seq))
 
@@ -1107,7 +1107,7 @@ func (r *RTL8720DN) Rpc_le_adv_set_param(param RPC_T_LE_ADV_PARAM_TYPE, value []
 
 func (r *RTL8720DN) Rpc_le_adv_get_param(param RPC_T_LE_ADV_PARAM_TYPE, value []byte) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_adv_get_param()\n")
+		fmt.Printf("rpc_le_adv_get_param()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x07, 0x02, uint32(r.seq))
 
@@ -1141,7 +1141,7 @@ func (r *RTL8720DN) Rpc_le_adv_get_param(param RPC_T_LE_ADV_PARAM_TYPE, value []
 
 func (r *RTL8720DN) Rpc_le_adv_start() (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_adv_start()\n")
+		fmt.Printf("rpc_le_adv_start()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x07, 0x03, uint32(r.seq))
 
@@ -1162,7 +1162,7 @@ func (r *RTL8720DN) Rpc_le_adv_start() (RPC_T_GAP_CAUSE, error) {
 
 func (r *RTL8720DN) Rpc_le_adv_stop() (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_adv_stop()\n")
+		fmt.Printf("rpc_le_adv_stop()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x07, 0x04, uint32(r.seq))
 
@@ -1183,7 +1183,7 @@ func (r *RTL8720DN) Rpc_le_adv_stop() (RPC_T_GAP_CAUSE, error) {
 
 func (r *RTL8720DN) Rpc_le_adv_update_param() (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_adv_update_param()\n")
+		fmt.Printf("rpc_le_adv_update_param()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x07, 0x05, uint32(r.seq))
 
@@ -1204,7 +1204,7 @@ func (r *RTL8720DN) Rpc_le_adv_update_param() (RPC_T_GAP_CAUSE, error) {
 
 func (r *RTL8720DN) Rpc_le_scan_set_param(param RPC_T_LE_SCAN_PARAM_TYPE, value []byte) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_scan_set_param()\n")
+		fmt.Printf("rpc_le_scan_set_param()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x08, 0x01, uint32(r.seq))
 
@@ -1233,7 +1233,7 @@ func (r *RTL8720DN) Rpc_le_scan_set_param(param RPC_T_LE_SCAN_PARAM_TYPE, value 
 
 func (r *RTL8720DN) Rpc_le_scan_get_param(param RPC_T_LE_SCAN_PARAM_TYPE, value []byte) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_scan_get_param()\n")
+		fmt.Printf("rpc_le_scan_get_param()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x08, 0x02, uint32(r.seq))
 
@@ -1267,7 +1267,7 @@ func (r *RTL8720DN) Rpc_le_scan_get_param(param RPC_T_LE_SCAN_PARAM_TYPE, value 
 
 func (r *RTL8720DN) Rpc_le_scan_start() (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_scan_start()\n")
+		fmt.Printf("rpc_le_scan_start()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x08, 0x03, uint32(r.seq))
 
@@ -1288,7 +1288,7 @@ func (r *RTL8720DN) Rpc_le_scan_start() (RPC_T_GAP_CAUSE, error) {
 
 func (r *RTL8720DN) Rpc_le_scan_timer_start(tick uint32) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_scan_timer_start()\n")
+		fmt.Printf("rpc_le_scan_timer_start()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x08, 0x04, uint32(r.seq))
 
@@ -1315,7 +1315,7 @@ func (r *RTL8720DN) Rpc_le_scan_timer_start(tick uint32) (RPC_T_GAP_CAUSE, error
 
 func (r *RTL8720DN) Rpc_le_scan_stop() (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_scan_stop()\n")
+		fmt.Printf("rpc_le_scan_stop()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x08, 0x05, uint32(r.seq))
 
@@ -1336,7 +1336,7 @@ func (r *RTL8720DN) Rpc_le_scan_stop() (RPC_T_GAP_CAUSE, error) {
 
 func (r *RTL8720DN) Rpc_le_scan_info_filter(enable bool, offset uint8, len uint8, p_filter uint8) (bool, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_scan_info_filter()\n")
+		fmt.Printf("rpc_le_scan_info_filter()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x08, 0x06, uint32(r.seq))
 
@@ -1370,7 +1370,7 @@ func (r *RTL8720DN) Rpc_le_scan_info_filter(enable bool, offset uint8, len uint8
 
 func (r *RTL8720DN) Rpc_le_get_conn_param(param RPC_T_LE_CONN_PARAM_TYPE, value []byte, conn_id uint8) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_get_conn_param()\n")
+		fmt.Printf("rpc_le_get_conn_param()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x09, 0x01, uint32(r.seq))
 
@@ -1406,7 +1406,7 @@ func (r *RTL8720DN) Rpc_le_get_conn_param(param RPC_T_LE_CONN_PARAM_TYPE, value 
 
 func (r *RTL8720DN) Rpc_le_get_conn_info(conn_id uint8, p_conn_info RPC_T_GAP_CONN_INFO) (bool, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_get_conn_info()\n")
+		fmt.Printf("rpc_le_get_conn_info()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x09, 0x02, uint32(r.seq))
 
@@ -1432,7 +1432,7 @@ func (r *RTL8720DN) Rpc_le_get_conn_info(conn_id uint8, p_conn_info RPC_T_GAP_CO
 
 func (r *RTL8720DN) Rpc_le_get_conn_addr(conn_id uint8, bd_addr uint8, bd_type uint8) (bool, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_get_conn_addr()\n")
+		fmt.Printf("rpc_le_get_conn_addr()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x09, 0x03, uint32(r.seq))
 
@@ -1460,7 +1460,7 @@ func (r *RTL8720DN) Rpc_le_get_conn_addr(conn_id uint8, bd_addr uint8, bd_type u
 
 func (r *RTL8720DN) Rpc_le_get_conn_id(bd_addr uint8, bd_type uint8, p_conn_id uint8) (bool, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_get_conn_id()\n")
+		fmt.Printf("rpc_le_get_conn_id()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x09, 0x04, uint32(r.seq))
 
@@ -1488,7 +1488,7 @@ func (r *RTL8720DN) Rpc_le_get_conn_id(bd_addr uint8, bd_type uint8, p_conn_id u
 
 func (r *RTL8720DN) Rpc_le_get_active_link_num() (uint8, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_get_active_link_num()\n")
+		fmt.Printf("rpc_le_get_active_link_num()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x09, 0x05, uint32(r.seq))
 
@@ -1509,7 +1509,7 @@ func (r *RTL8720DN) Rpc_le_get_active_link_num() (uint8, error) {
 
 func (r *RTL8720DN) Rpc_le_get_idle_link_num() (uint8, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_get_idle_link_num()\n")
+		fmt.Printf("rpc_le_get_idle_link_num()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x09, 0x06, uint32(r.seq))
 
@@ -1530,7 +1530,7 @@ func (r *RTL8720DN) Rpc_le_get_idle_link_num() (uint8, error) {
 
 func (r *RTL8720DN) Rpc_le_disconnect(conn_id uint8) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_disconnect()\n")
+		fmt.Printf("rpc_le_disconnect()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x09, 0x07, uint32(r.seq))
 
@@ -1554,7 +1554,7 @@ func (r *RTL8720DN) Rpc_le_disconnect(conn_id uint8) (RPC_T_GAP_CAUSE, error) {
 
 func (r *RTL8720DN) Rpc_le_read_rssi(conn_id uint8) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_read_rssi()\n")
+		fmt.Printf("rpc_le_read_rssi()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x09, 0x08, uint32(r.seq))
 
@@ -1578,7 +1578,7 @@ func (r *RTL8720DN) Rpc_le_read_rssi(conn_id uint8) (RPC_T_GAP_CAUSE, error) {
 
 func (r *RTL8720DN) Rpc_le_set_data_len(conn_id uint8, tx_octets uint16, tx_time uint16) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_set_data_len()\n")
+		fmt.Printf("rpc_le_set_data_len()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x09, 0x09, uint32(r.seq))
 
@@ -1608,7 +1608,7 @@ func (r *RTL8720DN) Rpc_le_set_data_len(conn_id uint8, tx_octets uint16, tx_time
 
 func (r *RTL8720DN) Rpc_le_set_phy(conn_id uint8, all_phys uint8, tx_phys uint8, rx_phys uint8, phy_options RPC_T_GAP_PHYS_OPTIONS) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_set_phy()\n")
+		fmt.Printf("rpc_le_set_phy()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x09, 0x0A, uint32(r.seq))
 
@@ -1643,7 +1643,7 @@ func (r *RTL8720DN) Rpc_le_set_phy(conn_id uint8, all_phys uint8, tx_phys uint8,
 
 func (r *RTL8720DN) Rpc_le_set_conn_param(conn_type RPC_T_GAP_CONN_PARAM_TYPE, p_conn_param RPC_T_GAP_LE_CONN_REQ_PARAM) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_set_conn_param()\n")
+		fmt.Printf("rpc_le_set_conn_param()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x09, 0x0B, uint32(r.seq))
 
@@ -1675,7 +1675,7 @@ func (r *RTL8720DN) Rpc_le_set_conn_param(conn_type RPC_T_GAP_CONN_PARAM_TYPE, p
 
 func (r *RTL8720DN) Rpc_le_connect(init_phys uint8, remote_bd uint8, remote_bd_type RPC_T_GAP_REMOTE_ADDR_TYPE, local_bd_type RPC_T_GAP_LOCAL_ADDR_TYPE, scan_timeout uint16) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_connect()\n")
+		fmt.Printf("rpc_le_connect()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x09, 0x0C, uint32(r.seq))
 
@@ -1714,7 +1714,7 @@ func (r *RTL8720DN) Rpc_le_connect(init_phys uint8, remote_bd uint8, remote_bd_t
 
 func (r *RTL8720DN) Rpc_le_update_conn_param(conn_id uint8, conn_interval_min uint16, conn_interval_max uint16, conn_latency uint16, supervision_timeout uint16, ce_length_min uint16, ce_length_max uint16) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_update_conn_param()\n")
+		fmt.Printf("rpc_le_update_conn_param()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x09, 0x0D, uint32(r.seq))
 
@@ -1756,7 +1756,7 @@ func (r *RTL8720DN) Rpc_le_update_conn_param(conn_id uint8, conn_interval_min ui
 
 func (r *RTL8720DN) Rpc_flash_save_local_name(p_data RPC_T_LOCAL_NAME) (uint32, error) {
 	if r.debug {
-		fmt.Printf("rpc_flash_save_local_name()\n")
+		fmt.Printf("rpc_flash_save_local_name()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0A, 0x01, uint32(r.seq))
 
@@ -1783,7 +1783,7 @@ func (r *RTL8720DN) Rpc_flash_save_local_name(p_data RPC_T_LOCAL_NAME) (uint32, 
 
 func (r *RTL8720DN) Rpc_flash_load_local_name(p_data RPC_T_LOCAL_NAME) (uint32, error) {
 	if r.debug {
-		fmt.Printf("rpc_flash_load_local_name()\n")
+		fmt.Printf("rpc_flash_load_local_name()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0A, 0x02, uint32(r.seq))
 
@@ -1807,7 +1807,7 @@ func (r *RTL8720DN) Rpc_flash_load_local_name(p_data RPC_T_LOCAL_NAME) (uint32, 
 
 func (r *RTL8720DN) Rpc_flash_save_local_appearance(p_data RPC_T_LOCAL_APPEARANCE) (uint32, error) {
 	if r.debug {
-		fmt.Printf("rpc_flash_save_local_appearance()\n")
+		fmt.Printf("rpc_flash_save_local_appearance()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0A, 0x03, uint32(r.seq))
 
@@ -1834,7 +1834,7 @@ func (r *RTL8720DN) Rpc_flash_save_local_appearance(p_data RPC_T_LOCAL_APPEARANC
 
 func (r *RTL8720DN) Rpc_flash_load_local_appearance(p_data RPC_T_LOCAL_APPEARANCE) (uint32, error) {
 	if r.debug {
-		fmt.Printf("rpc_flash_load_local_appearance()\n")
+		fmt.Printf("rpc_flash_load_local_appearance()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0A, 0x04, uint32(r.seq))
 
@@ -1858,7 +1858,7 @@ func (r *RTL8720DN) Rpc_flash_load_local_appearance(p_data RPC_T_LOCAL_APPEARANC
 
 func (r *RTL8720DN) Rpc_le_find_key_entry(bd_addr uint8, bd_type RPC_T_GAP_REMOTE_ADDR_TYPE) (RPC_T_LE_KEY_ENTRY, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_find_key_entry()\n")
+		fmt.Printf("rpc_le_find_key_entry()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0A, 0x05, uint32(r.seq))
 
@@ -1887,7 +1887,7 @@ func (r *RTL8720DN) Rpc_le_find_key_entry(bd_addr uint8, bd_type RPC_T_GAP_REMOT
 
 func (r *RTL8720DN) Rpc_le_find_key_entry_by_idx(idx uint8) (RPC_T_LE_KEY_ENTRY, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_find_key_entry_by_idx()\n")
+		fmt.Printf("rpc_le_find_key_entry_by_idx()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0A, 0x06, uint32(r.seq))
 
@@ -1911,7 +1911,7 @@ func (r *RTL8720DN) Rpc_le_find_key_entry_by_idx(idx uint8) (RPC_T_LE_KEY_ENTRY,
 
 func (r *RTL8720DN) Rpc_le_get_bond_dev_num() (uint8, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_get_bond_dev_num()\n")
+		fmt.Printf("rpc_le_get_bond_dev_num()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0A, 0x07, uint32(r.seq))
 
@@ -1932,7 +1932,7 @@ func (r *RTL8720DN) Rpc_le_get_bond_dev_num() (uint8, error) {
 
 func (r *RTL8720DN) Rpc_le_get_low_priority_bond() (RPC_T_LE_KEY_ENTRY, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_get_low_priority_bond()\n")
+		fmt.Printf("rpc_le_get_low_priority_bond()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0A, 0x08, uint32(r.seq))
 
@@ -1953,7 +1953,7 @@ func (r *RTL8720DN) Rpc_le_get_low_priority_bond() (RPC_T_LE_KEY_ENTRY, error) {
 
 func (r *RTL8720DN) Rpc_le_get_high_priority_bond() (RPC_T_LE_KEY_ENTRY, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_get_high_priority_bond()\n")
+		fmt.Printf("rpc_le_get_high_priority_bond()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0A, 0x09, uint32(r.seq))
 
@@ -1974,7 +1974,7 @@ func (r *RTL8720DN) Rpc_le_get_high_priority_bond() (RPC_T_LE_KEY_ENTRY, error) 
 
 func (r *RTL8720DN) Rpc_le_set_high_priority_bond(bd_addr uint8, bd_type RPC_T_GAP_REMOTE_ADDR_TYPE) (bool, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_set_high_priority_bond()\n")
+		fmt.Printf("rpc_le_set_high_priority_bond()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0A, 0x0A, uint32(r.seq))
 
@@ -2003,7 +2003,7 @@ func (r *RTL8720DN) Rpc_le_set_high_priority_bond(bd_addr uint8, bd_type RPC_T_G
 
 func (r *RTL8720DN) Rpc_le_resolve_random_address(unresolved_addr uint8, resolved_addr uint8, resolved_addr_type RPC_T_GAP_IDENT_ADDR_TYPE) (bool, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_resolve_random_address()\n")
+		fmt.Printf("rpc_le_resolve_random_address()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0A, 0x0B, uint32(r.seq))
 
@@ -2038,7 +2038,7 @@ func (r *RTL8720DN) Rpc_le_resolve_random_address(unresolved_addr uint8, resolve
 
 func (r *RTL8720DN) Rpc_le_get_cccd_data(p_entry RPC_T_LE_KEY_ENTRY, p_data RPC_T_LE_CCCD) (bool, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_get_cccd_data()\n")
+		fmt.Printf("rpc_le_get_cccd_data()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0A, 0x0C, uint32(r.seq))
 
@@ -2067,7 +2067,7 @@ func (r *RTL8720DN) Rpc_le_get_cccd_data(p_entry RPC_T_LE_KEY_ENTRY, p_data RPC_
 
 func (r *RTL8720DN) Rpc_le_gen_bond_dev(bd_addr uint8, bd_type RPC_T_GAP_REMOTE_ADDR_TYPE, local_bd_type RPC_T_GAP_LOCAL_ADDR_TYPE, local_ltk []byte, key_type RPC_T_LE_KEY_TYPE, p_cccd RPC_T_LE_CCCD) (bool, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_gen_bond_dev()\n")
+		fmt.Printf("rpc_le_gen_bond_dev()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0A, 0x0D, uint32(r.seq))
 
@@ -2113,7 +2113,7 @@ func (r *RTL8720DN) Rpc_le_gen_bond_dev(bd_addr uint8, bd_type RPC_T_GAP_REMOTE_
 
 func (r *RTL8720DN) Rpc_le_get_dev_bond_info_len() (uint16, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_get_dev_bond_info_len()\n")
+		fmt.Printf("rpc_le_get_dev_bond_info_len()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0A, 0x0E, uint32(r.seq))
 
@@ -2134,7 +2134,7 @@ func (r *RTL8720DN) Rpc_le_get_dev_bond_info_len() (uint16, error) {
 
 func (r *RTL8720DN) Rpc_le_set_dev_bond_info(p_data []byte, exist bool) (RPC_T_LE_KEY_ENTRY, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_set_dev_bond_info()\n")
+		fmt.Printf("rpc_le_set_dev_bond_info()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0A, 0x0F, uint32(r.seq))
 
@@ -2160,7 +2160,7 @@ func (r *RTL8720DN) Rpc_le_set_dev_bond_info(p_data []byte, exist bool) (RPC_T_L
 
 func (r *RTL8720DN) Rpc_le_get_dev_bond_info(p_entry RPC_T_LE_KEY_ENTRY, p_data []byte) (bool, error) {
 	if r.debug {
-		fmt.Printf("rpc_le_get_dev_bond_info()\n")
+		fmt.Printf("rpc_le_get_dev_bond_info()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0A, 0x10, uint32(r.seq))
 
@@ -2194,7 +2194,7 @@ func (r *RTL8720DN) Rpc_le_get_dev_bond_info(p_entry RPC_T_LE_KEY_ENTRY, p_data 
 
 func (r *RTL8720DN) Rpc_ble_client_init(num uint8) (bool, error) {
 	if r.debug {
-		fmt.Printf("rpc_ble_client_init()\n")
+		fmt.Printf("rpc_ble_client_init()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0B, 0x01, uint32(r.seq))
 
@@ -2218,7 +2218,7 @@ func (r *RTL8720DN) Rpc_ble_client_init(num uint8) (bool, error) {
 
 func (r *RTL8720DN) Rpc_ble_add_client(app_id uint8, link_num uint8) (uint8, error) {
 	if r.debug {
-		fmt.Printf("rpc_ble_add_client()\n")
+		fmt.Printf("rpc_ble_add_client()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0B, 0x02, uint32(r.seq))
 
@@ -2244,7 +2244,7 @@ func (r *RTL8720DN) Rpc_ble_add_client(app_id uint8, link_num uint8) (uint8, err
 
 func (r *RTL8720DN) Rpc_client_init(client_num uint8) error {
 	if r.debug {
-		fmt.Printf("rpc_client_init()\n")
+		fmt.Printf("rpc_client_init()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0B, 0x03, uint32(r.seq))
 
@@ -2265,7 +2265,7 @@ func (r *RTL8720DN) Rpc_client_init(client_num uint8) error {
 
 func (r *RTL8720DN) Rpc_client_all_primary_srv_discovery(conn_id uint8, client_id uint8) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_client_all_primary_srv_discovery()\n")
+		fmt.Printf("rpc_client_all_primary_srv_discovery()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0B, 0x04, uint32(r.seq))
 
@@ -2291,7 +2291,7 @@ func (r *RTL8720DN) Rpc_client_all_primary_srv_discovery(conn_id uint8, client_i
 
 func (r *RTL8720DN) Rpc_client_by_uuid_srv_discovery(conn_id uint8, client_id uint8, uuid16 uint16) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_client_by_uuid_srv_discovery()\n")
+		fmt.Printf("rpc_client_by_uuid_srv_discovery()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0B, 0x05, uint32(r.seq))
 
@@ -2320,7 +2320,7 @@ func (r *RTL8720DN) Rpc_client_by_uuid_srv_discovery(conn_id uint8, client_id ui
 
 func (r *RTL8720DN) Rpc_client_by_uuid128_srv_discovery(conn_id uint8, client_id uint8, p_uuid128 uint8) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_client_by_uuid128_srv_discovery()\n")
+		fmt.Printf("rpc_client_by_uuid128_srv_discovery()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0B, 0x06, uint32(r.seq))
 
@@ -2348,7 +2348,7 @@ func (r *RTL8720DN) Rpc_client_by_uuid128_srv_discovery(conn_id uint8, client_id
 
 func (r *RTL8720DN) Rpc_client_relationship_discovery(conn_id uint8, client_id uint8, start_handle uint16, end_handle uint16) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_client_relationship_discovery()\n")
+		fmt.Printf("rpc_client_relationship_discovery()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0B, 0x07, uint32(r.seq))
 
@@ -2380,7 +2380,7 @@ func (r *RTL8720DN) Rpc_client_relationship_discovery(conn_id uint8, client_id u
 
 func (r *RTL8720DN) Rpc_client_all_char_discovery(conn_id uint8, client_id uint8, start_handle uint16, end_handle uint16) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_client_all_char_discovery()\n")
+		fmt.Printf("rpc_client_all_char_discovery()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0B, 0x08, uint32(r.seq))
 
@@ -2412,7 +2412,7 @@ func (r *RTL8720DN) Rpc_client_all_char_discovery(conn_id uint8, client_id uint8
 
 func (r *RTL8720DN) Rpc_client_by_uuid_char_discovery(conn_id uint8, client_id uint8, start_handle uint16, end_handle uint16, uuid16 uint16) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_client_by_uuid_char_discovery()\n")
+		fmt.Printf("rpc_client_by_uuid_char_discovery()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0B, 0x09, uint32(r.seq))
 
@@ -2447,7 +2447,7 @@ func (r *RTL8720DN) Rpc_client_by_uuid_char_discovery(conn_id uint8, client_id u
 
 func (r *RTL8720DN) Rpc_client_by_uuid128_char_discovery(conn_id uint8, client_id uint8, start_handle uint16, end_handle uint16, p_uuid128 uint8) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_client_by_uuid128_char_discovery()\n")
+		fmt.Printf("rpc_client_by_uuid128_char_discovery()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0B, 0x0A, uint32(r.seq))
 
@@ -2481,7 +2481,7 @@ func (r *RTL8720DN) Rpc_client_by_uuid128_char_discovery(conn_id uint8, client_i
 
 func (r *RTL8720DN) Rpc_client_all_char_descriptor_discovery(conn_id uint8, client_id uint8, start_handle uint16, end_handle uint16) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_client_all_char_descriptor_discovery()\n")
+		fmt.Printf("rpc_client_all_char_descriptor_discovery()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0B, 0x0B, uint32(r.seq))
 
@@ -2513,7 +2513,7 @@ func (r *RTL8720DN) Rpc_client_all_char_descriptor_discovery(conn_id uint8, clie
 
 func (r *RTL8720DN) Rpc_client_attr_read(conn_id uint8, client_id uint8, handle uint16) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_client_attr_read()\n")
+		fmt.Printf("rpc_client_attr_read()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0B, 0x0C, uint32(r.seq))
 
@@ -2542,7 +2542,7 @@ func (r *RTL8720DN) Rpc_client_attr_read(conn_id uint8, client_id uint8, handle 
 
 func (r *RTL8720DN) Rpc_client_attr_read_using_uuid(conn_id uint8, client_id uint8, start_handle uint16, end_handle uint16, uuid16 uint16, p_uuid128 uint8) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_client_attr_read_using_uuid()\n")
+		fmt.Printf("rpc_client_attr_read_using_uuid()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0B, 0x0D, uint32(r.seq))
 
@@ -2579,7 +2579,7 @@ func (r *RTL8720DN) Rpc_client_attr_read_using_uuid(conn_id uint8, client_id uin
 
 func (r *RTL8720DN) Rpc_client_attr_write(conn_id uint8, client_id uint8, write_type RPC_T_GATT_WRITE_TYPE, handle uint16, data []byte) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_client_attr_write()\n")
+		fmt.Printf("rpc_client_attr_write()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0B, 0x0E, uint32(r.seq))
 
@@ -2615,7 +2615,7 @@ func (r *RTL8720DN) Rpc_client_attr_write(conn_id uint8, client_id uint8, write_
 
 func (r *RTL8720DN) Rpc_client_attr_ind_confirm(conn_id uint8) (RPC_T_GAP_CAUSE, error) {
 	if r.debug {
-		fmt.Printf("rpc_client_attr_ind_confirm()\n")
+		fmt.Printf("rpc_client_attr_ind_confirm()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0B, 0x0F, uint32(r.seq))
 
@@ -2639,7 +2639,7 @@ func (r *RTL8720DN) Rpc_client_attr_ind_confirm(conn_id uint8) (RPC_T_GAP_CAUSE,
 
 func (r *RTL8720DN) Rpc_ble_server_init(num uint8) (bool, error) {
 	if r.debug {
-		fmt.Printf("rpc_ble_server_init()\n")
+		fmt.Printf("rpc_ble_server_init()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0C, 0x01, uint32(r.seq))
 
@@ -2663,7 +2663,7 @@ func (r *RTL8720DN) Rpc_ble_server_init(num uint8) (bool, error) {
 
 func (r *RTL8720DN) Rpc_ble_create_service(uuid uint8, uuid_length uint8, is_primary bool) (uint8, error) {
 	if r.debug {
-		fmt.Printf("rpc_ble_create_service()\n")
+		fmt.Printf("rpc_ble_create_service()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0C, 0x02, uint32(r.seq))
 
@@ -2695,7 +2695,7 @@ func (r *RTL8720DN) Rpc_ble_create_service(uuid uint8, uuid_length uint8, is_pri
 
 func (r *RTL8720DN) Rpc_ble_delete_service(app_id uint8) (bool, error) {
 	if r.debug {
-		fmt.Printf("rpc_ble_delete_service()\n")
+		fmt.Printf("rpc_ble_delete_service()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0C, 0x03, uint32(r.seq))
 
@@ -2719,7 +2719,7 @@ func (r *RTL8720DN) Rpc_ble_delete_service(app_id uint8) (bool, error) {
 
 func (r *RTL8720DN) Rpc_ble_service_start(app_id uint8) (uint8, error) {
 	if r.debug {
-		fmt.Printf("rpc_ble_service_start()\n")
+		fmt.Printf("rpc_ble_service_start()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0C, 0x04, uint32(r.seq))
 
@@ -2743,7 +2743,7 @@ func (r *RTL8720DN) Rpc_ble_service_start(app_id uint8) (uint8, error) {
 
 func (r *RTL8720DN) Rpc_ble_get_servie_handle(app_id uint8) (uint8, error) {
 	if r.debug {
-		fmt.Printf("rpc_ble_get_servie_handle()\n")
+		fmt.Printf("rpc_ble_get_servie_handle()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0C, 0x05, uint32(r.seq))
 
@@ -2767,7 +2767,7 @@ func (r *RTL8720DN) Rpc_ble_get_servie_handle(app_id uint8) (uint8, error) {
 
 func (r *RTL8720DN) Rpc_ble_create_char(app_id uint8, uuid uint8, uuid_length uint8, properties uint8, permissions uint32) (uint16, error) {
 	if r.debug {
-		fmt.Printf("rpc_ble_create_char()\n")
+		fmt.Printf("rpc_ble_create_char()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0C, 0x06, uint32(r.seq))
 
@@ -2802,7 +2802,7 @@ func (r *RTL8720DN) Rpc_ble_create_char(app_id uint8, uuid uint8, uuid_length ui
 
 func (r *RTL8720DN) Rpc_ble_create_desc(app_id uint8, char_handle uint16, uuid uint8, uuid_length uint8, flags uint8, permissions uint32, value_length uint16, p_value []byte) (uint16, error) {
 	if r.debug {
-		fmt.Printf("rpc_ble_create_desc()\n")
+		fmt.Printf("rpc_ble_create_desc()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0C, 0x07, uint32(r.seq))
 
@@ -2845,7 +2845,7 @@ func (r *RTL8720DN) Rpc_ble_create_desc(app_id uint8, char_handle uint16, uuid u
 
 func (r *RTL8720DN) Rpc_server_send_data(conn_id uint8, service_id uint8, attrib_index uint16, data []byte, pdu_type RPC_T_GATT_PDU_TYPE) (bool, error) {
 	if r.debug {
-		fmt.Printf("rpc_server_send_data()\n")
+		fmt.Printf("rpc_server_send_data()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0C, 0x08, uint32(r.seq))
 
@@ -2881,7 +2881,7 @@ func (r *RTL8720DN) Rpc_server_send_data(conn_id uint8, service_id uint8, attrib
 
 func (r *RTL8720DN) Rpc_ble_server_get_attr_value(app_id uint8, attr_handle uint16) ([]byte, error) {
 	if r.debug {
-		fmt.Printf("rpc_ble_server_get_attr_value()\n")
+		fmt.Printf("rpc_ble_server_get_attr_value()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0C, 0x09, uint32(r.seq))
 
@@ -2910,7 +2910,7 @@ func (r *RTL8720DN) Rpc_ble_server_get_attr_value(app_id uint8, attr_handle uint
 
 func (r *RTL8720DN) Rpc_server_exec_write_confirm(conn_id uint8, cause uint16, handle uint16) (bool, error) {
 	if r.debug {
-		fmt.Printf("rpc_server_exec_write_confirm()\n")
+		fmt.Printf("rpc_server_exec_write_confirm()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0C, 0x0A, uint32(r.seq))
 
@@ -2940,7 +2940,7 @@ func (r *RTL8720DN) Rpc_server_exec_write_confirm(conn_id uint8, cause uint16, h
 
 func (r *RTL8720DN) Rpc_server_attr_write_confirm(conn_id uint8, service_id uint8, attrib_index uint16, cause RPC_T_APP_RESULT) (bool, error) {
 	if r.debug {
-		fmt.Printf("rpc_server_attr_write_confirm()\n")
+		fmt.Printf("rpc_server_attr_write_confirm()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0C, 0x0B, uint32(r.seq))
 
@@ -2974,7 +2974,7 @@ func (r *RTL8720DN) Rpc_server_attr_write_confirm(conn_id uint8, service_id uint
 
 func (r *RTL8720DN) Rpc_server_attr_read_confirm(conn_id uint8, service_id uint8, attrib_index uint16, data []byte, cause RPC_T_APP_RESULT) (bool, error) {
 	if r.debug {
-		fmt.Printf("rpc_server_attr_read_confirm()\n")
+		fmt.Printf("rpc_server_attr_read_confirm()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0C, 0x0C, uint32(r.seq))
 
@@ -3010,7 +3010,7 @@ func (r *RTL8720DN) Rpc_server_attr_read_confirm(conn_id uint8, service_id uint8
 
 func (r *RTL8720DN) Rpc_ble_handle_gap_msg(gap_msg []byte) (RPC_T_APP_RESULT, error) {
 	if r.debug {
-		fmt.Printf("rpc_ble_handle_gap_msg()\n")
+		fmt.Printf("rpc_ble_handle_gap_msg()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0D, 0x01, uint32(r.seq))
 
@@ -3034,7 +3034,7 @@ func (r *RTL8720DN) Rpc_ble_handle_gap_msg(gap_msg []byte) (RPC_T_APP_RESULT, er
 
 func (r *RTL8720DN) Rpc_ble_gap_callback(cb_type uint8, cb_data []byte) (RPC_T_APP_RESULT, error) {
 	if r.debug {
-		fmt.Printf("rpc_ble_gap_callback()\n")
+		fmt.Printf("rpc_ble_gap_callback()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0D, 0x02, uint32(r.seq))
 
@@ -3060,7 +3060,7 @@ func (r *RTL8720DN) Rpc_ble_gap_callback(cb_type uint8, cb_data []byte) (RPC_T_A
 
 func (r *RTL8720DN) Rpc_ble_gattc_callback(gatt_if uint8, conn_id uint8, cb_data []byte, extra_data []byte) (RPC_T_APP_RESULT, error) {
 	if r.debug {
-		fmt.Printf("rpc_ble_gattc_callback()\n")
+		fmt.Printf("rpc_ble_gattc_callback()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0D, 0x03, uint32(r.seq))
 
@@ -3090,7 +3090,7 @@ func (r *RTL8720DN) Rpc_ble_gattc_callback(gatt_if uint8, conn_id uint8, cb_data
 
 func (r *RTL8720DN) Rpc_ble_gatts_callback(gatt_if uint8, conn_id uint8, attrib_index uint16, event RPC_T_SERVICE_CALLBACK_TYPE, property uint16, read_cb_data []byte, write_cb_data []byte, app_cb_data []byte) (RPC_T_APP_RESULT, error) {
 	if r.debug {
-		fmt.Printf("rpc_ble_gatts_callback()\n")
+		fmt.Printf("rpc_ble_gatts_callback()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0D, 0x04, uint32(r.seq))
 
@@ -3142,7 +3142,7 @@ func (r *RTL8720DN) Rpc_ble_gatts_callback(gatt_if uint8, conn_id uint8, attrib_
 
 func (r *RTL8720DN) Rpc_wifi_connect(ssid string, password string, security_type uint32, key_id int32, semaphore uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_connect()\n")
+		fmt.Printf("rpc_wifi_connect()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x01, uint32(r.seq))
 
@@ -3190,7 +3190,7 @@ func (r *RTL8720DN) Rpc_wifi_connect(ssid string, password string, security_type
 
 func (r *RTL8720DN) Rpc_wifi_connect_bssid(bssid []byte, ssid string, password string, security_type uint32, key_id int32, semaphore uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_connect_bssid()\n")
+		fmt.Printf("rpc_wifi_connect_bssid()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x02, uint32(r.seq))
 
@@ -3240,7 +3240,7 @@ func (r *RTL8720DN) Rpc_wifi_connect_bssid(bssid []byte, ssid string, password s
 
 func (r *RTL8720DN) Rpc_wifi_disconnect() (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_disconnect()\n")
+		fmt.Printf("rpc_wifi_disconnect()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x03, uint32(r.seq))
 
@@ -3261,7 +3261,7 @@ func (r *RTL8720DN) Rpc_wifi_disconnect() (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_is_connected_to_ap() (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_is_connected_to_ap()\n")
+		fmt.Printf("rpc_wifi_is_connected_to_ap()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x04, uint32(r.seq))
 
@@ -3282,7 +3282,7 @@ func (r *RTL8720DN) Rpc_wifi_is_connected_to_ap() (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_is_up(itf uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_is_up()\n")
+		fmt.Printf("rpc_wifi_is_up()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x05, uint32(r.seq))
 
@@ -3309,7 +3309,7 @@ func (r *RTL8720DN) Rpc_wifi_is_up(itf uint32) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_is_ready_to_transceive(itf uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_is_ready_to_transceive()\n")
+		fmt.Printf("rpc_wifi_is_ready_to_transceive()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x06, uint32(r.seq))
 
@@ -3336,7 +3336,7 @@ func (r *RTL8720DN) Rpc_wifi_is_ready_to_transceive(itf uint32) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_set_mac_address(mac []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_set_mac_address()\n")
+		fmt.Printf("rpc_wifi_set_mac_address()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x07, uint32(r.seq))
 
@@ -3360,7 +3360,7 @@ func (r *RTL8720DN) Rpc_wifi_set_mac_address(mac []byte) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_get_mac_address(mac uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_get_mac_address()\n")
+		fmt.Printf("rpc_wifi_get_mac_address()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x08, uint32(r.seq))
 
@@ -3384,7 +3384,7 @@ func (r *RTL8720DN) Rpc_wifi_get_mac_address(mac uint8) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_enable_powersave() (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_enable_powersave()\n")
+		fmt.Printf("rpc_wifi_enable_powersave()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x09, uint32(r.seq))
 
@@ -3405,7 +3405,7 @@ func (r *RTL8720DN) Rpc_wifi_enable_powersave() (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_resume_powersave() (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_resume_powersave()\n")
+		fmt.Printf("rpc_wifi_resume_powersave()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x0A, uint32(r.seq))
 
@@ -3426,7 +3426,7 @@ func (r *RTL8720DN) Rpc_wifi_resume_powersave() (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_disable_powersave() (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_disable_powersave()\n")
+		fmt.Printf("rpc_wifi_disable_powersave()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x0B, uint32(r.seq))
 
@@ -3447,7 +3447,7 @@ func (r *RTL8720DN) Rpc_wifi_disable_powersave() (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_btcoex_set_bt_on() error {
 	if r.debug {
-		fmt.Printf("rpc_wifi_btcoex_set_bt_on()\n")
+		fmt.Printf("rpc_wifi_btcoex_set_bt_on()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x0C, uint32(r.seq))
 
@@ -3465,7 +3465,7 @@ func (r *RTL8720DN) Rpc_wifi_btcoex_set_bt_on() error {
 
 func (r *RTL8720DN) Rpc_wifi_btcoex_set_bt_off() error {
 	if r.debug {
-		fmt.Printf("rpc_wifi_btcoex_set_bt_off()\n")
+		fmt.Printf("rpc_wifi_btcoex_set_bt_off()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x0D, uint32(r.seq))
 
@@ -3483,7 +3483,7 @@ func (r *RTL8720DN) Rpc_wifi_btcoex_set_bt_off() error {
 
 func (r *RTL8720DN) Rpc_wifi_get_associated_client_list(client_list_buffer []byte, buffer_length uint16) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_get_associated_client_list()\n")
+		fmt.Printf("rpc_wifi_get_associated_client_list()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x0E, uint32(r.seq))
 
@@ -3515,7 +3515,7 @@ func (r *RTL8720DN) Rpc_wifi_get_associated_client_list(client_list_buffer []byt
 
 func (r *RTL8720DN) Rpc_wifi_get_ap_bssid(bssid uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_get_ap_bssid()\n")
+		fmt.Printf("rpc_wifi_get_ap_bssid()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x0F, uint32(r.seq))
 
@@ -3539,7 +3539,7 @@ func (r *RTL8720DN) Rpc_wifi_get_ap_bssid(bssid uint8) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_get_ap_info(ap_info []byte, security uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_get_ap_info()\n")
+		fmt.Printf("rpc_wifi_get_ap_info()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x10, uint32(r.seq))
 
@@ -3570,7 +3570,7 @@ func (r *RTL8720DN) Rpc_wifi_get_ap_info(ap_info []byte, security uint32) (int32
 
 func (r *RTL8720DN) Rpc_wifi_set_country(country_code uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_set_country()\n")
+		fmt.Printf("rpc_wifi_set_country()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x11, uint32(r.seq))
 
@@ -3597,7 +3597,7 @@ func (r *RTL8720DN) Rpc_wifi_set_country(country_code uint32) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_get_sta_max_data_rate(inidata_rate uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_get_sta_max_data_rate()\n")
+		fmt.Printf("rpc_wifi_get_sta_max_data_rate()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x12, uint32(r.seq))
 
@@ -3621,7 +3621,7 @@ func (r *RTL8720DN) Rpc_wifi_get_sta_max_data_rate(inidata_rate uint8) (int32, e
 
 func (r *RTL8720DN) Rpc_wifi_get_rssi(pRSSI int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_get_rssi()\n")
+		fmt.Printf("rpc_wifi_get_rssi()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x13, uint32(r.seq))
 
@@ -3645,7 +3645,7 @@ func (r *RTL8720DN) Rpc_wifi_get_rssi(pRSSI int32) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_set_channel(channel int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_set_channel()\n")
+		fmt.Printf("rpc_wifi_set_channel()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x14, uint32(r.seq))
 
@@ -3672,7 +3672,7 @@ func (r *RTL8720DN) Rpc_wifi_set_channel(channel int32) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_get_channel(channel int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_get_channel()\n")
+		fmt.Printf("rpc_wifi_get_channel()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x15, uint32(r.seq))
 
@@ -3696,7 +3696,7 @@ func (r *RTL8720DN) Rpc_wifi_get_channel(channel int32) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_change_channel_plan(channel_plan uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_change_channel_plan()\n")
+		fmt.Printf("rpc_wifi_change_channel_plan()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x16, uint32(r.seq))
 
@@ -3720,7 +3720,7 @@ func (r *RTL8720DN) Rpc_wifi_change_channel_plan(channel_plan uint8) (int32, err
 
 func (r *RTL8720DN) Rpc_wifi_register_multicast_address(mac uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_register_multicast_address()\n")
+		fmt.Printf("rpc_wifi_register_multicast_address()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x17, uint32(r.seq))
 
@@ -3744,7 +3744,7 @@ func (r *RTL8720DN) Rpc_wifi_register_multicast_address(mac uint8) (int32, error
 
 func (r *RTL8720DN) Rpc_wifi_unregister_multicast_address(mac uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_unregister_multicast_address()\n")
+		fmt.Printf("rpc_wifi_unregister_multicast_address()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x18, uint32(r.seq))
 
@@ -3768,7 +3768,7 @@ func (r *RTL8720DN) Rpc_wifi_unregister_multicast_address(mac uint8) (int32, err
 
 func (r *RTL8720DN) Rpc_wifi_rf_on() (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_rf_on()\n")
+		fmt.Printf("rpc_wifi_rf_on()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x19, uint32(r.seq))
 
@@ -3789,7 +3789,7 @@ func (r *RTL8720DN) Rpc_wifi_rf_on() (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_rf_off() (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_rf_off()\n")
+		fmt.Printf("rpc_wifi_rf_off()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x1A, uint32(r.seq))
 
@@ -3810,7 +3810,7 @@ func (r *RTL8720DN) Rpc_wifi_rf_off() (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_on(mode uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_on()\n")
+		fmt.Printf("rpc_wifi_on()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x1B, uint32(r.seq))
 
@@ -3837,7 +3837,7 @@ func (r *RTL8720DN) Rpc_wifi_on(mode uint32) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_off() (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_off()\n")
+		fmt.Printf("rpc_wifi_off()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x1C, uint32(r.seq))
 
@@ -3858,7 +3858,7 @@ func (r *RTL8720DN) Rpc_wifi_off() (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_set_mode(mode uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_set_mode()\n")
+		fmt.Printf("rpc_wifi_set_mode()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x1D, uint32(r.seq))
 
@@ -3885,7 +3885,7 @@ func (r *RTL8720DN) Rpc_wifi_set_mode(mode uint32) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_off_fastly() (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_off_fastly()\n")
+		fmt.Printf("rpc_wifi_off_fastly()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x1E, uint32(r.seq))
 
@@ -3906,7 +3906,7 @@ func (r *RTL8720DN) Rpc_wifi_off_fastly() (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_set_power_mode(ips_mode uint8, lps_mode uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_set_power_mode()\n")
+		fmt.Printf("rpc_wifi_set_power_mode()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x1F, uint32(r.seq))
 
@@ -3932,7 +3932,7 @@ func (r *RTL8720DN) Rpc_wifi_set_power_mode(ips_mode uint8, lps_mode uint8) (int
 
 func (r *RTL8720DN) Rpc_wifi_set_tdma_param(slot_period uint8, rfon_period_len_1 uint8, rfon_period_len_2 uint8, rfon_period_len_3 uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_set_tdma_param()\n")
+		fmt.Printf("rpc_wifi_set_tdma_param()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x20, uint32(r.seq))
 
@@ -3962,7 +3962,7 @@ func (r *RTL8720DN) Rpc_wifi_set_tdma_param(slot_period uint8, rfon_period_len_1
 
 func (r *RTL8720DN) Rpc_wifi_set_lps_dtim(dtim uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_set_lps_dtim()\n")
+		fmt.Printf("rpc_wifi_set_lps_dtim()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x21, uint32(r.seq))
 
@@ -3986,7 +3986,7 @@ func (r *RTL8720DN) Rpc_wifi_set_lps_dtim(dtim uint8) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_get_lps_dtim(dtim uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_get_lps_dtim()\n")
+		fmt.Printf("rpc_wifi_get_lps_dtim()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x22, uint32(r.seq))
 
@@ -4010,7 +4010,7 @@ func (r *RTL8720DN) Rpc_wifi_get_lps_dtim(dtim uint8) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_set_lps_thresh(mode uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_set_lps_thresh()\n")
+		fmt.Printf("rpc_wifi_set_lps_thresh()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x23, uint32(r.seq))
 
@@ -4034,7 +4034,7 @@ func (r *RTL8720DN) Rpc_wifi_set_lps_thresh(mode uint8) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_set_lps_level(lps_level uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_set_lps_level()\n")
+		fmt.Printf("rpc_wifi_set_lps_level()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x24, uint32(r.seq))
 
@@ -4058,7 +4058,7 @@ func (r *RTL8720DN) Rpc_wifi_set_lps_level(lps_level uint8) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_set_mfp_support(value uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_set_mfp_support()\n")
+		fmt.Printf("rpc_wifi_set_mfp_support()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x25, uint32(r.seq))
 
@@ -4082,7 +4082,7 @@ func (r *RTL8720DN) Rpc_wifi_set_mfp_support(value uint8) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_start_ap(ssid string, password string, security_type uint32, channel int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_start_ap()\n")
+		fmt.Printf("rpc_wifi_start_ap()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x26, uint32(r.seq))
 
@@ -4125,7 +4125,7 @@ func (r *RTL8720DN) Rpc_wifi_start_ap(ssid string, password string, security_typ
 
 func (r *RTL8720DN) Rpc_wifi_start_ap_with_hidden_ssid(ssid string, password string, security_type uint32, channel int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_start_ap_with_hidden_ssid()\n")
+		fmt.Printf("rpc_wifi_start_ap_with_hidden_ssid()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x27, uint32(r.seq))
 
@@ -4168,7 +4168,7 @@ func (r *RTL8720DN) Rpc_wifi_start_ap_with_hidden_ssid(ssid string, password str
 
 func (r *RTL8720DN) Rpc_wifi_set_pscan_chan(channel_list []byte, pscan_config uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_set_pscan_chan()\n")
+		fmt.Printf("rpc_wifi_set_pscan_chan()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x28, uint32(r.seq))
 
@@ -4194,7 +4194,7 @@ func (r *RTL8720DN) Rpc_wifi_set_pscan_chan(channel_list []byte, pscan_config ui
 
 func (r *RTL8720DN) Rpc_wifi_get_setting(ifname string, pSetting []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_get_setting()\n")
+		fmt.Printf("rpc_wifi_get_setting()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x29, uint32(r.seq))
 
@@ -4226,7 +4226,7 @@ func (r *RTL8720DN) Rpc_wifi_get_setting(ifname string, pSetting []byte) (int32,
 
 func (r *RTL8720DN) Rpc_wifi_set_network_mode(mode uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_set_network_mode()\n")
+		fmt.Printf("rpc_wifi_set_network_mode()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x2A, uint32(r.seq))
 
@@ -4253,7 +4253,7 @@ func (r *RTL8720DN) Rpc_wifi_set_network_mode(mode uint32) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_get_network_mode(pmode uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_get_network_mode()\n")
+		fmt.Printf("rpc_wifi_get_network_mode()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x2B, uint32(r.seq))
 
@@ -4277,7 +4277,7 @@ func (r *RTL8720DN) Rpc_wifi_get_network_mode(pmode uint32) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_set_wps_phase(is_trigger_wps uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_set_wps_phase()\n")
+		fmt.Printf("rpc_wifi_set_wps_phase()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x2C, uint32(r.seq))
 
@@ -4301,7 +4301,7 @@ func (r *RTL8720DN) Rpc_wifi_set_wps_phase(is_trigger_wps uint8) (int32, error) 
 
 func (r *RTL8720DN) Rpc_wifi_restart_ap(ssid []byte, password []byte, security_type uint32, channel int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_restart_ap()\n")
+		fmt.Printf("rpc_wifi_restart_ap()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x2D, uint32(r.seq))
 
@@ -4337,7 +4337,7 @@ func (r *RTL8720DN) Rpc_wifi_restart_ap(ssid []byte, password []byte, security_t
 
 func (r *RTL8720DN) Rpc_wifi_config_autoreconnect(mode uint8, retry_times uint8, timeout uint16) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_config_autoreconnect()\n")
+		fmt.Printf("rpc_wifi_config_autoreconnect()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x2E, uint32(r.seq))
 
@@ -4366,7 +4366,7 @@ func (r *RTL8720DN) Rpc_wifi_config_autoreconnect(mode uint8, retry_times uint8,
 
 func (r *RTL8720DN) Rpc_wifi_set_autoreconnect(mode uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_set_autoreconnect()\n")
+		fmt.Printf("rpc_wifi_set_autoreconnect()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x2F, uint32(r.seq))
 
@@ -4390,7 +4390,7 @@ func (r *RTL8720DN) Rpc_wifi_set_autoreconnect(mode uint8) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_get_autoreconnect(mode uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_get_autoreconnect()\n")
+		fmt.Printf("rpc_wifi_get_autoreconnect()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x30, uint32(r.seq))
 
@@ -4414,7 +4414,7 @@ func (r *RTL8720DN) Rpc_wifi_get_autoreconnect(mode uint8) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_get_last_error() (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_get_last_error()\n")
+		fmt.Printf("rpc_wifi_get_last_error()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x31, uint32(r.seq))
 
@@ -4435,7 +4435,7 @@ func (r *RTL8720DN) Rpc_wifi_get_last_error() (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_add_custom_ie(cus_ie []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_add_custom_ie()\n")
+		fmt.Printf("rpc_wifi_add_custom_ie()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x32, uint32(r.seq))
 
@@ -4459,7 +4459,7 @@ func (r *RTL8720DN) Rpc_wifi_add_custom_ie(cus_ie []byte) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_update_custom_ie(cus_ie []byte, ie_index int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_update_custom_ie()\n")
+		fmt.Printf("rpc_wifi_update_custom_ie()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x33, uint32(r.seq))
 
@@ -4488,7 +4488,7 @@ func (r *RTL8720DN) Rpc_wifi_update_custom_ie(cus_ie []byte, ie_index int32) (in
 
 func (r *RTL8720DN) Rpc_wifi_del_custom_ie() (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_del_custom_ie()\n")
+		fmt.Printf("rpc_wifi_del_custom_ie()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x34, uint32(r.seq))
 
@@ -4509,7 +4509,7 @@ func (r *RTL8720DN) Rpc_wifi_del_custom_ie() (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_set_indicate_mgnt(enable int32) error {
 	if r.debug {
-		fmt.Printf("rpc_wifi_set_indicate_mgnt()\n")
+		fmt.Printf("rpc_wifi_set_indicate_mgnt()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x35, uint32(r.seq))
 
@@ -4533,7 +4533,7 @@ func (r *RTL8720DN) Rpc_wifi_set_indicate_mgnt(enable int32) error {
 
 func (r *RTL8720DN) Rpc_wifi_get_drv_ability(ability uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_get_drv_ability()\n")
+		fmt.Printf("rpc_wifi_get_drv_ability()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x36, uint32(r.seq))
 
@@ -4557,7 +4557,7 @@ func (r *RTL8720DN) Rpc_wifi_get_drv_ability(ability uint32) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_set_channel_plan(channel_plan uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_set_channel_plan()\n")
+		fmt.Printf("rpc_wifi_set_channel_plan()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x37, uint32(r.seq))
 
@@ -4581,7 +4581,7 @@ func (r *RTL8720DN) Rpc_wifi_set_channel_plan(channel_plan uint8) (int32, error)
 
 func (r *RTL8720DN) Rpc_wifi_get_channel_plan(channel_plan uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_get_channel_plan()\n")
+		fmt.Printf("rpc_wifi_get_channel_plan()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x38, uint32(r.seq))
 
@@ -4605,7 +4605,7 @@ func (r *RTL8720DN) Rpc_wifi_get_channel_plan(channel_plan uint8) (int32, error)
 
 func (r *RTL8720DN) Rpc_wifi_enable_forwarding() (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_enable_forwarding()\n")
+		fmt.Printf("rpc_wifi_enable_forwarding()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x39, uint32(r.seq))
 
@@ -4626,7 +4626,7 @@ func (r *RTL8720DN) Rpc_wifi_enable_forwarding() (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_disable_forwarding() (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_disable_forwarding()\n")
+		fmt.Printf("rpc_wifi_disable_forwarding()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x3A, uint32(r.seq))
 
@@ -4647,7 +4647,7 @@ func (r *RTL8720DN) Rpc_wifi_disable_forwarding() (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_set_ch_deauth(enable uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_set_ch_deauth()\n")
+		fmt.Printf("rpc_wifi_set_ch_deauth()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x3B, uint32(r.seq))
 
@@ -4671,7 +4671,7 @@ func (r *RTL8720DN) Rpc_wifi_set_ch_deauth(enable uint8) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_get_band_type() (uint8, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_get_band_type()\n")
+		fmt.Printf("rpc_wifi_get_band_type()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x3C, uint32(r.seq))
 
@@ -4692,7 +4692,7 @@ func (r *RTL8720DN) Rpc_wifi_get_band_type() (uint8, error) {
 
 func (r *RTL8720DN) Rpc_wifi_set_tx_pause_data(NewState uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_set_tx_pause_data()\n")
+		fmt.Printf("rpc_wifi_set_tx_pause_data()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x3D, uint32(r.seq))
 
@@ -4719,7 +4719,7 @@ func (r *RTL8720DN) Rpc_wifi_set_tx_pause_data(NewState uint32) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_get_reconnect_data(wifi_info []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_get_reconnect_data()\n")
+		fmt.Printf("rpc_wifi_get_reconnect_data()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x3E, uint32(r.seq))
 
@@ -4748,7 +4748,7 @@ func (r *RTL8720DN) Rpc_wifi_get_reconnect_data(wifi_info []byte) (int32, error)
 
 func (r *RTL8720DN) Rpc_wifi_clear_reconnect_data() (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_clear_reconnect_data()\n")
+		fmt.Printf("rpc_wifi_clear_reconnect_data()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x3F, uint32(r.seq))
 
@@ -4769,7 +4769,7 @@ func (r *RTL8720DN) Rpc_wifi_clear_reconnect_data() (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_scan_start() (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_scan_start()\n")
+		fmt.Printf("rpc_wifi_scan_start()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x40, uint32(r.seq))
 
@@ -4790,7 +4790,7 @@ func (r *RTL8720DN) Rpc_wifi_scan_start() (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_is_scaning() (bool, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_is_scaning()\n")
+		fmt.Printf("rpc_wifi_is_scaning()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x41, uint32(r.seq))
 
@@ -4811,7 +4811,7 @@ func (r *RTL8720DN) Rpc_wifi_is_scaning() (bool, error) {
 
 func (r *RTL8720DN) Rpc_wifi_scan_get_ap_records(number uint16, _scanResult []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_scan_get_ap_records()\n")
+		fmt.Printf("rpc_wifi_scan_get_ap_records()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x42, uint32(r.seq))
 
@@ -4843,7 +4843,7 @@ func (r *RTL8720DN) Rpc_wifi_scan_get_ap_records(number uint16, _scanResult []by
 
 func (r *RTL8720DN) Rpc_wifi_scan_get_ap_num() (uint16, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_scan_get_ap_num()\n")
+		fmt.Printf("rpc_wifi_scan_get_ap_num()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x43, uint32(r.seq))
 
@@ -4864,7 +4864,7 @@ func (r *RTL8720DN) Rpc_wifi_scan_get_ap_num() (uint16, error) {
 
 func (r *RTL8720DN) Rpc_tcpip_adapter_init() (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcpip_adapter_init()\n")
+		fmt.Printf("rpc_tcpip_adapter_init()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x01, uint32(r.seq))
 
@@ -4885,7 +4885,7 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_init() (int32, error) {
 
 func (r *RTL8720DN) Rpc_tcpip_adapter_sta_start(mac []byte, ip_info []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcpip_adapter_sta_start()\n")
+		fmt.Printf("rpc_tcpip_adapter_sta_start()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x02, uint32(r.seq))
 
@@ -4911,7 +4911,7 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_sta_start(mac []byte, ip_info []byte) (int
 
 func (r *RTL8720DN) Rpc_tcpip_adapter_ap_start(mac []byte, ip_info []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcpip_adapter_ap_start()\n")
+		fmt.Printf("rpc_tcpip_adapter_ap_start()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x03, uint32(r.seq))
 
@@ -4937,7 +4937,7 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_ap_start(mac []byte, ip_info []byte) (int3
 
 func (r *RTL8720DN) Rpc_tcpip_adapter_stop(tcpip_if uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcpip_adapter_stop()\n")
+		fmt.Printf("rpc_tcpip_adapter_stop()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x04, uint32(r.seq))
 
@@ -4964,7 +4964,7 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_stop(tcpip_if uint32) (int32, error) {
 
 func (r *RTL8720DN) Rpc_tcpip_adapter_up(tcpip_if uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcpip_adapter_up()\n")
+		fmt.Printf("rpc_tcpip_adapter_up()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x05, uint32(r.seq))
 
@@ -4991,7 +4991,7 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_up(tcpip_if uint32) (int32, error) {
 
 func (r *RTL8720DN) Rpc_tcpip_adapter_down(tcpip_if uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcpip_adapter_down()\n")
+		fmt.Printf("rpc_tcpip_adapter_down()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x06, uint32(r.seq))
 
@@ -5018,7 +5018,7 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_down(tcpip_if uint32) (int32, error) {
 
 func (r *RTL8720DN) Rpc_tcpip_adapter_get_ip_info(tcpip_if uint32, ip_info []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcpip_adapter_get_ip_info()\n")
+		fmt.Printf("rpc_tcpip_adapter_get_ip_info()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x07, uint32(r.seq))
 
@@ -5052,7 +5052,7 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_get_ip_info(tcpip_if uint32, ip_info []byt
 
 func (r *RTL8720DN) Rpc_tcpip_adapter_set_ip_info(tcpip_if uint32, ip_info []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcpip_adapter_set_ip_info()\n")
+		fmt.Printf("rpc_tcpip_adapter_set_ip_info()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x08, uint32(r.seq))
 
@@ -5081,7 +5081,7 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_set_ip_info(tcpip_if uint32, ip_info []byt
 
 func (r *RTL8720DN) Rpc_tcpip_adapter_set_dns_info(tcpip_if uint32, dns_type uint32, dns []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcpip_adapter_set_dns_info()\n")
+		fmt.Printf("rpc_tcpip_adapter_set_dns_info()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x09, uint32(r.seq))
 
@@ -5115,7 +5115,7 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_set_dns_info(tcpip_if uint32, dns_type uin
 
 func (r *RTL8720DN) Rpc_tcpip_adapter_get_dns_info(tcpip_if uint32, dns_type uint32, dns []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcpip_adapter_get_dns_info()\n")
+		fmt.Printf("rpc_tcpip_adapter_get_dns_info()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x0A, uint32(r.seq))
 
@@ -5154,7 +5154,7 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_get_dns_info(tcpip_if uint32, dns_type uin
 
 func (r *RTL8720DN) Rpc_tcpip_adapter_dhcps_start(tcpip_if uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcpip_adapter_dhcps_start()\n")
+		fmt.Printf("rpc_tcpip_adapter_dhcps_start()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x0B, uint32(r.seq))
 
@@ -5181,7 +5181,7 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_dhcps_start(tcpip_if uint32) (int32, error
 
 func (r *RTL8720DN) Rpc_tcpip_adapter_dhcps_stop(tcpip_if uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcpip_adapter_dhcps_stop()\n")
+		fmt.Printf("rpc_tcpip_adapter_dhcps_stop()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x0C, uint32(r.seq))
 
@@ -5208,7 +5208,7 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_dhcps_stop(tcpip_if uint32) (int32, error)
 
 func (r *RTL8720DN) Rpc_tcpip_adapter_dhcpc_start(tcpip_if uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcpip_adapter_dhcpc_start()\n")
+		fmt.Printf("rpc_tcpip_adapter_dhcpc_start()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x0D, uint32(r.seq))
 
@@ -5235,7 +5235,7 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_dhcpc_start(tcpip_if uint32) (int32, error
 
 func (r *RTL8720DN) Rpc_tcpip_adapter_dhcpc_stop(tcpip_if uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcpip_adapter_dhcpc_stop()\n")
+		fmt.Printf("rpc_tcpip_adapter_dhcpc_stop()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x0E, uint32(r.seq))
 
@@ -5262,7 +5262,7 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_dhcpc_stop(tcpip_if uint32) (int32, error)
 
 func (r *RTL8720DN) Rpc_tcpip_adapter_set_hostname(tcpip_if uint32, hostname string) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcpip_adapter_set_hostname()\n")
+		fmt.Printf("rpc_tcpip_adapter_set_hostname()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x0F, uint32(r.seq))
 
@@ -5292,7 +5292,7 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_set_hostname(tcpip_if uint32, hostname str
 
 func (r *RTL8720DN) Rpc_tcpip_adapter_get_hostname(tcpip_if uint32, hostname string) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcpip_adapter_get_hostname()\n")
+		fmt.Printf("rpc_tcpip_adapter_get_hostname()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x10, uint32(r.seq))
 
@@ -5326,7 +5326,7 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_get_hostname(tcpip_if uint32, hostname str
 
 func (r *RTL8720DN) Rpc_tcpip_adapter_get_mac(tcpip_if uint32, mac []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcpip_adapter_get_mac()\n")
+		fmt.Printf("rpc_tcpip_adapter_get_mac()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x11, uint32(r.seq))
 
@@ -5360,7 +5360,7 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_get_mac(tcpip_if uint32, mac []byte) (int3
 
 func (r *RTL8720DN) Rpc_tcpip_adapter_set_mac(tcpip_if uint32, mac []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcpip_adapter_set_mac()\n")
+		fmt.Printf("rpc_tcpip_adapter_set_mac()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x12, uint32(r.seq))
 
@@ -5389,7 +5389,7 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_set_mac(tcpip_if uint32, mac []byte) (int3
 
 func (r *RTL8720DN) Rpc_tcpip_api_call(fn []byte, call []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcpip_api_call()\n")
+		fmt.Printf("rpc_tcpip_api_call()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x13, uint32(r.seq))
 
@@ -5415,7 +5415,7 @@ func (r *RTL8720DN) Rpc_tcpip_api_call(fn []byte, call []byte) (int32, error) {
 
 func (r *RTL8720DN) Rpc_tcp_connect(pcb_in []byte, pcb_out []byte, ipaddr []byte, port uint16, connected []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcp_connect()\n")
+		fmt.Printf("rpc_tcp_connect()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x14, uint32(r.seq))
 
@@ -5453,7 +5453,7 @@ func (r *RTL8720DN) Rpc_tcp_connect(pcb_in []byte, pcb_out []byte, ipaddr []byte
 
 func (r *RTL8720DN) Rpc_tcp_recved(pcb_in []byte, pcb_out []byte, len uint16) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcp_recved()\n")
+		fmt.Printf("rpc_tcp_recved()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x15, uint32(r.seq))
 
@@ -5487,7 +5487,7 @@ func (r *RTL8720DN) Rpc_tcp_recved(pcb_in []byte, pcb_out []byte, len uint16) (i
 
 func (r *RTL8720DN) Rpc_tcp_abort(pcb_in []byte, pcb_out []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcp_abort()\n")
+		fmt.Printf("rpc_tcp_abort()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x16, uint32(r.seq))
 
@@ -5518,7 +5518,7 @@ func (r *RTL8720DN) Rpc_tcp_abort(pcb_in []byte, pcb_out []byte) (int32, error) 
 
 func (r *RTL8720DN) Rpc_tcp_write(pcb_in []byte, pcb_out []byte, data []byte, apiflags uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcp_write()\n")
+		fmt.Printf("rpc_tcp_write()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x17, uint32(r.seq))
 
@@ -5553,7 +5553,7 @@ func (r *RTL8720DN) Rpc_tcp_write(pcb_in []byte, pcb_out []byte, data []byte, ap
 
 func (r *RTL8720DN) Rpc_tcp_output(pcb_in []byte, pcb_out []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcp_output()\n")
+		fmt.Printf("rpc_tcp_output()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x18, uint32(r.seq))
 
@@ -5584,7 +5584,7 @@ func (r *RTL8720DN) Rpc_tcp_output(pcb_in []byte, pcb_out []byte) (int32, error)
 
 func (r *RTL8720DN) Rpc_tcp_close(pcb_in []byte, pcb_out []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcp_close()\n")
+		fmt.Printf("rpc_tcp_close()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x19, uint32(r.seq))
 
@@ -5615,7 +5615,7 @@ func (r *RTL8720DN) Rpc_tcp_close(pcb_in []byte, pcb_out []byte) (int32, error) 
 
 func (r *RTL8720DN) Rpc_tcp_bind(pcb_in []byte, pcb_out []byte, ipaddr []byte, port uint16) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcp_bind()\n")
+		fmt.Printf("rpc_tcp_bind()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x1A, uint32(r.seq))
 
@@ -5651,7 +5651,7 @@ func (r *RTL8720DN) Rpc_tcp_bind(pcb_in []byte, pcb_out []byte, ipaddr []byte, p
 
 func (r *RTL8720DN) Rpc_tcp_new_ip_type(ip_type uint8, pcb_out []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcp_new_ip_type()\n")
+		fmt.Printf("rpc_tcp_new_ip_type()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x1B, uint32(r.seq))
 
@@ -5682,7 +5682,7 @@ func (r *RTL8720DN) Rpc_tcp_new_ip_type(ip_type uint8, pcb_out []byte) (int32, e
 
 func (r *RTL8720DN) Rpc_tcp_arg(pcb_in []byte, pcb_out []byte, func_arg []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcp_arg()\n")
+		fmt.Printf("rpc_tcp_arg()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x1C, uint32(r.seq))
 
@@ -5715,7 +5715,7 @@ func (r *RTL8720DN) Rpc_tcp_arg(pcb_in []byte, pcb_out []byte, func_arg []byte) 
 
 func (r *RTL8720DN) Rpc_tcp_err(pcb_in []byte, pcb_out []byte, func_err []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcp_err()\n")
+		fmt.Printf("rpc_tcp_err()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x1D, uint32(r.seq))
 
@@ -5748,7 +5748,7 @@ func (r *RTL8720DN) Rpc_tcp_err(pcb_in []byte, pcb_out []byte, func_err []byte) 
 
 func (r *RTL8720DN) Rpc_tcp_recv(pcb_in []byte, pcb_out []byte, func_recv []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcp_recv()\n")
+		fmt.Printf("rpc_tcp_recv()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x1E, uint32(r.seq))
 
@@ -5781,7 +5781,7 @@ func (r *RTL8720DN) Rpc_tcp_recv(pcb_in []byte, pcb_out []byte, func_recv []byte
 
 func (r *RTL8720DN) Rpc_tcp_sent(pcb_in []byte, pcb_out []byte, func_sent []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcp_sent()\n")
+		fmt.Printf("rpc_tcp_sent()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x1F, uint32(r.seq))
 
@@ -5814,7 +5814,7 @@ func (r *RTL8720DN) Rpc_tcp_sent(pcb_in []byte, pcb_out []byte, func_sent []byte
 
 func (r *RTL8720DN) Rpc_tcp_accept(pcb_in []byte, pcb_out []byte, func_accept []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcp_accept()\n")
+		fmt.Printf("rpc_tcp_accept()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x20, uint32(r.seq))
 
@@ -5847,7 +5847,7 @@ func (r *RTL8720DN) Rpc_tcp_accept(pcb_in []byte, pcb_out []byte, func_accept []
 
 func (r *RTL8720DN) Rpc_tcp_poll(pcb_in []byte, pcb_out []byte, func_poll []byte, interval uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcp_poll()\n")
+		fmt.Printf("rpc_tcp_poll()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x21, uint32(r.seq))
 
@@ -5882,7 +5882,7 @@ func (r *RTL8720DN) Rpc_tcp_poll(pcb_in []byte, pcb_out []byte, func_poll []byte
 
 func (r *RTL8720DN) Rpc_tcp_listen_with_backlog(pcb_in []byte, pcb_out []byte, backlog uint8) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcp_listen_with_backlog()\n")
+		fmt.Printf("rpc_tcp_listen_with_backlog()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x22, uint32(r.seq))
 
@@ -5915,7 +5915,7 @@ func (r *RTL8720DN) Rpc_tcp_listen_with_backlog(pcb_in []byte, pcb_out []byte, b
 
 func (r *RTL8720DN) Rpc_pbuf_free(p []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_pbuf_free()\n")
+		fmt.Printf("rpc_pbuf_free()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x23, uint32(r.seq))
 
@@ -5939,7 +5939,7 @@ func (r *RTL8720DN) Rpc_pbuf_free(p []byte) (int32, error) {
 
 func (r *RTL8720DN) Rpc_ip4addr_ntoa(ip4_addr_in []byte) (string, error) {
 	if r.debug {
-		fmt.Printf("rpc_ip4addr_ntoa()\n")
+		fmt.Printf("rpc_ip4addr_ntoa()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x24, uint32(r.seq))
 
@@ -5965,7 +5965,7 @@ func (r *RTL8720DN) Rpc_ip4addr_ntoa(ip4_addr_in []byte) (string, error) {
 
 func (r *RTL8720DN) Rpc_inet_chksum(dataptr_in []byte) (uint16, error) {
 	if r.debug {
-		fmt.Printf("rpc_inet_chksum()\n")
+		fmt.Printf("rpc_inet_chksum()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x25, uint32(r.seq))
 
@@ -5989,7 +5989,7 @@ func (r *RTL8720DN) Rpc_inet_chksum(dataptr_in []byte) (uint16, error) {
 
 func (r *RTL8720DN) Rpc_lwip_accept(s int32, addr []byte, addrlen uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_accept()\n")
+		fmt.Printf("rpc_lwip_accept()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x01, uint32(r.seq))
 
@@ -6025,7 +6025,7 @@ func (r *RTL8720DN) Rpc_lwip_accept(s int32, addr []byte, addrlen uint32) (int32
 
 func (r *RTL8720DN) Rpc_lwip_bind(s int32, name []byte, namelen uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_bind()\n")
+		fmt.Printf("rpc_lwip_bind()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x02, uint32(r.seq))
 
@@ -6059,7 +6059,7 @@ func (r *RTL8720DN) Rpc_lwip_bind(s int32, name []byte, namelen uint32) (int32, 
 
 func (r *RTL8720DN) Rpc_lwip_shutdown(s int32, how int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_shutdown()\n")
+		fmt.Printf("rpc_lwip_shutdown()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x03, uint32(r.seq))
 
@@ -6091,7 +6091,7 @@ func (r *RTL8720DN) Rpc_lwip_shutdown(s int32, how int32) (int32, error) {
 
 func (r *RTL8720DN) Rpc_lwip_getpeername(s int32, name []byte, namelen uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_getpeername()\n")
+		fmt.Printf("rpc_lwip_getpeername()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x04, uint32(r.seq))
 
@@ -6132,7 +6132,7 @@ func (r *RTL8720DN) Rpc_lwip_getpeername(s int32, name []byte, namelen uint32) (
 
 func (r *RTL8720DN) Rpc_lwip_getsockname(s int32, name []byte, namelen uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_getsockname()\n")
+		fmt.Printf("rpc_lwip_getsockname()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x05, uint32(r.seq))
 
@@ -6173,7 +6173,7 @@ func (r *RTL8720DN) Rpc_lwip_getsockname(s int32, name []byte, namelen uint32) (
 
 func (r *RTL8720DN) Rpc_lwip_getsockopt(s int32, level int32, optname int32, in_optval []byte, out_optval []byte, optlen uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_getsockopt()\n")
+		fmt.Printf("rpc_lwip_getsockopt()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x06, uint32(r.seq))
 
@@ -6226,7 +6226,7 @@ func (r *RTL8720DN) Rpc_lwip_getsockopt(s int32, level int32, optname int32, in_
 
 func (r *RTL8720DN) Rpc_lwip_setsockopt(s int32, level int32, optname int32, optval []byte, optlen uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_setsockopt()\n")
+		fmt.Printf("rpc_lwip_setsockopt()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x07, uint32(r.seq))
 
@@ -6270,7 +6270,7 @@ func (r *RTL8720DN) Rpc_lwip_setsockopt(s int32, level int32, optname int32, opt
 
 func (r *RTL8720DN) Rpc_lwip_close(s int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_close()\n")
+		fmt.Printf("rpc_lwip_close()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x08, uint32(r.seq))
 
@@ -6297,7 +6297,7 @@ func (r *RTL8720DN) Rpc_lwip_close(s int32) (int32, error) {
 
 func (r *RTL8720DN) Rpc_lwip_connect(s int32, name []byte, namelen uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_connect()\n")
+		fmt.Printf("rpc_lwip_connect()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x09, uint32(r.seq))
 
@@ -6331,7 +6331,7 @@ func (r *RTL8720DN) Rpc_lwip_connect(s int32, name []byte, namelen uint32) (int3
 
 func (r *RTL8720DN) Rpc_lwip_listen(s int32, backlog int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_listen()\n")
+		fmt.Printf("rpc_lwip_listen()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x0A, uint32(r.seq))
 
@@ -6363,7 +6363,7 @@ func (r *RTL8720DN) Rpc_lwip_listen(s int32, backlog int32) (int32, error) {
 
 func (r *RTL8720DN) Rpc_lwip_available(s int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_available()\n")
+		fmt.Printf("rpc_lwip_available()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x0B, uint32(r.seq))
 
@@ -6390,7 +6390,7 @@ func (r *RTL8720DN) Rpc_lwip_available(s int32) (int32, error) {
 
 func (r *RTL8720DN) Rpc_lwip_recv(s int32, mem []byte, len uint32, flags int32, timeout uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_recv()\n")
+		fmt.Printf("rpc_lwip_recv()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x0C, uint32(r.seq))
 
@@ -6439,7 +6439,7 @@ func (r *RTL8720DN) Rpc_lwip_recv(s int32, mem []byte, len uint32, flags int32, 
 
 func (r *RTL8720DN) Rpc_lwip_read(s int32, mem []byte, len uint32, timeout uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_read()\n")
+		fmt.Printf("rpc_lwip_read()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x0D, uint32(r.seq))
 
@@ -6483,7 +6483,7 @@ func (r *RTL8720DN) Rpc_lwip_read(s int32, mem []byte, len uint32, timeout uint3
 
 func (r *RTL8720DN) Rpc_lwip_recvfrom(s int32, mem []byte, len uint32, flags int32, from []byte, fromlen uint32, timeout uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_recvfrom()\n")
+		fmt.Printf("rpc_lwip_recvfrom()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x0E, uint32(r.seq))
 
@@ -6546,7 +6546,7 @@ func (r *RTL8720DN) Rpc_lwip_recvfrom(s int32, mem []byte, len uint32, flags int
 
 func (r *RTL8720DN) Rpc_lwip_send(s int32, dataptr []byte, flags int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_send()\n")
+		fmt.Printf("rpc_lwip_send()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x0F, uint32(r.seq))
 
@@ -6580,7 +6580,7 @@ func (r *RTL8720DN) Rpc_lwip_send(s int32, dataptr []byte, flags int32) (int32, 
 
 func (r *RTL8720DN) Rpc_lwip_sendmsg(s int32, msg_name []byte, msg_iov []byte, msg_control []byte, msg_flags int32, flags int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_sendmsg()\n")
+		fmt.Printf("rpc_lwip_sendmsg()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x10, uint32(r.seq))
 
@@ -6623,7 +6623,7 @@ func (r *RTL8720DN) Rpc_lwip_sendmsg(s int32, msg_name []byte, msg_iov []byte, m
 
 func (r *RTL8720DN) Rpc_lwip_sendto(s int32, dataptr []byte, flags int32, to []byte, tolen uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_sendto()\n")
+		fmt.Printf("rpc_lwip_sendto()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x11, uint32(r.seq))
 
@@ -6664,7 +6664,7 @@ func (r *RTL8720DN) Rpc_lwip_sendto(s int32, dataptr []byte, flags int32, to []b
 
 func (r *RTL8720DN) Rpc_lwip_socket(domain int32, l_type int32, protocol int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_socket()\n")
+		fmt.Printf("rpc_lwip_socket()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x12, uint32(r.seq))
 
@@ -6701,7 +6701,7 @@ func (r *RTL8720DN) Rpc_lwip_socket(domain int32, l_type int32, protocol int32) 
 
 func (r *RTL8720DN) Rpc_lwip_write(s int32, dataptr []byte, size uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_write()\n")
+		fmt.Printf("rpc_lwip_write()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x13, uint32(r.seq))
 
@@ -6735,7 +6735,7 @@ func (r *RTL8720DN) Rpc_lwip_write(s int32, dataptr []byte, size uint32) (int32,
 
 func (r *RTL8720DN) Rpc_lwip_writev(s int32, iov []byte, iovcnt int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_writev()\n")
+		fmt.Printf("rpc_lwip_writev()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x14, uint32(r.seq))
 
@@ -6769,7 +6769,7 @@ func (r *RTL8720DN) Rpc_lwip_writev(s int32, iov []byte, iovcnt int32) (int32, e
 
 func (r *RTL8720DN) Rpc_lwip_select(maxfdp1 int32, readset []byte, writeset []byte, exceptset []byte, timeout []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_select()\n")
+		fmt.Printf("rpc_lwip_select()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x15, uint32(r.seq))
 
@@ -6804,7 +6804,7 @@ func (r *RTL8720DN) Rpc_lwip_select(maxfdp1 int32, readset []byte, writeset []by
 
 func (r *RTL8720DN) Rpc_lwip_ioctl(s int32, cmd uint32, in_argp []byte, out_argp []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_ioctl()\n")
+		fmt.Printf("rpc_lwip_ioctl()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x16, uint32(r.seq))
 
@@ -6845,7 +6845,7 @@ func (r *RTL8720DN) Rpc_lwip_ioctl(s int32, cmd uint32, in_argp []byte, out_argp
 
 func (r *RTL8720DN) Rpc_lwip_fcntl(s int32, cmd int32, val int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_fcntl()\n")
+		fmt.Printf("rpc_lwip_fcntl()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x17, uint32(r.seq))
 
@@ -6882,7 +6882,7 @@ func (r *RTL8720DN) Rpc_lwip_fcntl(s int32, cmd int32, val int32) (int32, error)
 
 func (r *RTL8720DN) Rpc_lwip_errno() (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_lwip_errno()\n")
+		fmt.Printf("rpc_lwip_errno()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x18, uint32(r.seq))
 
@@ -6903,7 +6903,7 @@ func (r *RTL8720DN) Rpc_lwip_errno() (int32, error) {
 
 func (r *RTL8720DN) Rpc_netconn_gethostbyname(name string, addr []byte) (int8, error) {
 	if r.debug {
-		fmt.Printf("rpc_netconn_gethostbyname()\n")
+		fmt.Printf("rpc_netconn_gethostbyname()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x19, uint32(r.seq))
 
@@ -6935,7 +6935,7 @@ func (r *RTL8720DN) Rpc_netconn_gethostbyname(name string, addr []byte) (int8, e
 
 func (r *RTL8720DN) Rpc_dns_gethostbyname_addrtype(hostname string, addr []byte, found uint32, callback_arg []byte, dns_addrtype uint8) (int8, error) {
 	if r.debug {
-		fmt.Printf("rpc_dns_gethostbyname_addrtype()\n")
+		fmt.Printf("rpc_dns_gethostbyname_addrtype()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x1A, uint32(r.seq))
 
@@ -6976,7 +6976,7 @@ func (r *RTL8720DN) Rpc_dns_gethostbyname_addrtype(hostname string, addr []byte,
 
 func (r *RTL8720DN) Rpc_wifi_ssl_client_create() (uint32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_ssl_client_create()\n")
+		fmt.Printf("rpc_wifi_ssl_client_create()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x01, uint32(r.seq))
 
@@ -6997,7 +6997,7 @@ func (r *RTL8720DN) Rpc_wifi_ssl_client_create() (uint32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_ssl_client_destroy(ssl_client uint32) error {
 	if r.debug {
-		fmt.Printf("rpc_wifi_ssl_client_destroy()\n")
+		fmt.Printf("rpc_wifi_ssl_client_destroy()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x02, uint32(r.seq))
 
@@ -7021,7 +7021,7 @@ func (r *RTL8720DN) Rpc_wifi_ssl_client_destroy(ssl_client uint32) error {
 
 func (r *RTL8720DN) Rpc_wifi_ssl_init(ssl_client uint32) error {
 	if r.debug {
-		fmt.Printf("rpc_wifi_ssl_init()\n")
+		fmt.Printf("rpc_wifi_ssl_init()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x03, uint32(r.seq))
 
@@ -7045,7 +7045,7 @@ func (r *RTL8720DN) Rpc_wifi_ssl_init(ssl_client uint32) error {
 
 func (r *RTL8720DN) Rpc_wifi_ssl_set_socket(ssl_client uint32, socket int32) error {
 	if r.debug {
-		fmt.Printf("rpc_wifi_ssl_set_socket()\n")
+		fmt.Printf("rpc_wifi_ssl_set_socket()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x04, uint32(r.seq))
 
@@ -7074,7 +7074,7 @@ func (r *RTL8720DN) Rpc_wifi_ssl_set_socket(ssl_client uint32, socket int32) err
 
 func (r *RTL8720DN) Rpc_wifi_ssl_set_timeout(ssl_client uint32, timeout uint32) error {
 	if r.debug {
-		fmt.Printf("rpc_wifi_ssl_set_timeout()\n")
+		fmt.Printf("rpc_wifi_ssl_set_timeout()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x05, uint32(r.seq))
 
@@ -7103,7 +7103,7 @@ func (r *RTL8720DN) Rpc_wifi_ssl_set_timeout(ssl_client uint32, timeout uint32) 
 
 func (r *RTL8720DN) Rpc_wifi_ssl_get_socket(ssl_client uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_ssl_get_socket()\n")
+		fmt.Printf("rpc_wifi_ssl_get_socket()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x06, uint32(r.seq))
 
@@ -7130,7 +7130,7 @@ func (r *RTL8720DN) Rpc_wifi_ssl_get_socket(ssl_client uint32) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_ssl_get_timeout(ssl_client uint32) (uint32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_ssl_get_timeout()\n")
+		fmt.Printf("rpc_wifi_ssl_get_timeout()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x07, uint32(r.seq))
 
@@ -7157,7 +7157,7 @@ func (r *RTL8720DN) Rpc_wifi_ssl_get_timeout(ssl_client uint32) (uint32, error) 
 
 func (r *RTL8720DN) Rpc_wifi_ssl_set_rootCA(ssl_client uint32, rootCABuff string) (uint32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_ssl_set_rootCA()\n")
+		fmt.Printf("rpc_wifi_ssl_set_rootCA()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x08, uint32(r.seq))
 
@@ -7187,7 +7187,7 @@ func (r *RTL8720DN) Rpc_wifi_ssl_set_rootCA(ssl_client uint32, rootCABuff string
 
 func (r *RTL8720DN) Rpc_wifi_ssl_get_rootCA(ssl_client uint32, rootCABuff string) (uint32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_ssl_get_rootCA()\n")
+		fmt.Printf("rpc_wifi_ssl_get_rootCA()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x09, uint32(r.seq))
 
@@ -7225,7 +7225,7 @@ func (r *RTL8720DN) Rpc_wifi_ssl_get_rootCA(ssl_client uint32, rootCABuff string
 
 func (r *RTL8720DN) Rpc_wifi_ssl_set_cliCert(ssl_client uint32, cli_cert string) (uint32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_ssl_set_cliCert()\n")
+		fmt.Printf("rpc_wifi_ssl_set_cliCert()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x0A, uint32(r.seq))
 
@@ -7255,7 +7255,7 @@ func (r *RTL8720DN) Rpc_wifi_ssl_set_cliCert(ssl_client uint32, cli_cert string)
 
 func (r *RTL8720DN) Rpc_wifi_ssl_get_cliCert(ssl_client uint32, cli_cert string) (uint32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_ssl_get_cliCert()\n")
+		fmt.Printf("rpc_wifi_ssl_get_cliCert()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x0B, uint32(r.seq))
 
@@ -7290,7 +7290,7 @@ func (r *RTL8720DN) Rpc_wifi_ssl_get_cliCert(ssl_client uint32, cli_cert string)
 
 func (r *RTL8720DN) Rpc_wifi_ssl_set_cliKey(ssl_client uint32, cli_key string) (uint32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_ssl_set_cliKey()\n")
+		fmt.Printf("rpc_wifi_ssl_set_cliKey()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x0C, uint32(r.seq))
 
@@ -7320,7 +7320,7 @@ func (r *RTL8720DN) Rpc_wifi_ssl_set_cliKey(ssl_client uint32, cli_key string) (
 
 func (r *RTL8720DN) Rpc_wifi_ssl_get_cliKey(ssl_client uint32, cli_key string) (uint32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_ssl_get_cliKey()\n")
+		fmt.Printf("rpc_wifi_ssl_get_cliKey()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x0D, uint32(r.seq))
 
@@ -7355,7 +7355,7 @@ func (r *RTL8720DN) Rpc_wifi_ssl_get_cliKey(ssl_client uint32, cli_key string) (
 
 func (r *RTL8720DN) Rpc_wifi_ssl_set_pskIdent(ssl_client uint32, pskIdent string) (uint32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_ssl_set_pskIdent()\n")
+		fmt.Printf("rpc_wifi_ssl_set_pskIdent()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x0E, uint32(r.seq))
 
@@ -7385,7 +7385,7 @@ func (r *RTL8720DN) Rpc_wifi_ssl_set_pskIdent(ssl_client uint32, pskIdent string
 
 func (r *RTL8720DN) Rpc_wifi_ssl_get_pskIdent(ssl_client uint32, pskIdent string) (uint32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_ssl_get_pskIdent()\n")
+		fmt.Printf("rpc_wifi_ssl_get_pskIdent()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x0F, uint32(r.seq))
 
@@ -7420,7 +7420,7 @@ func (r *RTL8720DN) Rpc_wifi_ssl_get_pskIdent(ssl_client uint32, pskIdent string
 
 func (r *RTL8720DN) Rpc_wifi_ssl_set_psKey(ssl_client uint32, psKey string) (uint32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_ssl_set_psKey()\n")
+		fmt.Printf("rpc_wifi_ssl_set_psKey()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x10, uint32(r.seq))
 
@@ -7450,7 +7450,7 @@ func (r *RTL8720DN) Rpc_wifi_ssl_set_psKey(ssl_client uint32, psKey string) (uin
 
 func (r *RTL8720DN) Rpc_wifi_ssl_get_psKey(ssl_client uint32, psKey string) (uint32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_ssl_get_psKey()\n")
+		fmt.Printf("rpc_wifi_ssl_get_psKey()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x11, uint32(r.seq))
 
@@ -7485,7 +7485,7 @@ func (r *RTL8720DN) Rpc_wifi_ssl_get_psKey(ssl_client uint32, psKey string) (uin
 
 func (r *RTL8720DN) Rpc_wifi_start_ssl_client(ssl_client uint32, host string, port uint32, timeout int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_start_ssl_client()\n")
+		fmt.Printf("rpc_wifi_start_ssl_client()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x12, uint32(r.seq))
 
@@ -7530,7 +7530,7 @@ func (r *RTL8720DN) Rpc_wifi_start_ssl_client(ssl_client uint32, host string, po
 
 func (r *RTL8720DN) Rpc_wifi_stop_ssl_socket(ssl_client uint32) error {
 	if r.debug {
-		fmt.Printf("rpc_wifi_stop_ssl_socket()\n")
+		fmt.Printf("rpc_wifi_stop_ssl_socket()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x13, uint32(r.seq))
 
@@ -7554,7 +7554,7 @@ func (r *RTL8720DN) Rpc_wifi_stop_ssl_socket(ssl_client uint32) error {
 
 func (r *RTL8720DN) Rpc_wifi_data_to_read(ssl_client uint32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_data_to_read()\n")
+		fmt.Printf("rpc_wifi_data_to_read()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x14, uint32(r.seq))
 
@@ -7581,7 +7581,7 @@ func (r *RTL8720DN) Rpc_wifi_data_to_read(ssl_client uint32) (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_send_ssl_data(ssl_client uint32, data []byte, len uint16) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_send_ssl_data()\n")
+		fmt.Printf("rpc_wifi_send_ssl_data()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x15, uint32(r.seq))
 
@@ -7613,7 +7613,7 @@ func (r *RTL8720DN) Rpc_wifi_send_ssl_data(ssl_client uint32, data []byte, len u
 
 func (r *RTL8720DN) Rpc_wifi_get_ssl_receive(ssl_client uint32, data []byte, length int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_get_ssl_receive()\n")
+		fmt.Printf("rpc_wifi_get_ssl_receive()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x16, uint32(r.seq))
 
@@ -7652,7 +7652,7 @@ func (r *RTL8720DN) Rpc_wifi_get_ssl_receive(ssl_client uint32, data []byte, len
 
 func (r *RTL8720DN) Rpc_wifi_verify_ssl_fingerprint(ssl_client uint32, fp string, domain_name string) (bool, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_verify_ssl_fingerprint()\n")
+		fmt.Printf("rpc_wifi_verify_ssl_fingerprint()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x17, uint32(r.seq))
 
@@ -7685,7 +7685,7 @@ func (r *RTL8720DN) Rpc_wifi_verify_ssl_fingerprint(ssl_client uint32, fp string
 
 func (r *RTL8720DN) Rpc_wifi_verify_ssl_dn(ssl_client uint32, domain_name string) (bool, error) {
 	if r.debug {
-		fmt.Printf("rpc_wifi_verify_ssl_dn()\n")
+		fmt.Printf("rpc_wifi_verify_ssl_dn()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x18, uint32(r.seq))
 
@@ -7715,7 +7715,7 @@ func (r *RTL8720DN) Rpc_wifi_verify_ssl_dn(ssl_client uint32, domain_name string
 
 func (r *RTL8720DN) Rpc_wifi_ssl_strerror(errnum int32, buffer []byte, buflen uint32) error {
 	if r.debug {
-		fmt.Printf("rpc_wifi_ssl_strerror()\n")
+		fmt.Printf("rpc_wifi_ssl_strerror()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x19, uint32(r.seq))
 
@@ -7752,7 +7752,7 @@ func (r *RTL8720DN) Rpc_wifi_ssl_strerror(errnum int32, buffer []byte, buflen ui
 
 func (r *RTL8720DN) Rpc_mdns_init() (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_mdns_init()\n")
+		fmt.Printf("rpc_mdns_init()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x12, 0x01, uint32(r.seq))
 
@@ -7773,7 +7773,7 @@ func (r *RTL8720DN) Rpc_mdns_init() (int32, error) {
 
 func (r *RTL8720DN) Rpc_mdns_free() (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_mdns_free()\n")
+		fmt.Printf("rpc_mdns_free()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x12, 0x02, uint32(r.seq))
 
@@ -7794,7 +7794,7 @@ func (r *RTL8720DN) Rpc_mdns_free() (int32, error) {
 
 func (r *RTL8720DN) Rpc_mdns_service_add(instance_name string, service_type string, proto string, port uint16) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_mdns_service_add()\n")
+		fmt.Printf("rpc_mdns_service_add()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x12, 0x03, uint32(r.seq))
 
@@ -7828,7 +7828,7 @@ func (r *RTL8720DN) Rpc_mdns_service_add(instance_name string, service_type stri
 
 func (r *RTL8720DN) Rpc_mdns_service_remove(service_type string, proto string) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_mdns_service_remove()\n")
+		fmt.Printf("rpc_mdns_service_remove()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x12, 0x04, uint32(r.seq))
 
@@ -7856,7 +7856,7 @@ func (r *RTL8720DN) Rpc_mdns_service_remove(service_type string, proto string) (
 
 func (r *RTL8720DN) Rpc_mdns_service_txt_item_set(service_type string, proto string, key string, value string) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_mdns_service_txt_item_set()\n")
+		fmt.Printf("rpc_mdns_service_txt_item_set()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x12, 0x05, uint32(r.seq))
 
@@ -7890,7 +7890,7 @@ func (r *RTL8720DN) Rpc_mdns_service_txt_item_set(service_type string, proto str
 
 func (r *RTL8720DN) Rpc_mdns_service_instance_name_set(service string, proto string, instance string) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_mdns_service_instance_name_set()\n")
+		fmt.Printf("rpc_mdns_service_instance_name_set()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x12, 0x06, uint32(r.seq))
 
@@ -7921,7 +7921,7 @@ func (r *RTL8720DN) Rpc_mdns_service_instance_name_set(service string, proto str
 
 func (r *RTL8720DN) Rpc_mdns_instance_name_set(instance_name string) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_mdns_instance_name_set()\n")
+		fmt.Printf("rpc_mdns_instance_name_set()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x12, 0x07, uint32(r.seq))
 
@@ -7946,7 +7946,7 @@ func (r *RTL8720DN) Rpc_mdns_instance_name_set(instance_name string) (int32, err
 
 func (r *RTL8720DN) Rpc_mdns_hostname_set(hostname string) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_mdns_hostname_set()\n")
+		fmt.Printf("rpc_mdns_hostname_set()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x12, 0x08, uint32(r.seq))
 
@@ -7971,7 +7971,7 @@ func (r *RTL8720DN) Rpc_mdns_hostname_set(hostname string) (int32, error) {
 
 func (r *RTL8720DN) Rpc_mdns_query_a(host_name string, timeout uint32, addr []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_mdns_query_a()\n")
+		fmt.Printf("rpc_mdns_query_a()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x12, 0x09, uint32(r.seq))
 
@@ -8008,7 +8008,7 @@ func (r *RTL8720DN) Rpc_mdns_query_a(host_name string, timeout uint32, addr []by
 
 func (r *RTL8720DN) Rpc_mdns_query_ptr(service_type string, proto string, timeout uint32, max_results int32, result_total int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_mdns_query_ptr()\n")
+		fmt.Printf("rpc_mdns_query_ptr()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x12, 0x0A, uint32(r.seq))
 
@@ -8048,7 +8048,7 @@ func (r *RTL8720DN) Rpc_mdns_query_ptr(service_type string, proto string, timeou
 
 func (r *RTL8720DN) Rpc_mdns_query_ptr_result_basic(result_target int32, scan_result []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_mdns_query_ptr_result_basic()\n")
+		fmt.Printf("rpc_mdns_query_ptr_result_basic()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x12, 0x0B, uint32(r.seq))
 
@@ -8082,7 +8082,7 @@ func (r *RTL8720DN) Rpc_mdns_query_ptr_result_basic(result_target int32, scan_re
 
 func (r *RTL8720DN) Rpc_mdns_query_ptr_result_txt(result_target int32, txt_target int32, txt []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_mdns_query_ptr_result_txt()\n")
+		fmt.Printf("rpc_mdns_query_ptr_result_txt()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x12, 0x0C, uint32(r.seq))
 
@@ -8121,7 +8121,7 @@ func (r *RTL8720DN) Rpc_mdns_query_ptr_result_txt(result_target int32, txt_targe
 
 func (r *RTL8720DN) Rpc_mdns_query_ptr_result_addr(result_target int32, addr_target int32, addr []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_mdns_query_ptr_result_addr()\n")
+		fmt.Printf("rpc_mdns_query_ptr_result_addr()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x12, 0x0D, uint32(r.seq))
 
@@ -8160,7 +8160,7 @@ func (r *RTL8720DN) Rpc_mdns_query_ptr_result_addr(result_target int32, addr_tar
 
 func (r *RTL8720DN) Rpc_mdns_query_results_free() (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_mdns_query_results_free()\n")
+		fmt.Printf("rpc_mdns_query_results_free()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x12, 0x0E, uint32(r.seq))
 
@@ -8181,7 +8181,7 @@ func (r *RTL8720DN) Rpc_mdns_query_results_free() (int32, error) {
 
 func (r *RTL8720DN) Rpc_wifi_event_callback(event []byte) error {
 	if r.debug {
-		fmt.Printf("rpc_wifi_event_callback()\n")
+		fmt.Printf("rpc_wifi_event_callback()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x13, 0x01, uint32(r.seq))
 
@@ -8202,7 +8202,7 @@ func (r *RTL8720DN) Rpc_wifi_event_callback(event []byte) error {
 
 func (r *RTL8720DN) Rpc_wifi_dns_found(hostname string, ipaddr []byte, arg []byte) error {
 	if r.debug {
-		fmt.Printf("rpc_wifi_dns_found()\n")
+		fmt.Printf("rpc_wifi_dns_found()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x13, 0x02, uint32(r.seq))
 
@@ -8228,7 +8228,7 @@ func (r *RTL8720DN) Rpc_wifi_dns_found(hostname string, ipaddr []byte, arg []byt
 
 func (r *RTL8720DN) Rpc_tcpip_api_call_fn(fn uint32, call []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcpip_api_call_fn()\n")
+		fmt.Printf("rpc_tcpip_api_call_fn()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x13, 0x03, uint32(r.seq))
 
@@ -8257,7 +8257,7 @@ func (r *RTL8720DN) Rpc_tcpip_api_call_fn(fn uint32, call []byte) (int32, error)
 
 func (r *RTL8720DN) Rpc_tcp_connected_fn(fn uint32, arg []byte, tpcb []byte, err_val int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcp_connected_fn()\n")
+		fmt.Printf("rpc_tcp_connected_fn()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x13, 0x04, uint32(r.seq))
 
@@ -8293,7 +8293,7 @@ func (r *RTL8720DN) Rpc_tcp_connected_fn(fn uint32, arg []byte, tpcb []byte, err
 
 func (r *RTL8720DN) Rpc_tcp_recv_fn(fn uint32, arg []byte, tpcb []byte, p_data []byte, p_addr []byte, err_val int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcp_recv_fn()\n")
+		fmt.Printf("rpc_tcp_recv_fn()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x13, 0x05, uint32(r.seq))
 
@@ -8333,7 +8333,7 @@ func (r *RTL8720DN) Rpc_tcp_recv_fn(fn uint32, arg []byte, tpcb []byte, p_data [
 
 func (r *RTL8720DN) Rpc_tcp_accept_fn(fn uint32, arg []byte, newpcb []byte, err_val int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcp_accept_fn()\n")
+		fmt.Printf("rpc_tcp_accept_fn()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x13, 0x06, uint32(r.seq))
 
@@ -8369,7 +8369,7 @@ func (r *RTL8720DN) Rpc_tcp_accept_fn(fn uint32, arg []byte, newpcb []byte, err_
 
 func (r *RTL8720DN) Rpc_tcp_err_fn(fn uint32, arg []byte, err_val int32) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcp_err_fn()\n")
+		fmt.Printf("rpc_tcp_err_fn()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x13, 0x07, uint32(r.seq))
 
@@ -8403,7 +8403,7 @@ func (r *RTL8720DN) Rpc_tcp_err_fn(fn uint32, arg []byte, err_val int32) (int32,
 
 func (r *RTL8720DN) Rpc_tcp_sent_fn(fn uint32, arg []byte, tpcb []byte, len uint16) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcp_sent_fn()\n")
+		fmt.Printf("rpc_tcp_sent_fn()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x13, 0x08, uint32(r.seq))
 
@@ -8437,7 +8437,7 @@ func (r *RTL8720DN) Rpc_tcp_sent_fn(fn uint32, arg []byte, tpcb []byte, len uint
 
 func (r *RTL8720DN) Rpc_tcp_poll_fn(fn uint32, arg []byte, tpcb []byte) (int32, error) {
 	if r.debug {
-		fmt.Printf("rpc_tcp_poll_fn()\n")
+		fmt.Printf("rpc_tcp_poll_fn()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x13, 0x09, uint32(r.seq))
 
