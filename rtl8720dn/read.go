@@ -27,7 +27,7 @@ func (r *RTL8720DN) readThread() {
 		n, _ := io.ReadFull(r.port, buf[:])
 
 		if r.debug {
-			fmt.Printf("rx : %2d : %s\n", n, dumpHex(buf[:n]))
+			fmt.Printf("rx : %2d : %s\r\n", n, dumpHex(buf[:n]))
 		}
 
 		length := uint16(buf[0]) + uint16(buf[1])<<8
