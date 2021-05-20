@@ -25,7 +25,7 @@ var (
 
 func (r *RTL8720DN) readThread() {
 	for {
-		n, _ := io.ReadFull(r.port, buf[:])
+		n, _ := io.ReadFull(r.port, buf[:4])
 		if n == 0 {
 			continue
 		}
@@ -42,8 +42,8 @@ func (r *RTL8720DN) readThread() {
 		if r.debug {
 			fmt.Printf("rx : %2d : ", length)
 		}
-		for i := 0; i < int(length); i++ {
-			n, _ = io.ReadFull(r.port, payload[i:i+1])
+		n, _ = io.ReadFull(r.port, payload[:length])
+		for i := 0; i < n; i++ {
 			if r.debug {
 				if i == 0 {
 					fmt.Printf("%02X", payload[i:i+1])

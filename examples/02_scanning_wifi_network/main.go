@@ -2,16 +2,18 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"time"
 )
 
 func main() {
 	err := run()
-	if err != nil {
-		log.Fatal(err)
+	for err != nil {
+		fmt.Printf("error: %s\r\n", err.Error())
+		time.Sleep(5 * time.Second)
 	}
 }
+
+var buf [1024]byte
 
 func run() error {
 	rtl, err := setupRTL8720DN()
@@ -38,7 +40,7 @@ func run() error {
 	time.Sleep(100 * time.Millisecond)
 
 	for {
-		fmt.Printf("scan start\n")
+		fmt.Printf("scan start\r\n")
 		_, err := rtl.Rpc_wifi_scan_start()
 		if err != nil {
 			return err
@@ -54,9 +56,9 @@ func run() error {
 			time.Sleep(1000 * time.Millisecond)
 		}
 
-		fmt.Printf("%d networks found\n", num)
+		fmt.Printf("%d networks found\r\n", num)
 
-		result := make([]byte, 66*num)
+		result := buf[:66*num]
 		_, err = rtl.Rpc_wifi_scan_get_ap_records(num, result[:])
 		if err != nil {
 			return err
@@ -64,7 +66,7 @@ func run() error {
 
 		records := parseWifiApRecord(int(num), result)
 		for i, r := range records {
-			fmt.Printf("%d: %s (%d)*\n", i, r.SSID, r.RSSI)
+			fmt.Printf("%d: %s (%d)*\r\n", i, r.SSID, r.RSSI)
 		}
 
 		time.Sleep(5000 * time.Millisecond)
@@ -84,10 +86,9 @@ func parseWifiApRecord(num int, buf []byte) []WifiApRecord {
 	for i := 0; i < num; i++ {
 		start := i*62 + 1
 		end := 0
-		for j, b := range buf[start : start+62] {
-			if b != 0 {
-				end = j
-			} else {
+		for j, b := range buf[start : start+33] {
+			end = j
+			if b == 0 {
 				break
 			}
 		}
