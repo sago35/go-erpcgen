@@ -18,7 +18,7 @@ func dumpHex(b []byte) {
 
 var (
 	buf     [4]byte
-	payload [1024]byte
+	payload [0x0400 + 0x100]byte
 )
 
 func (r *RTL8720DN) readThread() {
@@ -36,7 +36,7 @@ func (r *RTL8720DN) readThread() {
 
 		length := uint16(buf[0]) + uint16(buf[1])<<8
 		crc := uint16(buf[2]) + uint16(buf[3])<<8
-		//fmt.Printf("len %d (%X) crc %04X\n", length, length, crc)
+		//fmt.Printf("len %d (%X) crc %04X\r\n", length, length, crc)
 
 		n, _ = io.ReadFull(r.port, payload[:length])
 		if r.debug {
@@ -52,7 +52,7 @@ func (r *RTL8720DN) readThread() {
 		if g, e := crcNew, crc; g != e {
 			fmt.Printf("err CRC16: got %04X want %04X\n", g, e)
 		}
-		if payload[0] == 0x02 {
+		if payload[0] == 0x02 || payload[0] == 0x00 {
 			r.received <- true
 
 			// switch goroutine

@@ -121,7 +121,8 @@ func (r *RTL8720DN) Rpc_gap_set_param(param RPC_T_GAP_PARAM_TYPE, value []byte) 
 	msg = append(msg, byte(param>>16))
 	msg = append(msg, byte(param>>24))
 	// value : in []byte
-	msg = append(msg, value...)
+	msg = append(msg, byte(len(value)), byte(len(value)>>8), byte(len(value)>>16), byte(len(value)>>24))
+	msg = append(msg, []byte(value)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -205,7 +206,8 @@ func (r *RTL8720DN) Rpc_le_bond_set_param(param RPC_T_LE_BOND_PARAM_TYPE, value 
 	msg = append(msg, byte(param>>16))
 	msg = append(msg, byte(param>>24))
 	// value : in []byte
-	msg = append(msg, value...)
+	msg = append(msg, byte(len(value)), byte(len(value)>>8), byte(len(value)>>16), byte(len(value)>>24))
+	msg = append(msg, []byte(value)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -661,7 +663,8 @@ func (r *RTL8720DN) Rpc_le_set_gap_param(param RPC_T_GAP_LE_PARAM_TYPE, value []
 	msg = append(msg, byte(param>>16))
 	msg = append(msg, byte(param>>24))
 	// value : in []byte
-	msg = append(msg, value...)
+	msg = append(msg, byte(len(value)), byte(len(value)>>8), byte(len(value)>>16), byte(len(value)>>24))
+	msg = append(msg, []byte(value)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -1088,7 +1091,8 @@ func (r *RTL8720DN) Rpc_le_adv_set_param(param RPC_T_LE_ADV_PARAM_TYPE, value []
 	msg = append(msg, byte(param>>16))
 	msg = append(msg, byte(param>>24))
 	// value : in []byte
-	msg = append(msg, value...)
+	msg = append(msg, byte(len(value)), byte(len(value)>>8), byte(len(value)>>16), byte(len(value)>>24))
+	msg = append(msg, []byte(value)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -1214,7 +1218,8 @@ func (r *RTL8720DN) Rpc_le_scan_set_param(param RPC_T_LE_SCAN_PARAM_TYPE, value 
 	msg = append(msg, byte(param>>16))
 	msg = append(msg, byte(param>>24))
 	// value : in []byte
-	msg = append(msg, value...)
+	msg = append(msg, byte(len(value)), byte(len(value)>>8), byte(len(value)>>16), byte(len(value)>>24))
+	msg = append(msg, []byte(value)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -1334,7 +1339,7 @@ func (r *RTL8720DN) Rpc_le_scan_stop() (RPC_T_GAP_CAUSE, error) {
 	return result, err
 }
 
-func (r *RTL8720DN) Rpc_le_scan_info_filter(enable bool, offset uint8, len uint8, p_filter uint8) (bool, error) {
+func (r *RTL8720DN) Rpc_le_scan_info_filter(enable bool, offset uint8, length uint8, p_filter uint8) (bool, error) {
 	if r.debug {
 		fmt.Printf("rpc_le_scan_info_filter()\r\n")
 	}
@@ -1348,8 +1353,8 @@ func (r *RTL8720DN) Rpc_le_scan_info_filter(enable bool, offset uint8, len uint8
 	}
 	// offset : in uint8
 	msg = append(msg, byte(offset>>0))
-	// len : in uint8
-	msg = append(msg, byte(len>>0))
+	// length : in uint8
+	msg = append(msg, byte(length>>0))
 	// p_filter : in uint8
 	msg = append(msg, byte(p_filter>>0))
 
@@ -2084,7 +2089,8 @@ func (r *RTL8720DN) Rpc_le_gen_bond_dev(bd_addr uint8, bd_type RPC_T_GAP_REMOTE_
 	msg = append(msg, byte(local_bd_type>>16))
 	msg = append(msg, byte(local_bd_type>>24))
 	// local_ltk : in []byte
-	msg = append(msg, local_ltk...)
+	msg = append(msg, byte(len(local_ltk)), byte(len(local_ltk)>>8), byte(len(local_ltk)>>16), byte(len(local_ltk)>>24))
+	msg = append(msg, []byte(local_ltk)...)
 	// key_type : in RPC_T_LE_KEY_TYPE
 	msg = append(msg, byte(key_type>>0))
 	msg = append(msg, byte(key_type>>8))
@@ -2139,7 +2145,8 @@ func (r *RTL8720DN) Rpc_le_set_dev_bond_info(p_data []byte, exist bool) (RPC_T_L
 	msg := startWriteMessage(0x00, 0x0A, 0x0F, uint32(r.seq))
 
 	// p_data : in []byte
-	msg = append(msg, p_data...)
+	msg = append(msg, byte(len(p_data)), byte(len(p_data)>>8), byte(len(p_data)>>16), byte(len(p_data)>>24))
+	msg = append(msg, []byte(p_data)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -2596,7 +2603,8 @@ func (r *RTL8720DN) Rpc_client_attr_write(conn_id uint8, client_id uint8, write_
 	msg = append(msg, byte(handle>>0))
 	msg = append(msg, byte(handle>>8))
 	// data : in []byte
-	msg = append(msg, data...)
+	msg = append(msg, byte(len(data)), byte(len(data)>>8), byte(len(data)>>16), byte(len(data)>>24))
+	msg = append(msg, []byte(data)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -2826,7 +2834,13 @@ func (r *RTL8720DN) Rpc_ble_create_desc(app_id uint8, char_handle uint16, uuid u
 	msg = append(msg, byte(value_length>>0))
 	msg = append(msg, byte(value_length>>8))
 	// p_value : in []byte nullable
-	msg = append(msg, p_value...)
+	if len(p_value) == 0 {
+		msg = append(msg, 1)
+	} else {
+		msg = append(msg, 0)
+		msg = append(msg, byte(len(p_value)), byte(len(p_value)>>8), byte(len(p_value)>>16), byte(len(p_value)>>24))
+		msg = append(msg, []byte(p_value)...)
+	}
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -2857,7 +2871,8 @@ func (r *RTL8720DN) Rpc_server_send_data(conn_id uint8, service_id uint8, attrib
 	msg = append(msg, byte(attrib_index>>0))
 	msg = append(msg, byte(attrib_index>>8))
 	// data : in []byte
-	msg = append(msg, data...)
+	msg = append(msg, byte(len(data)), byte(len(data)>>8), byte(len(data)>>16), byte(len(data)>>24))
+	msg = append(msg, []byte(data)...)
 	// pdu_type : in RPC_T_GATT_PDU_TYPE
 	msg = append(msg, byte(pdu_type>>0))
 	msg = append(msg, byte(pdu_type>>8))
@@ -2986,7 +3001,8 @@ func (r *RTL8720DN) Rpc_server_attr_read_confirm(conn_id uint8, service_id uint8
 	msg = append(msg, byte(attrib_index>>0))
 	msg = append(msg, byte(attrib_index>>8))
 	// data : in []byte
-	msg = append(msg, data...)
+	msg = append(msg, byte(len(data)), byte(len(data)>>8), byte(len(data)>>16), byte(len(data)>>24))
+	msg = append(msg, []byte(data)...)
 	// cause : in RPC_T_APP_RESULT
 	msg = append(msg, byte(cause>>0))
 	msg = append(msg, byte(cause>>8))
@@ -3015,7 +3031,8 @@ func (r *RTL8720DN) Rpc_ble_handle_gap_msg(gap_msg []byte) (RPC_T_APP_RESULT, er
 	msg := startWriteMessage(0x00, 0x0D, 0x01, uint32(r.seq))
 
 	// gap_msg : in []byte
-	msg = append(msg, gap_msg...)
+	msg = append(msg, byte(len(gap_msg)), byte(len(gap_msg)>>8), byte(len(gap_msg)>>16), byte(len(gap_msg)>>24))
+	msg = append(msg, []byte(gap_msg)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -3041,7 +3058,8 @@ func (r *RTL8720DN) Rpc_ble_gap_callback(cb_type uint8, cb_data []byte) (RPC_T_A
 	// cb_type : in uint8
 	msg = append(msg, byte(cb_type>>0))
 	// cb_data : in []byte
-	msg = append(msg, cb_data...)
+	msg = append(msg, byte(len(cb_data)), byte(len(cb_data)>>8), byte(len(cb_data)>>16), byte(len(cb_data)>>24))
+	msg = append(msg, []byte(cb_data)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -3069,9 +3087,11 @@ func (r *RTL8720DN) Rpc_ble_gattc_callback(gatt_if uint8, conn_id uint8, cb_data
 	// conn_id : in uint8
 	msg = append(msg, byte(conn_id>>0))
 	// cb_data : in []byte
-	msg = append(msg, cb_data...)
+	msg = append(msg, byte(len(cb_data)), byte(len(cb_data)>>8), byte(len(cb_data)>>16), byte(len(cb_data)>>24))
+	msg = append(msg, []byte(cb_data)...)
 	// extra_data : in []byte
-	msg = append(msg, extra_data...)
+	msg = append(msg, byte(len(extra_data)), byte(len(extra_data)>>8), byte(len(extra_data)>>16), byte(len(extra_data)>>24))
+	msg = append(msg, []byte(extra_data)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -3110,9 +3130,21 @@ func (r *RTL8720DN) Rpc_ble_gatts_callback(gatt_if uint8, conn_id uint8, attrib_
 	msg = append(msg, byte(property>>0))
 	msg = append(msg, byte(property>>8))
 	// write_cb_data : in []byte nullable
-	msg = append(msg, write_cb_data...)
+	if len(write_cb_data) == 0 {
+		msg = append(msg, 1)
+	} else {
+		msg = append(msg, 0)
+		msg = append(msg, byte(len(write_cb_data)), byte(len(write_cb_data)>>8), byte(len(write_cb_data)>>16), byte(len(write_cb_data)>>24))
+		msg = append(msg, []byte(write_cb_data)...)
+	}
 	// app_cb_data : in []byte nullable
-	msg = append(msg, app_cb_data...)
+	if len(app_cb_data) == 0 {
+		msg = append(msg, 1)
+	} else {
+		msg = append(msg, 0)
+		msg = append(msg, byte(len(app_cb_data)), byte(len(app_cb_data)>>8), byte(len(app_cb_data)>>16), byte(len(app_cb_data)>>24))
+		msg = append(msg, []byte(app_cb_data)...)
+	}
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -3195,7 +3227,8 @@ func (r *RTL8720DN) Rpc_wifi_connect_bssid(bssid []byte, ssid string, password s
 	msg := startWriteMessage(0x00, 0x0E, 0x02, uint32(r.seq))
 
 	// bssid : in []byte
-	msg = append(msg, bssid...)
+	msg = append(msg, byte(len(bssid)), byte(len(bssid)>>8), byte(len(bssid)>>16), byte(len(bssid)>>24))
+	msg = append(msg, []byte(bssid)...)
 	// ssid : in string nullable
 	if len(ssid) == 0 {
 		msg = append(msg, 1)
@@ -3341,7 +3374,8 @@ func (r *RTL8720DN) Rpc_wifi_set_mac_address(mac []byte) (int32, error) {
 	msg := startWriteMessage(0x00, 0x0E, 0x07, uint32(r.seq))
 
 	// mac : in []byte
-	msg = append(msg, mac...)
+	msg = append(msg, byte(len(mac)), byte(len(mac)>>8), byte(len(mac)>>16), byte(len(mac)>>24))
+	msg = append(msg, []byte(mac)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -4173,7 +4207,8 @@ func (r *RTL8720DN) Rpc_wifi_set_pscan_chan(channel_list []byte, pscan_config ui
 	msg := startWriteMessage(0x00, 0x0E, 0x28, uint32(r.seq))
 
 	// channel_list : in []byte
-	msg = append(msg, channel_list...)
+	msg = append(msg, byte(len(channel_list)), byte(len(channel_list)>>8), byte(len(channel_list)>>16), byte(len(channel_list)>>24))
+	msg = append(msg, []byte(channel_list)...)
 	// pscan_config : in uint8
 	msg = append(msg, byte(pscan_config>>0))
 
@@ -4306,9 +4341,11 @@ func (r *RTL8720DN) Rpc_wifi_restart_ap(ssid []byte, password []byte, security_t
 	msg := startWriteMessage(0x00, 0x0E, 0x2D, uint32(r.seq))
 
 	// ssid : in []byte
-	msg = append(msg, ssid...)
+	msg = append(msg, byte(len(ssid)), byte(len(ssid)>>8), byte(len(ssid)>>16), byte(len(ssid)>>24))
+	msg = append(msg, []byte(ssid)...)
 	// password : in []byte
-	msg = append(msg, password...)
+	msg = append(msg, byte(len(password)), byte(len(password)>>8), byte(len(password)>>16), byte(len(password)>>24))
+	msg = append(msg, []byte(password)...)
 	// security_type : in uint32
 	msg = append(msg, byte(security_type>>0))
 	msg = append(msg, byte(security_type>>8))
@@ -4440,7 +4477,8 @@ func (r *RTL8720DN) Rpc_wifi_add_custom_ie(cus_ie []byte) (int32, error) {
 	msg := startWriteMessage(0x00, 0x0E, 0x32, uint32(r.seq))
 
 	// cus_ie : in []byte
-	msg = append(msg, cus_ie...)
+	msg = append(msg, byte(len(cus_ie)), byte(len(cus_ie)>>8), byte(len(cus_ie)>>16), byte(len(cus_ie)>>24))
+	msg = append(msg, []byte(cus_ie)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -4464,7 +4502,8 @@ func (r *RTL8720DN) Rpc_wifi_update_custom_ie(cus_ie []byte, ie_index int32) (in
 	msg := startWriteMessage(0x00, 0x0E, 0x33, uint32(r.seq))
 
 	// cus_ie : in []byte
-	msg = append(msg, cus_ie...)
+	msg = append(msg, byte(len(cus_ie)), byte(len(cus_ie)>>8), byte(len(cus_ie)>>16), byte(len(cus_ie)>>24))
+	msg = append(msg, []byte(cus_ie)...)
 	// ie_index : in int32
 	msg = append(msg, byte(ie_index>>0))
 	msg = append(msg, byte(ie_index>>8))
@@ -4890,9 +4929,11 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_sta_start(mac []byte, ip_info []byte) (int
 	msg := startWriteMessage(0x00, 0x0F, 0x02, uint32(r.seq))
 
 	// mac : in []byte
-	msg = append(msg, mac...)
+	msg = append(msg, byte(len(mac)), byte(len(mac)>>8), byte(len(mac)>>16), byte(len(mac)>>24))
+	msg = append(msg, []byte(mac)...)
 	// ip_info : in []byte
-	msg = append(msg, ip_info...)
+	msg = append(msg, byte(len(ip_info)), byte(len(ip_info)>>8), byte(len(ip_info)>>16), byte(len(ip_info)>>24))
+	msg = append(msg, []byte(ip_info)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -4916,9 +4957,11 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_ap_start(mac []byte, ip_info []byte) (int3
 	msg := startWriteMessage(0x00, 0x0F, 0x03, uint32(r.seq))
 
 	// mac : in []byte
-	msg = append(msg, mac...)
+	msg = append(msg, byte(len(mac)), byte(len(mac)>>8), byte(len(mac)>>16), byte(len(mac)>>24))
+	msg = append(msg, []byte(mac)...)
 	// ip_info : in []byte
-	msg = append(msg, ip_info...)
+	msg = append(msg, byte(len(ip_info)), byte(len(ip_info)>>8), byte(len(ip_info)>>16), byte(len(ip_info)>>24))
+	msg = append(msg, []byte(ip_info)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -5062,7 +5105,8 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_set_ip_info(tcpip_if uint32, ip_info []byt
 	msg = append(msg, byte(tcpip_if>>16))
 	msg = append(msg, byte(tcpip_if>>24))
 	// ip_info : in []byte
-	msg = append(msg, ip_info...)
+	msg = append(msg, byte(len(ip_info)), byte(len(ip_info)>>8), byte(len(ip_info)>>16), byte(len(ip_info)>>24))
+	msg = append(msg, []byte(ip_info)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -5096,7 +5140,8 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_set_dns_info(tcpip_if uint32, dns_type uin
 	msg = append(msg, byte(dns_type>>16))
 	msg = append(msg, byte(dns_type>>24))
 	// dns : in []byte
-	msg = append(msg, dns...)
+	msg = append(msg, byte(len(dns)), byte(len(dns)>>8), byte(len(dns)>>16), byte(len(dns)>>24))
+	msg = append(msg, []byte(dns)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -5370,7 +5415,8 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_set_mac(tcpip_if uint32, mac []byte) (int3
 	msg = append(msg, byte(tcpip_if>>16))
 	msg = append(msg, byte(tcpip_if>>24))
 	// mac : in []byte
-	msg = append(msg, mac...)
+	msg = append(msg, byte(len(mac)), byte(len(mac)>>8), byte(len(mac)>>16), byte(len(mac)>>24))
+	msg = append(msg, []byte(mac)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -5394,9 +5440,11 @@ func (r *RTL8720DN) Rpc_tcpip_api_call(fn []byte, call []byte) (int32, error) {
 	msg := startWriteMessage(0x00, 0x0F, 0x13, uint32(r.seq))
 
 	// fn : in []byte
-	msg = append(msg, fn...)
+	msg = append(msg, byte(len(fn)), byte(len(fn)>>8), byte(len(fn)>>16), byte(len(fn)>>24))
+	msg = append(msg, []byte(fn)...)
 	// call : in []byte
-	msg = append(msg, call...)
+	msg = append(msg, byte(len(call)), byte(len(call)>>8), byte(len(call)>>16), byte(len(call)>>24))
+	msg = append(msg, []byte(call)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -5420,14 +5468,17 @@ func (r *RTL8720DN) Rpc_tcp_connect(pcb_in []byte, pcb_out []byte, ipaddr []byte
 	msg := startWriteMessage(0x00, 0x0F, 0x14, uint32(r.seq))
 
 	// pcb_in : in []byte
-	msg = append(msg, pcb_in...)
+	msg = append(msg, byte(len(pcb_in)), byte(len(pcb_in)>>8), byte(len(pcb_in)>>16), byte(len(pcb_in)>>24))
+	msg = append(msg, []byte(pcb_in)...)
 	// ipaddr : in []byte
-	msg = append(msg, ipaddr...)
+	msg = append(msg, byte(len(ipaddr)), byte(len(ipaddr)>>8), byte(len(ipaddr)>>16), byte(len(ipaddr)>>24))
+	msg = append(msg, []byte(ipaddr)...)
 	// port : in uint16
 	msg = append(msg, byte(port>>0))
 	msg = append(msg, byte(port>>8))
 	// connected : in []byte
-	msg = append(msg, connected...)
+	msg = append(msg, byte(len(connected)), byte(len(connected)>>8), byte(len(connected)>>16), byte(len(connected)>>24))
+	msg = append(msg, []byte(connected)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -5451,17 +5502,18 @@ func (r *RTL8720DN) Rpc_tcp_connect(pcb_in []byte, pcb_out []byte, ipaddr []byte
 	return result, err
 }
 
-func (r *RTL8720DN) Rpc_tcp_recved(pcb_in []byte, pcb_out []byte, len uint16) (int32, error) {
+func (r *RTL8720DN) Rpc_tcp_recved(pcb_in []byte, pcb_out []byte, length uint16) (int32, error) {
 	if r.debug {
 		fmt.Printf("rpc_tcp_recved()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x15, uint32(r.seq))
 
 	// pcb_in : in []byte
-	msg = append(msg, pcb_in...)
-	// len : in uint16
-	msg = append(msg, byte(len>>0))
-	msg = append(msg, byte(len>>8))
+	msg = append(msg, byte(len(pcb_in)), byte(len(pcb_in)>>8), byte(len(pcb_in)>>16), byte(len(pcb_in)>>24))
+	msg = append(msg, []byte(pcb_in)...)
+	// length : in uint16
+	msg = append(msg, byte(length>>0))
+	msg = append(msg, byte(length>>8))
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -5492,7 +5544,8 @@ func (r *RTL8720DN) Rpc_tcp_abort(pcb_in []byte, pcb_out []byte) (int32, error) 
 	msg := startWriteMessage(0x00, 0x0F, 0x16, uint32(r.seq))
 
 	// pcb_in : in []byte
-	msg = append(msg, pcb_in...)
+	msg = append(msg, byte(len(pcb_in)), byte(len(pcb_in)>>8), byte(len(pcb_in)>>16), byte(len(pcb_in)>>24))
+	msg = append(msg, []byte(pcb_in)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -5523,9 +5576,11 @@ func (r *RTL8720DN) Rpc_tcp_write(pcb_in []byte, pcb_out []byte, data []byte, ap
 	msg := startWriteMessage(0x00, 0x0F, 0x17, uint32(r.seq))
 
 	// pcb_in : in []byte
-	msg = append(msg, pcb_in...)
+	msg = append(msg, byte(len(pcb_in)), byte(len(pcb_in)>>8), byte(len(pcb_in)>>16), byte(len(pcb_in)>>24))
+	msg = append(msg, []byte(pcb_in)...)
 	// data : in []byte
-	msg = append(msg, data...)
+	msg = append(msg, byte(len(data)), byte(len(data)>>8), byte(len(data)>>16), byte(len(data)>>24))
+	msg = append(msg, []byte(data)...)
 	// apiflags : in uint8
 	msg = append(msg, byte(apiflags>>0))
 
@@ -5558,7 +5613,8 @@ func (r *RTL8720DN) Rpc_tcp_output(pcb_in []byte, pcb_out []byte) (int32, error)
 	msg := startWriteMessage(0x00, 0x0F, 0x18, uint32(r.seq))
 
 	// pcb_in : in []byte
-	msg = append(msg, pcb_in...)
+	msg = append(msg, byte(len(pcb_in)), byte(len(pcb_in)>>8), byte(len(pcb_in)>>16), byte(len(pcb_in)>>24))
+	msg = append(msg, []byte(pcb_in)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -5589,7 +5645,8 @@ func (r *RTL8720DN) Rpc_tcp_close(pcb_in []byte, pcb_out []byte) (int32, error) 
 	msg := startWriteMessage(0x00, 0x0F, 0x19, uint32(r.seq))
 
 	// pcb_in : in []byte
-	msg = append(msg, pcb_in...)
+	msg = append(msg, byte(len(pcb_in)), byte(len(pcb_in)>>8), byte(len(pcb_in)>>16), byte(len(pcb_in)>>24))
+	msg = append(msg, []byte(pcb_in)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -5620,9 +5677,11 @@ func (r *RTL8720DN) Rpc_tcp_bind(pcb_in []byte, pcb_out []byte, ipaddr []byte, p
 	msg := startWriteMessage(0x00, 0x0F, 0x1A, uint32(r.seq))
 
 	// pcb_in : in []byte
-	msg = append(msg, pcb_in...)
+	msg = append(msg, byte(len(pcb_in)), byte(len(pcb_in)>>8), byte(len(pcb_in)>>16), byte(len(pcb_in)>>24))
+	msg = append(msg, []byte(pcb_in)...)
 	// ipaddr : in []byte
-	msg = append(msg, ipaddr...)
+	msg = append(msg, byte(len(ipaddr)), byte(len(ipaddr)>>8), byte(len(ipaddr)>>16), byte(len(ipaddr)>>24))
+	msg = append(msg, []byte(ipaddr)...)
 	// port : in uint16
 	msg = append(msg, byte(port>>0))
 	msg = append(msg, byte(port>>8))
@@ -5687,9 +5746,11 @@ func (r *RTL8720DN) Rpc_tcp_arg(pcb_in []byte, pcb_out []byte, func_arg []byte) 
 	msg := startWriteMessage(0x00, 0x0F, 0x1C, uint32(r.seq))
 
 	// pcb_in : in []byte
-	msg = append(msg, pcb_in...)
+	msg = append(msg, byte(len(pcb_in)), byte(len(pcb_in)>>8), byte(len(pcb_in)>>16), byte(len(pcb_in)>>24))
+	msg = append(msg, []byte(pcb_in)...)
 	// func_arg : in []byte
-	msg = append(msg, func_arg...)
+	msg = append(msg, byte(len(func_arg)), byte(len(func_arg)>>8), byte(len(func_arg)>>16), byte(len(func_arg)>>24))
+	msg = append(msg, []byte(func_arg)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -5720,9 +5781,11 @@ func (r *RTL8720DN) Rpc_tcp_err(pcb_in []byte, pcb_out []byte, func_err []byte) 
 	msg := startWriteMessage(0x00, 0x0F, 0x1D, uint32(r.seq))
 
 	// pcb_in : in []byte
-	msg = append(msg, pcb_in...)
+	msg = append(msg, byte(len(pcb_in)), byte(len(pcb_in)>>8), byte(len(pcb_in)>>16), byte(len(pcb_in)>>24))
+	msg = append(msg, []byte(pcb_in)...)
 	// func_err : in []byte
-	msg = append(msg, func_err...)
+	msg = append(msg, byte(len(func_err)), byte(len(func_err)>>8), byte(len(func_err)>>16), byte(len(func_err)>>24))
+	msg = append(msg, []byte(func_err)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -5753,9 +5816,11 @@ func (r *RTL8720DN) Rpc_tcp_recv(pcb_in []byte, pcb_out []byte, func_recv []byte
 	msg := startWriteMessage(0x00, 0x0F, 0x1E, uint32(r.seq))
 
 	// pcb_in : in []byte
-	msg = append(msg, pcb_in...)
+	msg = append(msg, byte(len(pcb_in)), byte(len(pcb_in)>>8), byte(len(pcb_in)>>16), byte(len(pcb_in)>>24))
+	msg = append(msg, []byte(pcb_in)...)
 	// func_recv : in []byte
-	msg = append(msg, func_recv...)
+	msg = append(msg, byte(len(func_recv)), byte(len(func_recv)>>8), byte(len(func_recv)>>16), byte(len(func_recv)>>24))
+	msg = append(msg, []byte(func_recv)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -5786,9 +5851,11 @@ func (r *RTL8720DN) Rpc_tcp_sent(pcb_in []byte, pcb_out []byte, func_sent []byte
 	msg := startWriteMessage(0x00, 0x0F, 0x1F, uint32(r.seq))
 
 	// pcb_in : in []byte
-	msg = append(msg, pcb_in...)
+	msg = append(msg, byte(len(pcb_in)), byte(len(pcb_in)>>8), byte(len(pcb_in)>>16), byte(len(pcb_in)>>24))
+	msg = append(msg, []byte(pcb_in)...)
 	// func_sent : in []byte
-	msg = append(msg, func_sent...)
+	msg = append(msg, byte(len(func_sent)), byte(len(func_sent)>>8), byte(len(func_sent)>>16), byte(len(func_sent)>>24))
+	msg = append(msg, []byte(func_sent)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -5819,9 +5886,11 @@ func (r *RTL8720DN) Rpc_tcp_accept(pcb_in []byte, pcb_out []byte, func_accept []
 	msg := startWriteMessage(0x00, 0x0F, 0x20, uint32(r.seq))
 
 	// pcb_in : in []byte
-	msg = append(msg, pcb_in...)
+	msg = append(msg, byte(len(pcb_in)), byte(len(pcb_in)>>8), byte(len(pcb_in)>>16), byte(len(pcb_in)>>24))
+	msg = append(msg, []byte(pcb_in)...)
 	// func_accept : in []byte
-	msg = append(msg, func_accept...)
+	msg = append(msg, byte(len(func_accept)), byte(len(func_accept)>>8), byte(len(func_accept)>>16), byte(len(func_accept)>>24))
+	msg = append(msg, []byte(func_accept)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -5852,9 +5921,11 @@ func (r *RTL8720DN) Rpc_tcp_poll(pcb_in []byte, pcb_out []byte, func_poll []byte
 	msg := startWriteMessage(0x00, 0x0F, 0x21, uint32(r.seq))
 
 	// pcb_in : in []byte
-	msg = append(msg, pcb_in...)
+	msg = append(msg, byte(len(pcb_in)), byte(len(pcb_in)>>8), byte(len(pcb_in)>>16), byte(len(pcb_in)>>24))
+	msg = append(msg, []byte(pcb_in)...)
 	// func_poll : in []byte
-	msg = append(msg, func_poll...)
+	msg = append(msg, byte(len(func_poll)), byte(len(func_poll)>>8), byte(len(func_poll)>>16), byte(len(func_poll)>>24))
+	msg = append(msg, []byte(func_poll)...)
 	// interval : in uint8
 	msg = append(msg, byte(interval>>0))
 
@@ -5887,7 +5958,8 @@ func (r *RTL8720DN) Rpc_tcp_listen_with_backlog(pcb_in []byte, pcb_out []byte, b
 	msg := startWriteMessage(0x00, 0x0F, 0x22, uint32(r.seq))
 
 	// pcb_in : in []byte
-	msg = append(msg, pcb_in...)
+	msg = append(msg, byte(len(pcb_in)), byte(len(pcb_in)>>8), byte(len(pcb_in)>>16), byte(len(pcb_in)>>24))
+	msg = append(msg, []byte(pcb_in)...)
 	// backlog : in uint8
 	msg = append(msg, byte(backlog>>0))
 
@@ -5920,7 +5992,8 @@ func (r *RTL8720DN) Rpc_pbuf_free(p []byte) (int32, error) {
 	msg := startWriteMessage(0x00, 0x0F, 0x23, uint32(r.seq))
 
 	// p : in []byte
-	msg = append(msg, p...)
+	msg = append(msg, byte(len(p)), byte(len(p)>>8), byte(len(p)>>16), byte(len(p)>>24))
+	msg = append(msg, []byte(p)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -5944,7 +6017,8 @@ func (r *RTL8720DN) Rpc_ip4addr_ntoa(ip4_addr_in []byte) (string, error) {
 	msg := startWriteMessage(0x00, 0x0F, 0x24, uint32(r.seq))
 
 	// ip4_addr_in : in []byte
-	msg = append(msg, ip4_addr_in...)
+	msg = append(msg, byte(len(ip4_addr_in)), byte(len(ip4_addr_in)>>8), byte(len(ip4_addr_in)>>16), byte(len(ip4_addr_in)>>24))
+	msg = append(msg, []byte(ip4_addr_in)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -5970,7 +6044,8 @@ func (r *RTL8720DN) Rpc_inet_chksum(dataptr_in []byte) (uint16, error) {
 	msg := startWriteMessage(0x00, 0x0F, 0x25, uint32(r.seq))
 
 	// dataptr_in : in []byte
-	msg = append(msg, dataptr_in...)
+	msg = append(msg, byte(len(dataptr_in)), byte(len(dataptr_in)>>8), byte(len(dataptr_in)>>16), byte(len(dataptr_in)>>24))
+	msg = append(msg, []byte(dataptr_in)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -5999,7 +6074,8 @@ func (r *RTL8720DN) Rpc_lwip_accept(s int32, addr []byte, addrlen uint32) (int32
 	msg = append(msg, byte(s>>16))
 	msg = append(msg, byte(s>>24))
 	// addr : in []byte
-	msg = append(msg, addr...)
+	msg = append(msg, byte(len(addr)), byte(len(addr)>>8), byte(len(addr)>>16), byte(len(addr)>>24))
+	msg = append(msg, []byte(addr)...)
 	// addrlen : inout uint32
 	msg = append(msg, byte(addrlen>>0))
 	msg = append(msg, byte(addrlen>>8))
@@ -6035,7 +6111,8 @@ func (r *RTL8720DN) Rpc_lwip_bind(s int32, name []byte, namelen uint32) (int32, 
 	msg = append(msg, byte(s>>16))
 	msg = append(msg, byte(s>>24))
 	// name : in []byte
-	msg = append(msg, name...)
+	msg = append(msg, byte(len(name)), byte(len(name)>>8), byte(len(name)>>16), byte(len(name)>>24))
+	msg = append(msg, []byte(name)...)
 	// namelen : in uint32
 	msg = append(msg, byte(namelen>>0))
 	msg = append(msg, byte(namelen>>8))
@@ -6193,7 +6270,8 @@ func (r *RTL8720DN) Rpc_lwip_getsockopt(s int32, level int32, optname int32, in_
 	msg = append(msg, byte(optname>>16))
 	msg = append(msg, byte(optname>>24))
 	// in_optval : in []byte
-	msg = append(msg, in_optval...)
+	msg = append(msg, byte(len(in_optval)), byte(len(in_optval)>>8), byte(len(in_optval)>>16), byte(len(in_optval)>>24))
+	msg = append(msg, []byte(in_optval)...)
 	// optlen : inout uint32
 	msg = append(msg, byte(optlen>>0))
 	msg = append(msg, byte(optlen>>8))
@@ -6246,7 +6324,8 @@ func (r *RTL8720DN) Rpc_lwip_setsockopt(s int32, level int32, optname int32, opt
 	msg = append(msg, byte(optname>>16))
 	msg = append(msg, byte(optname>>24))
 	// optval : in []byte
-	msg = append(msg, optval...)
+	msg = append(msg, byte(len(optval)), byte(len(optval)>>8), byte(len(optval)>>16), byte(len(optval)>>24))
+	msg = append(msg, []byte(optval)...)
 	// optlen : in uint32
 	msg = append(msg, byte(optlen>>0))
 	msg = append(msg, byte(optlen>>8))
@@ -6307,7 +6386,8 @@ func (r *RTL8720DN) Rpc_lwip_connect(s int32, name []byte, namelen uint32) (int3
 	msg = append(msg, byte(s>>16))
 	msg = append(msg, byte(s>>24))
 	// name : in []byte
-	msg = append(msg, name...)
+	msg = append(msg, byte(len(name)), byte(len(name)>>8), byte(len(name)>>16), byte(len(name)>>24))
+	msg = append(msg, []byte(name)...)
 	// namelen : in uint32
 	msg = append(msg, byte(namelen>>0))
 	msg = append(msg, byte(namelen>>8))
@@ -6388,7 +6468,7 @@ func (r *RTL8720DN) Rpc_lwip_available(s int32) (int32, error) {
 	return result, err
 }
 
-func (r *RTL8720DN) Rpc_lwip_recv(s int32, mem []byte, len uint32, flags int32, timeout uint32) (int32, error) {
+func (r *RTL8720DN) Rpc_lwip_recv(s int32, mem []byte, length uint32, flags int32, timeout uint32) (int32, error) {
 	if r.debug {
 		fmt.Printf("rpc_lwip_recv()\r\n")
 	}
@@ -6399,11 +6479,11 @@ func (r *RTL8720DN) Rpc_lwip_recv(s int32, mem []byte, len uint32, flags int32, 
 	msg = append(msg, byte(s>>8))
 	msg = append(msg, byte(s>>16))
 	msg = append(msg, byte(s>>24))
-	// len : in uint32
-	msg = append(msg, byte(len>>0))
-	msg = append(msg, byte(len>>8))
-	msg = append(msg, byte(len>>16))
-	msg = append(msg, byte(len>>24))
+	// length : in uint32
+	msg = append(msg, byte(length>>0))
+	msg = append(msg, byte(length>>8))
+	msg = append(msg, byte(length>>16))
+	msg = append(msg, byte(length>>24))
 	// flags : in int32
 	msg = append(msg, byte(flags>>0))
 	msg = append(msg, byte(flags>>8))
@@ -6437,7 +6517,7 @@ func (r *RTL8720DN) Rpc_lwip_recv(s int32, mem []byte, len uint32, flags int32, 
 	return result, err
 }
 
-func (r *RTL8720DN) Rpc_lwip_read(s int32, mem []byte, len uint32, timeout uint32) (int32, error) {
+func (r *RTL8720DN) Rpc_lwip_read(s int32, mem []byte, length uint32, timeout uint32) (int32, error) {
 	if r.debug {
 		fmt.Printf("rpc_lwip_read()\r\n")
 	}
@@ -6448,11 +6528,11 @@ func (r *RTL8720DN) Rpc_lwip_read(s int32, mem []byte, len uint32, timeout uint3
 	msg = append(msg, byte(s>>8))
 	msg = append(msg, byte(s>>16))
 	msg = append(msg, byte(s>>24))
-	// len : in uint32
-	msg = append(msg, byte(len>>0))
-	msg = append(msg, byte(len>>8))
-	msg = append(msg, byte(len>>16))
-	msg = append(msg, byte(len>>24))
+	// length : in uint32
+	msg = append(msg, byte(length>>0))
+	msg = append(msg, byte(length>>8))
+	msg = append(msg, byte(length>>16))
+	msg = append(msg, byte(length>>24))
 	// timeout : in uint32
 	msg = append(msg, byte(timeout>>0))
 	msg = append(msg, byte(timeout>>8))
@@ -6481,7 +6561,7 @@ func (r *RTL8720DN) Rpc_lwip_read(s int32, mem []byte, len uint32, timeout uint3
 	return result, err
 }
 
-func (r *RTL8720DN) Rpc_lwip_recvfrom(s int32, mem []byte, len uint32, flags int32, from []byte, fromlen uint32, timeout uint32) (int32, error) {
+func (r *RTL8720DN) Rpc_lwip_recvfrom(s int32, mem []byte, length uint32, flags int32, from []byte, fromlen uint32, timeout uint32) (int32, error) {
 	if r.debug {
 		fmt.Printf("rpc_lwip_recvfrom()\r\n")
 	}
@@ -6492,11 +6572,11 @@ func (r *RTL8720DN) Rpc_lwip_recvfrom(s int32, mem []byte, len uint32, flags int
 	msg = append(msg, byte(s>>8))
 	msg = append(msg, byte(s>>16))
 	msg = append(msg, byte(s>>24))
-	// len : in uint32
-	msg = append(msg, byte(len>>0))
-	msg = append(msg, byte(len>>8))
-	msg = append(msg, byte(len>>16))
-	msg = append(msg, byte(len>>24))
+	// length : in uint32
+	msg = append(msg, byte(length>>0))
+	msg = append(msg, byte(length>>8))
+	msg = append(msg, byte(length>>16))
+	msg = append(msg, byte(length>>24))
 	// flags : in int32
 	msg = append(msg, byte(flags>>0))
 	msg = append(msg, byte(flags>>8))
@@ -6556,7 +6636,8 @@ func (r *RTL8720DN) Rpc_lwip_send(s int32, dataptr []byte, flags int32) (int32, 
 	msg = append(msg, byte(s>>16))
 	msg = append(msg, byte(s>>24))
 	// dataptr : in []byte
-	msg = append(msg, dataptr...)
+	msg = append(msg, byte(len(dataptr)), byte(len(dataptr)>>8), byte(len(dataptr)>>16), byte(len(dataptr)>>24))
+	msg = append(msg, []byte(dataptr)...)
 	// flags : in int32
 	msg = append(msg, byte(flags>>0))
 	msg = append(msg, byte(flags>>8))
@@ -6590,11 +6671,14 @@ func (r *RTL8720DN) Rpc_lwip_sendmsg(s int32, msg_name []byte, msg_iov []byte, m
 	msg = append(msg, byte(s>>16))
 	msg = append(msg, byte(s>>24))
 	// msg_name : in []byte
-	msg = append(msg, msg_name...)
+	msg = append(msg, byte(len(msg_name)), byte(len(msg_name)>>8), byte(len(msg_name)>>16), byte(len(msg_name)>>24))
+	msg = append(msg, []byte(msg_name)...)
 	// msg_iov : in []byte
-	msg = append(msg, msg_iov...)
+	msg = append(msg, byte(len(msg_iov)), byte(len(msg_iov)>>8), byte(len(msg_iov)>>16), byte(len(msg_iov)>>24))
+	msg = append(msg, []byte(msg_iov)...)
 	// msg_control : in []byte
-	msg = append(msg, msg_control...)
+	msg = append(msg, byte(len(msg_control)), byte(len(msg_control)>>8), byte(len(msg_control)>>16), byte(len(msg_control)>>24))
+	msg = append(msg, []byte(msg_control)...)
 	// msg_flags : in int32
 	msg = append(msg, byte(msg_flags>>0))
 	msg = append(msg, byte(msg_flags>>8))
@@ -6633,14 +6717,16 @@ func (r *RTL8720DN) Rpc_lwip_sendto(s int32, dataptr []byte, flags int32, to []b
 	msg = append(msg, byte(s>>16))
 	msg = append(msg, byte(s>>24))
 	// dataptr : in []byte
-	msg = append(msg, dataptr...)
+	msg = append(msg, byte(len(dataptr)), byte(len(dataptr)>>8), byte(len(dataptr)>>16), byte(len(dataptr)>>24))
+	msg = append(msg, []byte(dataptr)...)
 	// flags : in int32
 	msg = append(msg, byte(flags>>0))
 	msg = append(msg, byte(flags>>8))
 	msg = append(msg, byte(flags>>16))
 	msg = append(msg, byte(flags>>24))
 	// to : in []byte
-	msg = append(msg, to...)
+	msg = append(msg, byte(len(to)), byte(len(to)>>8), byte(len(to)>>16), byte(len(to)>>24))
+	msg = append(msg, []byte(to)...)
 	// tolen : in uint32
 	msg = append(msg, byte(tolen>>0))
 	msg = append(msg, byte(tolen>>8))
@@ -6711,7 +6797,8 @@ func (r *RTL8720DN) Rpc_lwip_write(s int32, dataptr []byte, size uint32) (int32,
 	msg = append(msg, byte(s>>16))
 	msg = append(msg, byte(s>>24))
 	// dataptr : in []byte
-	msg = append(msg, dataptr...)
+	msg = append(msg, byte(len(dataptr)), byte(len(dataptr)>>8), byte(len(dataptr)>>16), byte(len(dataptr)>>24))
+	msg = append(msg, []byte(dataptr)...)
 	// size : in uint32
 	msg = append(msg, byte(size>>0))
 	msg = append(msg, byte(size>>8))
@@ -6745,7 +6832,8 @@ func (r *RTL8720DN) Rpc_lwip_writev(s int32, iov []byte, iovcnt int32) (int32, e
 	msg = append(msg, byte(s>>16))
 	msg = append(msg, byte(s>>24))
 	// iov : in []byte
-	msg = append(msg, iov...)
+	msg = append(msg, byte(len(iov)), byte(len(iov)>>8), byte(len(iov)>>16), byte(len(iov)>>24))
+	msg = append(msg, []byte(iov)...)
 	// iovcnt : in int32
 	msg = append(msg, byte(iovcnt>>0))
 	msg = append(msg, byte(iovcnt>>8))
@@ -6779,13 +6867,37 @@ func (r *RTL8720DN) Rpc_lwip_select(maxfdp1 int32, readset []byte, writeset []by
 	msg = append(msg, byte(maxfdp1>>16))
 	msg = append(msg, byte(maxfdp1>>24))
 	// readset : in []byte nullable
-	msg = append(msg, readset...)
+	if len(readset) == 0 {
+		msg = append(msg, 1)
+	} else {
+		msg = append(msg, 0)
+		msg = append(msg, byte(len(readset)), byte(len(readset)>>8), byte(len(readset)>>16), byte(len(readset)>>24))
+		msg = append(msg, []byte(readset)...)
+	}
 	// writeset : in []byte nullable
-	msg = append(msg, writeset...)
+	if len(writeset) == 0 {
+		msg = append(msg, 1)
+	} else {
+		msg = append(msg, 0)
+		msg = append(msg, byte(len(writeset)), byte(len(writeset)>>8), byte(len(writeset)>>16), byte(len(writeset)>>24))
+		msg = append(msg, []byte(writeset)...)
+	}
 	// exceptset : in []byte nullable
-	msg = append(msg, exceptset...)
+	if len(exceptset) == 0 {
+		msg = append(msg, 1)
+	} else {
+		msg = append(msg, 0)
+		msg = append(msg, byte(len(exceptset)), byte(len(exceptset)>>8), byte(len(exceptset)>>16), byte(len(exceptset)>>24))
+		msg = append(msg, []byte(exceptset)...)
+	}
 	// timeout : in []byte nullable
-	msg = append(msg, timeout...)
+	if len(timeout) == 0 {
+		msg = append(msg, 1)
+	} else {
+		msg = append(msg, 0)
+		msg = append(msg, byte(len(timeout)), byte(len(timeout)>>8), byte(len(timeout)>>16), byte(len(timeout)>>24))
+		msg = append(msg, []byte(timeout)...)
+	}
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -6819,7 +6931,8 @@ func (r *RTL8720DN) Rpc_lwip_ioctl(s int32, cmd uint32, in_argp []byte, out_argp
 	msg = append(msg, byte(cmd>>16))
 	msg = append(msg, byte(cmd>>24))
 	// in_argp : in []byte
-	msg = append(msg, in_argp...)
+	msg = append(msg, byte(len(in_argp)), byte(len(in_argp)>>8), byte(len(in_argp)>>16), byte(len(in_argp)>>24))
+	msg = append(msg, []byte(in_argp)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -6948,7 +7061,13 @@ func (r *RTL8720DN) Rpc_dns_gethostbyname_addrtype(hostname string, addr []byte,
 	msg = append(msg, byte(found>>16))
 	msg = append(msg, byte(found>>24))
 	// callback_arg : in []byte nullable
-	msg = append(msg, callback_arg...)
+	if len(callback_arg) == 0 {
+		msg = append(msg, 1)
+	} else {
+		msg = append(msg, 0)
+		msg = append(msg, byte(len(callback_arg)), byte(len(callback_arg)>>8), byte(len(callback_arg)>>16), byte(len(callback_arg)>>24))
+		msg = append(msg, []byte(callback_arg)...)
+	}
 	// dns_addrtype : in uint8
 	msg = append(msg, byte(dns_addrtype>>0))
 
@@ -7579,7 +7698,7 @@ func (r *RTL8720DN) Rpc_wifi_data_to_read(ssl_client uint32) (int32, error) {
 	return result, err
 }
 
-func (r *RTL8720DN) Rpc_wifi_send_ssl_data(ssl_client uint32, data []byte, len uint16) (int32, error) {
+func (r *RTL8720DN) Rpc_wifi_send_ssl_data(ssl_client uint32, data []byte, length uint16) (int32, error) {
 	if r.debug {
 		fmt.Printf("rpc_wifi_send_ssl_data()\r\n")
 	}
@@ -7591,10 +7710,11 @@ func (r *RTL8720DN) Rpc_wifi_send_ssl_data(ssl_client uint32, data []byte, len u
 	msg = append(msg, byte(ssl_client>>16))
 	msg = append(msg, byte(ssl_client>>24))
 	// data : in []byte
-	msg = append(msg, data...)
-	// len : in uint16
-	msg = append(msg, byte(len>>0))
-	msg = append(msg, byte(len>>8))
+	msg = append(msg, byte(len(data)), byte(len(data)>>8), byte(len(data)>>16), byte(len(data)>>24))
+	msg = append(msg, []byte(data)...)
+	// length : in uint16
+	msg = append(msg, byte(length>>0))
+	msg = append(msg, byte(length>>8))
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -8186,7 +8306,8 @@ func (r *RTL8720DN) Rpc_wifi_event_callback(event []byte) error {
 	msg := startWriteMessage(0x00, 0x13, 0x01, uint32(r.seq))
 
 	// event : in []byte
-	msg = append(msg, event...)
+	msg = append(msg, byte(len(event)), byte(len(event)>>8), byte(len(event)>>16), byte(len(event)>>24))
+	msg = append(msg, []byte(event)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -8210,9 +8331,16 @@ func (r *RTL8720DN) Rpc_wifi_dns_found(hostname string, ipaddr []byte, arg []byt
 	msg = append(msg, byte(len(hostname)), byte(len(hostname)>>8), byte(len(hostname)>>16), byte(len(hostname)>>24))
 	msg = append(msg, []byte(hostname)...)
 	// ipaddr : in []byte
-	msg = append(msg, ipaddr...)
+	msg = append(msg, byte(len(ipaddr)), byte(len(ipaddr)>>8), byte(len(ipaddr)>>16), byte(len(ipaddr)>>24))
+	msg = append(msg, []byte(ipaddr)...)
 	// arg : in []byte nullable
-	msg = append(msg, arg...)
+	if len(arg) == 0 {
+		msg = append(msg, 1)
+	} else {
+		msg = append(msg, 0)
+		msg = append(msg, byte(len(arg)), byte(len(arg)>>8), byte(len(arg)>>16), byte(len(arg)>>24))
+		msg = append(msg, []byte(arg)...)
+	}
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -8238,7 +8366,8 @@ func (r *RTL8720DN) Rpc_tcpip_api_call_fn(fn uint32, call []byte) (int32, error)
 	msg = append(msg, byte(fn>>16))
 	msg = append(msg, byte(fn>>24))
 	// call : in []byte
-	msg = append(msg, call...)
+	msg = append(msg, byte(len(call)), byte(len(call)>>8), byte(len(call)>>16), byte(len(call)>>24))
+	msg = append(msg, []byte(call)...)
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -8267,9 +8396,11 @@ func (r *RTL8720DN) Rpc_tcp_connected_fn(fn uint32, arg []byte, tpcb []byte, err
 	msg = append(msg, byte(fn>>16))
 	msg = append(msg, byte(fn>>24))
 	// arg : in []byte
-	msg = append(msg, arg...)
+	msg = append(msg, byte(len(arg)), byte(len(arg)>>8), byte(len(arg)>>16), byte(len(arg)>>24))
+	msg = append(msg, []byte(arg)...)
 	// tpcb : in []byte
-	msg = append(msg, tpcb...)
+	msg = append(msg, byte(len(tpcb)), byte(len(tpcb)>>8), byte(len(tpcb)>>16), byte(len(tpcb)>>24))
+	msg = append(msg, []byte(tpcb)...)
 	// err_val : in int32
 	msg = append(msg, byte(err_val>>0))
 	msg = append(msg, byte(err_val>>8))
@@ -8303,13 +8434,17 @@ func (r *RTL8720DN) Rpc_tcp_recv_fn(fn uint32, arg []byte, tpcb []byte, p_data [
 	msg = append(msg, byte(fn>>16))
 	msg = append(msg, byte(fn>>24))
 	// arg : in []byte
-	msg = append(msg, arg...)
+	msg = append(msg, byte(len(arg)), byte(len(arg)>>8), byte(len(arg)>>16), byte(len(arg)>>24))
+	msg = append(msg, []byte(arg)...)
 	// tpcb : in []byte
-	msg = append(msg, tpcb...)
+	msg = append(msg, byte(len(tpcb)), byte(len(tpcb)>>8), byte(len(tpcb)>>16), byte(len(tpcb)>>24))
+	msg = append(msg, []byte(tpcb)...)
 	// p_data : in []byte
-	msg = append(msg, p_data...)
+	msg = append(msg, byte(len(p_data)), byte(len(p_data)>>8), byte(len(p_data)>>16), byte(len(p_data)>>24))
+	msg = append(msg, []byte(p_data)...)
 	// p_addr : in []byte
-	msg = append(msg, p_addr...)
+	msg = append(msg, byte(len(p_addr)), byte(len(p_addr)>>8), byte(len(p_addr)>>16), byte(len(p_addr)>>24))
+	msg = append(msg, []byte(p_addr)...)
 	// err_val : in int32
 	msg = append(msg, byte(err_val>>0))
 	msg = append(msg, byte(err_val>>8))
@@ -8343,9 +8478,11 @@ func (r *RTL8720DN) Rpc_tcp_accept_fn(fn uint32, arg []byte, newpcb []byte, err_
 	msg = append(msg, byte(fn>>16))
 	msg = append(msg, byte(fn>>24))
 	// arg : in []byte
-	msg = append(msg, arg...)
+	msg = append(msg, byte(len(arg)), byte(len(arg)>>8), byte(len(arg)>>16), byte(len(arg)>>24))
+	msg = append(msg, []byte(arg)...)
 	// newpcb : in []byte
-	msg = append(msg, newpcb...)
+	msg = append(msg, byte(len(newpcb)), byte(len(newpcb)>>8), byte(len(newpcb)>>16), byte(len(newpcb)>>24))
+	msg = append(msg, []byte(newpcb)...)
 	// err_val : in int32
 	msg = append(msg, byte(err_val>>0))
 	msg = append(msg, byte(err_val>>8))
@@ -8379,7 +8516,8 @@ func (r *RTL8720DN) Rpc_tcp_err_fn(fn uint32, arg []byte, err_val int32) (int32,
 	msg = append(msg, byte(fn>>16))
 	msg = append(msg, byte(fn>>24))
 	// arg : in []byte
-	msg = append(msg, arg...)
+	msg = append(msg, byte(len(arg)), byte(len(arg)>>8), byte(len(arg)>>16), byte(len(arg)>>24))
+	msg = append(msg, []byte(arg)...)
 	// err_val : in int32
 	msg = append(msg, byte(err_val>>0))
 	msg = append(msg, byte(err_val>>8))
@@ -8401,7 +8539,7 @@ func (r *RTL8720DN) Rpc_tcp_err_fn(fn uint32, arg []byte, err_val int32) (int32,
 	return result, err
 }
 
-func (r *RTL8720DN) Rpc_tcp_sent_fn(fn uint32, arg []byte, tpcb []byte, len uint16) (int32, error) {
+func (r *RTL8720DN) Rpc_tcp_sent_fn(fn uint32, arg []byte, tpcb []byte, length uint16) (int32, error) {
 	if r.debug {
 		fmt.Printf("rpc_tcp_sent_fn()\r\n")
 	}
@@ -8413,12 +8551,14 @@ func (r *RTL8720DN) Rpc_tcp_sent_fn(fn uint32, arg []byte, tpcb []byte, len uint
 	msg = append(msg, byte(fn>>16))
 	msg = append(msg, byte(fn>>24))
 	// arg : in []byte
-	msg = append(msg, arg...)
+	msg = append(msg, byte(len(arg)), byte(len(arg)>>8), byte(len(arg)>>16), byte(len(arg)>>24))
+	msg = append(msg, []byte(arg)...)
 	// tpcb : in []byte
-	msg = append(msg, tpcb...)
-	// len : in uint16
-	msg = append(msg, byte(len>>0))
-	msg = append(msg, byte(len>>8))
+	msg = append(msg, byte(len(tpcb)), byte(len(tpcb)>>8), byte(len(tpcb)>>16), byte(len(tpcb)>>24))
+	msg = append(msg, []byte(tpcb)...)
+	// length : in uint16
+	msg = append(msg, byte(length>>0))
+	msg = append(msg, byte(length>>8))
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -8447,9 +8587,11 @@ func (r *RTL8720DN) Rpc_tcp_poll_fn(fn uint32, arg []byte, tpcb []byte) (int32, 
 	msg = append(msg, byte(fn>>16))
 	msg = append(msg, byte(fn>>24))
 	// arg : in []byte
-	msg = append(msg, arg...)
+	msg = append(msg, byte(len(arg)), byte(len(arg)>>8), byte(len(arg)>>16), byte(len(arg)>>24))
+	msg = append(msg, []byte(arg)...)
 	// tpcb : in []byte
-	msg = append(msg, tpcb...)
+	msg = append(msg, byte(len(tpcb)), byte(len(tpcb)>>8), byte(len(tpcb)>>16), byte(len(tpcb)>>24))
+	msg = append(msg, []byte(tpcb)...)
 
 	err := r.performRequest(msg)
 	if err != nil {

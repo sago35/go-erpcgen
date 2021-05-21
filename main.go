@@ -339,7 +339,7 @@ func (a GoArgument) ArgString() string {
 }
 
 func (a *GoArgument) SetNullable(opt []string) {
-	f := false
+	f := a.Nullable
 	for _, o := range opt {
 		if o == "nullable" {
 			f = true
@@ -396,12 +396,15 @@ func generateGoCode(p *Program) error {
 						}
 						if t == "binary" {
 							t = "[]byte"
+							a.Nullable = true
 						}
 						a.Typ = append(a.Typ, t)
 					}
 					a.Name = arg.Name
 					if a.Name == "func" {
 						a.Name = "fn"
+					} else if a.Name == "len" {
+						a.Name = "length"
 					}
 					a.SetNullable(arg.Options)
 					arguments = append(arguments, a)
@@ -444,7 +447,7 @@ func generateGoCode(p *Program) error {
 									fmt.Printf("	msg = append(msg, byte(%s>>%d))\n", a.Name, i*8)
 								}
 							}
-						} else if a.Type() == "string" {
+						} else if a.Type() == "string" || a.Type() == "[]byte" {
 							if a.Nullable {
 								fmt.Printf("	if len(%s) == 0 {\n", a.Name)
 								fmt.Printf("		msg = append(msg, 1)\n")
