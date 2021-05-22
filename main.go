@@ -396,7 +396,7 @@ func generateGoCode(p *Program) error {
 						}
 						if t == "binary" {
 							t = "[]byte"
-							a.Nullable = true
+							//a.Nullable = true
 						}
 						a.Typ = append(a.Typ, t)
 					}
@@ -551,6 +551,30 @@ func generateGoCode(p *Program) error {
 					fmt.Printf("	%s_length := binary.LittleEndian.Uint32(payload[widx:])\n", "result")
 					fmt.Printf("	widx += 4\n")
 					fmt.Printf("	result = %s(payload[widx:widx+int(%s_length)])\n", typ, "result")
+				} else if typ == "int32" || typ == "int16" || typ == "int8" {
+					fmt.Printf("	var result %s\n", typ)
+					fmt.Printf("	x := binary.LittleEndian.Uint32(payload[widx:])\n")
+					switch typ {
+					case "int32":
+						fmt.Printf("	if x >= 0x80000000 {\n")
+						fmt.Printf("		result = %s(int(x) * -1)\n", typ)
+						fmt.Printf("	} else {\n")
+						fmt.Printf("		result = %s(int(x))\n", typ)
+						fmt.Printf("	}\n")
+					case "int16":
+						fmt.Printf("	if x >= 0x8000 {\n")
+						fmt.Printf("		result = %s(int(x) * -1)\n", typ)
+						fmt.Printf("	} else {\n")
+						fmt.Printf("		result = %s(int(x))\n", typ)
+						fmt.Printf("	}\n")
+					case "int8":
+						fmt.Printf("	if x >= 0x80 {\n")
+						fmt.Printf("		result = %s(int(x) * -1)\n", typ)
+						fmt.Printf("	} else {\n")
+						fmt.Printf("		result = %s(int(x))\n", typ)
+						fmt.Printf("	}\n")
+					}
+					fmt.Printf("	result = %s(x)\n", typ)
 				} else {
 					fmt.Printf("	var result %s\n", typ)
 					fmt.Printf("	result = %s(binary.LittleEndian.Uint32(payload[widx:]))\n", typ)

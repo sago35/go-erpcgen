@@ -3214,7 +3214,13 @@ func (r *RTL8720DN) Rpc_wifi_connect(ssid string, password string, security_type
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3265,7 +3271,13 @@ func (r *RTL8720DN) Rpc_wifi_connect_bssid(bssid []byte, ssid string, password s
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3286,7 +3298,13 @@ func (r *RTL8720DN) Rpc_wifi_disconnect() (int32, error) {
 	<-r.received
 	widx := 8
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3307,7 +3325,13 @@ func (r *RTL8720DN) Rpc_wifi_is_connected_to_ap() (int32, error) {
 	<-r.received
 	widx := 8
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3334,7 +3358,13 @@ func (r *RTL8720DN) Rpc_wifi_is_up(itf uint32) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3361,7 +3391,13 @@ func (r *RTL8720DN) Rpc_wifi_is_ready_to_transceive(itf uint32) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3386,7 +3422,13 @@ func (r *RTL8720DN) Rpc_wifi_set_mac_address(mac []byte) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3410,7 +3452,13 @@ func (r *RTL8720DN) Rpc_wifi_get_mac_address(mac uint8) (int32, error) {
 // not impl
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3431,7 +3479,13 @@ func (r *RTL8720DN) Rpc_wifi_enable_powersave() (int32, error) {
 	<-r.received
 	widx := 8
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3452,7 +3506,13 @@ func (r *RTL8720DN) Rpc_wifi_resume_powersave() (int32, error) {
 	<-r.received
 	widx := 8
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3473,7 +3533,13 @@ func (r *RTL8720DN) Rpc_wifi_disable_powersave() (int32, error) {
 	<-r.received
 	widx := 8
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3541,7 +3607,13 @@ func (r *RTL8720DN) Rpc_wifi_get_associated_client_list(client_list_buffer []byt
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3565,7 +3637,13 @@ func (r *RTL8720DN) Rpc_wifi_get_ap_bssid(bssid uint8) (int32, error) {
 // not impl
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3596,7 +3674,13 @@ func (r *RTL8720DN) Rpc_wifi_get_ap_info(ap_info []byte, security uint32) (int32
 // not impl
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3623,7 +3707,13 @@ func (r *RTL8720DN) Rpc_wifi_set_country(country_code uint32) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3647,7 +3737,13 @@ func (r *RTL8720DN) Rpc_wifi_get_sta_max_data_rate(inidata_rate uint8) (int32, e
 // not impl
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3671,7 +3767,13 @@ func (r *RTL8720DN) Rpc_wifi_get_rssi(pRSSI int32) (int32, error) {
 // not impl
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3698,7 +3800,13 @@ func (r *RTL8720DN) Rpc_wifi_set_channel(channel int32) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3722,7 +3830,13 @@ func (r *RTL8720DN) Rpc_wifi_get_channel(channel int32) (int32, error) {
 // not impl
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3746,7 +3860,13 @@ func (r *RTL8720DN) Rpc_wifi_change_channel_plan(channel_plan uint8) (int32, err
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3770,7 +3890,13 @@ func (r *RTL8720DN) Rpc_wifi_register_multicast_address(mac uint8) (int32, error
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3794,7 +3920,13 @@ func (r *RTL8720DN) Rpc_wifi_unregister_multicast_address(mac uint8) (int32, err
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3815,7 +3947,13 @@ func (r *RTL8720DN) Rpc_wifi_rf_on() (int32, error) {
 	<-r.received
 	widx := 8
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3836,7 +3974,13 @@ func (r *RTL8720DN) Rpc_wifi_rf_off() (int32, error) {
 	<-r.received
 	widx := 8
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3863,7 +4007,13 @@ func (r *RTL8720DN) Rpc_wifi_on(mode uint32) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3884,7 +4034,13 @@ func (r *RTL8720DN) Rpc_wifi_off() (int32, error) {
 	<-r.received
 	widx := 8
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3911,7 +4067,13 @@ func (r *RTL8720DN) Rpc_wifi_set_mode(mode uint32) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3932,7 +4094,13 @@ func (r *RTL8720DN) Rpc_wifi_off_fastly() (int32, error) {
 	<-r.received
 	widx := 8
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3958,7 +4126,13 @@ func (r *RTL8720DN) Rpc_wifi_set_power_mode(ips_mode uint8, lps_mode uint8) (int
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -3988,7 +4162,13 @@ func (r *RTL8720DN) Rpc_wifi_set_tdma_param(slot_period uint8, rfon_period_len_1
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4012,7 +4192,13 @@ func (r *RTL8720DN) Rpc_wifi_set_lps_dtim(dtim uint8) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4036,7 +4222,13 @@ func (r *RTL8720DN) Rpc_wifi_get_lps_dtim(dtim uint8) (int32, error) {
 // not impl
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4060,7 +4252,13 @@ func (r *RTL8720DN) Rpc_wifi_set_lps_thresh(mode uint8) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4084,7 +4282,13 @@ func (r *RTL8720DN) Rpc_wifi_set_lps_level(lps_level uint8) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4108,7 +4312,13 @@ func (r *RTL8720DN) Rpc_wifi_set_mfp_support(value uint8) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4151,7 +4361,13 @@ func (r *RTL8720DN) Rpc_wifi_start_ap(ssid string, password string, security_typ
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4194,7 +4410,13 @@ func (r *RTL8720DN) Rpc_wifi_start_ap_with_hidden_ssid(ssid string, password str
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4221,7 +4443,13 @@ func (r *RTL8720DN) Rpc_wifi_set_pscan_chan(channel_list []byte, pscan_config ui
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4253,7 +4481,13 @@ func (r *RTL8720DN) Rpc_wifi_get_setting(ifname string, pSetting []byte) (int32,
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4280,7 +4514,13 @@ func (r *RTL8720DN) Rpc_wifi_set_network_mode(mode uint32) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4304,7 +4544,13 @@ func (r *RTL8720DN) Rpc_wifi_get_network_mode(pmode uint32) (int32, error) {
 // not impl
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4328,7 +4574,13 @@ func (r *RTL8720DN) Rpc_wifi_set_wps_phase(is_trigger_wps uint8) (int32, error) 
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4366,7 +4618,13 @@ func (r *RTL8720DN) Rpc_wifi_restart_ap(ssid []byte, password []byte, security_t
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4395,7 +4653,13 @@ func (r *RTL8720DN) Rpc_wifi_config_autoreconnect(mode uint8, retry_times uint8,
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4419,7 +4683,13 @@ func (r *RTL8720DN) Rpc_wifi_set_autoreconnect(mode uint8) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4443,7 +4713,13 @@ func (r *RTL8720DN) Rpc_wifi_get_autoreconnect(mode uint8) (int32, error) {
 // not impl
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4464,7 +4740,13 @@ func (r *RTL8720DN) Rpc_wifi_get_last_error() (int32, error) {
 	<-r.received
 	widx := 8
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4489,7 +4771,13 @@ func (r *RTL8720DN) Rpc_wifi_add_custom_ie(cus_ie []byte) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4519,7 +4807,13 @@ func (r *RTL8720DN) Rpc_wifi_update_custom_ie(cus_ie []byte, ie_index int32) (in
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4540,7 +4834,13 @@ func (r *RTL8720DN) Rpc_wifi_del_custom_ie() (int32, error) {
 	<-r.received
 	widx := 8
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4588,7 +4888,13 @@ func (r *RTL8720DN) Rpc_wifi_get_drv_ability(ability uint32) (int32, error) {
 // not impl
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4612,7 +4918,13 @@ func (r *RTL8720DN) Rpc_wifi_set_channel_plan(channel_plan uint8) (int32, error)
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4636,7 +4948,13 @@ func (r *RTL8720DN) Rpc_wifi_get_channel_plan(channel_plan uint8) (int32, error)
 // not impl
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4657,7 +4975,13 @@ func (r *RTL8720DN) Rpc_wifi_enable_forwarding() (int32, error) {
 	<-r.received
 	widx := 8
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4678,7 +5002,13 @@ func (r *RTL8720DN) Rpc_wifi_disable_forwarding() (int32, error) {
 	<-r.received
 	widx := 8
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4702,7 +5032,13 @@ func (r *RTL8720DN) Rpc_wifi_set_ch_deauth(enable uint8) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4750,7 +5086,13 @@ func (r *RTL8720DN) Rpc_wifi_set_tx_pause_data(NewState uint32) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4779,7 +5121,13 @@ func (r *RTL8720DN) Rpc_wifi_get_reconnect_data(wifi_info []byte) (int32, error)
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4800,7 +5148,13 @@ func (r *RTL8720DN) Rpc_wifi_clear_reconnect_data() (int32, error) {
 	<-r.received
 	widx := 8
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4821,7 +5175,13 @@ func (r *RTL8720DN) Rpc_wifi_scan_start() (int32, error) {
 	<-r.received
 	widx := 8
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4874,7 +5234,13 @@ func (r *RTL8720DN) Rpc_wifi_scan_get_ap_records(number uint16, _scanResult []by
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4916,7 +5282,13 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_init() (int32, error) {
 	<-r.received
 	widx := 8
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4944,7 +5316,13 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_sta_start(mac []byte, ip_info []byte) (int
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4972,7 +5350,13 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_ap_start(mac []byte, ip_info []byte) (int3
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -4999,7 +5383,13 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_stop(tcpip_if uint32) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5026,7 +5416,13 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_up(tcpip_if uint32) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5053,7 +5449,13 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_down(tcpip_if uint32) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5087,7 +5489,13 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_get_ip_info(tcpip_if uint32, ip_info []byt
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5117,7 +5525,13 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_set_ip_info(tcpip_if uint32, ip_info []byt
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5152,7 +5566,13 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_set_dns_info(tcpip_if uint32, dns_type uin
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5191,7 +5611,13 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_get_dns_info(tcpip_if uint32, dns_type uin
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5218,7 +5644,13 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_dhcps_start(tcpip_if uint32) (int32, error
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5245,7 +5677,13 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_dhcps_stop(tcpip_if uint32) (int32, error)
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5272,7 +5710,13 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_dhcpc_start(tcpip_if uint32) (int32, error
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5299,7 +5743,13 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_dhcpc_stop(tcpip_if uint32) (int32, error)
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5329,7 +5779,13 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_set_hostname(tcpip_if uint32, hostname str
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5363,7 +5819,13 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_get_hostname(tcpip_if uint32, hostname str
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5397,7 +5859,13 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_get_mac(tcpip_if uint32, mac []byte) (int3
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5427,7 +5895,13 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_set_mac(tcpip_if uint32, mac []byte) (int3
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5455,7 +5929,13 @@ func (r *RTL8720DN) Rpc_tcpip_api_call(fn []byte, call []byte) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5496,7 +5976,13 @@ func (r *RTL8720DN) Rpc_tcp_connect(pcb_in []byte, pcb_out []byte, ipaddr []byte
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5531,7 +6017,13 @@ func (r *RTL8720DN) Rpc_tcp_recved(pcb_in []byte, pcb_out []byte, length uint16)
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5563,7 +6055,13 @@ func (r *RTL8720DN) Rpc_tcp_abort(pcb_in []byte, pcb_out []byte) (int32, error) 
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5600,7 +6098,13 @@ func (r *RTL8720DN) Rpc_tcp_write(pcb_in []byte, pcb_out []byte, data []byte, ap
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5632,7 +6136,13 @@ func (r *RTL8720DN) Rpc_tcp_output(pcb_in []byte, pcb_out []byte) (int32, error)
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5664,7 +6174,13 @@ func (r *RTL8720DN) Rpc_tcp_close(pcb_in []byte, pcb_out []byte) (int32, error) 
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5702,7 +6218,13 @@ func (r *RTL8720DN) Rpc_tcp_bind(pcb_in []byte, pcb_out []byte, ipaddr []byte, p
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5733,7 +6255,13 @@ func (r *RTL8720DN) Rpc_tcp_new_ip_type(ip_type uint8, pcb_out []byte) (int32, e
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5768,7 +6296,13 @@ func (r *RTL8720DN) Rpc_tcp_arg(pcb_in []byte, pcb_out []byte, func_arg []byte) 
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5803,7 +6337,13 @@ func (r *RTL8720DN) Rpc_tcp_err(pcb_in []byte, pcb_out []byte, func_err []byte) 
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5838,7 +6378,13 @@ func (r *RTL8720DN) Rpc_tcp_recv(pcb_in []byte, pcb_out []byte, func_recv []byte
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5873,7 +6419,13 @@ func (r *RTL8720DN) Rpc_tcp_sent(pcb_in []byte, pcb_out []byte, func_sent []byte
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5908,7 +6460,13 @@ func (r *RTL8720DN) Rpc_tcp_accept(pcb_in []byte, pcb_out []byte, func_accept []
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5945,7 +6503,13 @@ func (r *RTL8720DN) Rpc_tcp_poll(pcb_in []byte, pcb_out []byte, func_poll []byte
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -5979,7 +6543,13 @@ func (r *RTL8720DN) Rpc_tcp_listen_with_backlog(pcb_in []byte, pcb_out []byte, b
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6004,7 +6574,13 @@ func (r *RTL8720DN) Rpc_pbuf_free(p []byte) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6093,7 +6669,13 @@ func (r *RTL8720DN) Rpc_lwip_accept(s int32, addr []byte, addrlen uint32) (int32
 // not impl
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6128,7 +6710,13 @@ func (r *RTL8720DN) Rpc_lwip_bind(s int32, name []byte, namelen uint32) (int32, 
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6160,7 +6748,13 @@ func (r *RTL8720DN) Rpc_lwip_shutdown(s int32, how int32) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6201,7 +6795,13 @@ func (r *RTL8720DN) Rpc_lwip_getpeername(s int32, name []byte, namelen uint32) (
 // not impl
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6242,7 +6842,13 @@ func (r *RTL8720DN) Rpc_lwip_getsockname(s int32, name []byte, namelen uint32) (
 // not impl
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6296,7 +6902,13 @@ func (r *RTL8720DN) Rpc_lwip_getsockopt(s int32, level int32, optname int32, in_
 // not impl
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6341,7 +6953,13 @@ func (r *RTL8720DN) Rpc_lwip_setsockopt(s int32, level int32, optname int32, opt
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6368,7 +6986,13 @@ func (r *RTL8720DN) Rpc_lwip_close(s int32) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6403,7 +7027,13 @@ func (r *RTL8720DN) Rpc_lwip_connect(s int32, name []byte, namelen uint32) (int3
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6435,7 +7065,13 @@ func (r *RTL8720DN) Rpc_lwip_listen(s int32, backlog int32) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6462,7 +7098,13 @@ func (r *RTL8720DN) Rpc_lwip_available(s int32) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6511,7 +7153,13 @@ func (r *RTL8720DN) Rpc_lwip_recv(s int32, mem []byte, length uint32, flags int3
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6555,7 +7203,13 @@ func (r *RTL8720DN) Rpc_lwip_read(s int32, mem []byte, length uint32, timeout ui
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6618,7 +7272,13 @@ func (r *RTL8720DN) Rpc_lwip_recvfrom(s int32, mem []byte, length uint32, flags 
 // not impl
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6653,7 +7313,13 @@ func (r *RTL8720DN) Rpc_lwip_send(s int32, dataptr []byte, flags int32) (int32, 
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6699,7 +7365,13 @@ func (r *RTL8720DN) Rpc_lwip_sendmsg(s int32, msg_name []byte, msg_iov []byte, m
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6742,7 +7414,13 @@ func (r *RTL8720DN) Rpc_lwip_sendto(s int32, dataptr []byte, flags int32, to []b
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6779,7 +7457,13 @@ func (r *RTL8720DN) Rpc_lwip_socket(domain int32, l_type int32, protocol int32) 
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6814,7 +7498,13 @@ func (r *RTL8720DN) Rpc_lwip_write(s int32, dataptr []byte, size uint32) (int32,
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6849,7 +7539,13 @@ func (r *RTL8720DN) Rpc_lwip_writev(s int32, iov []byte, iovcnt int32) (int32, e
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6908,7 +7604,13 @@ func (r *RTL8720DN) Rpc_lwip_select(maxfdp1 int32, readset []byte, writeset []by
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6950,7 +7652,13 @@ func (r *RTL8720DN) Rpc_lwip_ioctl(s int32, cmd uint32, in_argp []byte, out_argp
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -6987,7 +7695,13 @@ func (r *RTL8720DN) Rpc_lwip_fcntl(s int32, cmd int32, val int32) (int32, error)
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -7008,7 +7722,13 @@ func (r *RTL8720DN) Rpc_lwip_errno() (int32, error) {
 	<-r.received
 	widx := 8
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -7040,7 +7760,13 @@ func (r *RTL8720DN) Rpc_netconn_gethostbyname(name string, addr []byte) (int8, e
 	}
 
 	var result int8
-	result = int8(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80 {
+		result = int8(int(x) * -1)
+	} else {
+		result = int8(int(x))
+	}
+	result = int8(x)
 
 	r.seq++
 	return result, err
@@ -7087,7 +7813,13 @@ func (r *RTL8720DN) Rpc_dns_gethostbyname_addrtype(hostname string, addr []byte,
 	}
 
 	var result int8
-	result = int8(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80 {
+		result = int8(int(x) * -1)
+	} else {
+		result = int8(int(x))
+	}
+	result = int8(x)
 
 	r.seq++
 	return result, err
@@ -7241,7 +7973,13 @@ func (r *RTL8720DN) Rpc_wifi_ssl_get_socket(ssl_client uint32) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -7641,7 +8379,13 @@ func (r *RTL8720DN) Rpc_wifi_start_ssl_client(ssl_client uint32, host string, po
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -7692,7 +8436,13 @@ func (r *RTL8720DN) Rpc_wifi_data_to_read(ssl_client uint32) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -7725,7 +8475,13 @@ func (r *RTL8720DN) Rpc_wifi_send_ssl_data(ssl_client uint32, data []byte, lengt
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -7764,7 +8520,13 @@ func (r *RTL8720DN) Rpc_wifi_get_ssl_receive(ssl_client uint32, data []byte, len
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -7885,7 +8647,13 @@ func (r *RTL8720DN) Rpc_mdns_init() (int32, error) {
 	<-r.received
 	widx := 8
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -7906,7 +8674,13 @@ func (r *RTL8720DN) Rpc_mdns_free() (int32, error) {
 	<-r.received
 	widx := 8
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -7940,7 +8714,13 @@ func (r *RTL8720DN) Rpc_mdns_service_add(instance_name string, service_type stri
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -7968,7 +8748,13 @@ func (r *RTL8720DN) Rpc_mdns_service_remove(service_type string, proto string) (
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -8002,7 +8788,13 @@ func (r *RTL8720DN) Rpc_mdns_service_txt_item_set(service_type string, proto str
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -8033,7 +8825,13 @@ func (r *RTL8720DN) Rpc_mdns_service_instance_name_set(service string, proto str
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -8058,7 +8856,13 @@ func (r *RTL8720DN) Rpc_mdns_instance_name_set(instance_name string) (int32, err
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -8083,7 +8887,13 @@ func (r *RTL8720DN) Rpc_mdns_hostname_set(hostname string) (int32, error) {
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -8120,7 +8930,13 @@ func (r *RTL8720DN) Rpc_mdns_query_a(host_name string, timeout uint32, addr []by
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -8160,7 +8976,13 @@ func (r *RTL8720DN) Rpc_mdns_query_ptr(service_type string, proto string, timeou
 // not impl
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -8194,7 +9016,13 @@ func (r *RTL8720DN) Rpc_mdns_query_ptr_result_basic(result_target int32, scan_re
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -8233,7 +9061,13 @@ func (r *RTL8720DN) Rpc_mdns_query_ptr_result_txt(result_target int32, txt_targe
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -8272,7 +9106,13 @@ func (r *RTL8720DN) Rpc_mdns_query_ptr_result_addr(result_target int32, addr_tar
 	}
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -8293,7 +9133,13 @@ func (r *RTL8720DN) Rpc_mdns_query_results_free() (int32, error) {
 	<-r.received
 	widx := 8
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -8378,7 +9224,13 @@ func (r *RTL8720DN) Rpc_tcpip_api_call_fn(fn uint32, call []byte) (int32, error)
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -8416,7 +9268,13 @@ func (r *RTL8720DN) Rpc_tcp_connected_fn(fn uint32, arg []byte, tpcb []byte, err
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -8460,7 +9318,13 @@ func (r *RTL8720DN) Rpc_tcp_recv_fn(fn uint32, arg []byte, tpcb []byte, p_data [
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -8498,7 +9362,13 @@ func (r *RTL8720DN) Rpc_tcp_accept_fn(fn uint32, arg []byte, newpcb []byte, err_
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -8533,7 +9403,13 @@ func (r *RTL8720DN) Rpc_tcp_err_fn(fn uint32, arg []byte, err_val int32) (int32,
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -8569,7 +9445,13 @@ func (r *RTL8720DN) Rpc_tcp_sent_fn(fn uint32, arg []byte, tpcb []byte, length u
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
@@ -8602,7 +9484,13 @@ func (r *RTL8720DN) Rpc_tcp_poll_fn(fn uint32, arg []byte, tpcb []byte) (int32, 
 	widx := 8
 
 	var result int32
-	result = int32(binary.LittleEndian.Uint32(payload[widx:]))
+	x := binary.LittleEndian.Uint32(payload[widx:])
+	if x >= 0x80000000 {
+		result = int32(int(x) * -1)
+	} else {
+		result = int32(int(x))
+	}
+	result = int32(x)
 
 	r.seq++
 	return result, err
