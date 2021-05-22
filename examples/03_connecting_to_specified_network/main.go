@@ -49,13 +49,18 @@ func run() error {
 	// delay(100);
 	time.Sleep(100 * time.Millisecond)
 
-	fmt.Printf("Connecting to WiFi..\r\n")
-	ret, err := rtl.Rpc_wifi_connect(ssid, password, securityType, -1, 0)
-	if err != nil {
-		return err
-	}
-	if ret != 0 {
-		return fmt.Errorf("wifi connect failed\n")
+	for i := 0; i < 5; i++ {
+		fmt.Printf("Connecting to WiFi..\r\n")
+		ret, err := rtl.Rpc_wifi_connect(ssid, password, securityType, -1, 0)
+		if err != nil {
+			return err
+		}
+		if ret != 0 {
+			fmt.Printf("wifi connect failed\r\n")
+			time.Sleep(100 * time.Millisecond)
+		} else {
+			break
+		}
 	}
 
 	_, err = rtl.Rpc_tcpip_adapter_dhcpc_start(0)
