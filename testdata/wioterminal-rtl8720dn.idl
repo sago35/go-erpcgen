@@ -1,0 +1,762 @@
+// testdata/erpc_idl/rpc_system.erpc
+
+
+@output_dir("erpc_shim") 
+@types_header("rpc_system_header.h")
+
+program rpc
+
+@group("system")
+interface rpc_system {
+    rpc_system_version() -> string
+    rpc_system_ack(uint8 c) -> uint8
+}
+
+//import "rpc_ble_common.erpc"
+// testdata/erpc_idl/rpc_ble_common.erpc
+
+/** @brief GAP Cause List */
+
+enum RPC_T_GAP_CAUSE
+{
+    RPC_GAP_CAUSE_SUCCESS           = 0x00,//!< Operation success.
+    RPC_GAP_CAUSE_ALREADY_IN_REQ    = 0x01,//!< Operation already in progress.
+    RPC_GAP_CAUSE_INVALID_STATE     = 0x02,//!< Invalid state.
+    RPC_GAP_CAUSE_INVALID_PARAM     = 0x03,//!< Invalid parameter.
+    RPC_GAP_CAUSE_NON_CONN          = 0x04,//!< No connection establishment.
+    RPC_GAP_CAUSE_NOT_FIND_IRK      = 0x05,//!< IRK not found.
+    RPC_GAP_CAUSE_ERROR_CREDITS     = 0x06,//!< Credits error.
+    RPC_GAP_CAUSE_SEND_REQ_FAILED   = 0x07,//!< Send Request failed.
+    RPC_GAP_CAUSE_NO_RESOURCE       = 0x08,//!< No resource.
+    RPC_GAP_CAUSE_INVALID_PDU_SIZE  = 0x09,//!< Invalid PDU size.
+    RPC_GAP_CAUSE_NOT_FIND          = 0x0a,//!< Not Found.
+    RPC_GAP_CAUSE_CONN_LIMIT        = 0x0b,//!< Connection reachs limited count.
+    RPC_GAP_CAUSE_NO_BOND           = 0x0c,//!< No Bond.
+    RPC_GAP_CAUSE_ERROR_UNKNOWN     = 0xFF,//!< Unknown error.
+};
+
+enum RPC_T_APP_RESULT
+{
+    RPC_APP_RESULT_SUCCESS                    = 0x0000,
+    RPC_APP_RESULT_PENDING                    = 0x0D01,
+    RPC_APP_RESULT_ACCEPT                     = 0x0D03,
+    RPC_APP_RESULT_REJECT                     = 0x0D04,
+    RPC_APP_RESULT_NOT_RELEASE                = 0x0D05,
+    RPC_APP_RESULT_PREP_QUEUE_FULL            = 0x0409,
+    RPC_APP_RESULT_INVALID_OFFSET             = 0x0407,
+    RPC_APP_RESULT_INVALID_VALUE_SIZE         = 0x040D,
+    RPC_APP_RESULT_INVALID_PDU                = 0x0404,
+    RPC_APP_RESULT_ATTR_NOT_FOUND             = 0x040A,
+    RPC_APP_RESULT_ATTR_NOT_LONG              = 0x040B,
+    RPC_APP_RESULT_INSUFFICIENT_RESOURCES     = 0x0411,
+    RPC_APP_RESULT_APP_ERR                    = 0x0480,
+    RPC_APP_RESULT_CCCD_IMPROPERLY_CONFIGURED = 0x04FD,
+    RPC_APP_RESULT_PROC_ALREADY_IN_PROGRESS   = 0x04FE
+};
+
+@group("ble_api")
+interface rpc_ble_host {
+    rpc_ble_init() -> bool
+    rpc_ble_start() -> void
+    rpc_ble_deinit() -> void
+}
+//import "rpc_ble_gap.erpc"
+// testdata/erpc_idl/rpc_ble_gap.erpc
+/** @brief LE advertising parameter types */
+
+enum RPC_T_LE_ADV_PARAM_TYPE {
+    RPC_GAP_PARAM_ADV_LOCAL_ADDR_TYPE = 0x260, //!< Advertisement used local bluetooth device address type. Read/Write Size is uint8.
+        RPC_GAP_PARAM_ADV_DATA = 0x261, //!< Advertisement Data. Read/Write. Max size is uint8[GAP_MAX_ADV_LEN]. Default is "02:01:05", which means that it is a Limited Discoverable Advertisement.
+        RPC_GAP_PARAM_SCAN_RSP_DATA = 0x262, //!< Scan Response Data. Read/Write. Max size is uint8[GAP_MAX_ADV_LEN]. Defaults to all 0.
+        RPC_GAP_PARAM_ADV_EVENT_TYPE = 0x263, //!< Advertisement Type. Read/Write. Size is uint8.  Default is GAP_ADTYPE_ADV_IND (@ref T_GAP_ADTYPE).
+        RPC_GAP_PARAM_ADV_DIRECT_ADDR_TYPE = 0x264, //!< Direct Advertisement Address Type. Read/Write. Size is uint8.
+        RPC_GAP_PARAM_ADV_DIRECT_ADDR = 0x265, //!< Direct Advertisement Address. Read/Write. Size is uint8[GAP_BD_ADDR_LEN]. Default is NULL.
+        RPC_GAP_PARAM_ADV_CHANNEL_MAP = 0x266, //!< Which channels to advertise on. Read/Write Size is uint8. Default is GAP_ADVCHAN_ALL (@ref ADV_CHANNEL_MAP)
+        RPC_GAP_PARAM_ADV_FILTER_POLICY = 0x267, //!< Filter Policy. Ignored when directed advertising is used. Read/Write. Size is uint8. Default is GAP_ADV_FILTER_ANY (@ref T_GAP_ADV_FILTER_POLICY).
+        RPC_GAP_PARAM_ADV_INTERVAL_MIN = 0x268, //!< Minimum advertising interval for undirected and low duty cycle directed advertising. Value range: 0x0020 - 0x4000 (20ms - 10240ms 0.625ms/step),Read/Write Size is uint16_t.
+        RPC_GAP_PARAM_ADV_INTERVAL_MAX = 0x269 //!< Maximum advertising interval for undirected and low duty cycle directed  advertising. Value range: 0x0020 - 0x4000 (20ms - 10240ms 0.625ms/step)),Read/Write Size is uint16_t.
+};
+
+/** @brief  GAP LE Parameter Types List.*/
+enum RPC_T_GAP_LE_PARAM_TYPE {
+    RPC_GAP_PARAM_DEV_STATE = 0x220, //!< Device's current GAP device state. Read/Write. Size is sizeof(TGapDevState).
+        RPC_GAP_PARAM_APPEARANCE = 0x221, //!< Local Device's Appearance. Read/Write. size is uint16. Appearance value please refer to GAP Appearance Values.(@ref GAP_LE_APPEARANCE_VALUES)
+        RPC_GAP_PARAM_DEVICE_NAME = 0x222, //!< Local Device's Name. Write Only. Name string length is GAP_DEVICE_NAME_LEN.
+        RPC_GAP_PARAM_SLAVE_INIT_GATT_MTU_REQ = 0x223, //!< Slave initiate the GATT exchange MTU procedure. Write Only.
+        RPC_GAP_PARAM_RANDOM_ADDR = 0x224, //!< Random address. Write Only.
+        RPC_GAP_PARAM_LATEST_CONN_BD_ADDR = 0x226, //!< Latest connected bluetooth devive address. Read Only.
+        RPC_GAP_PARAM_LATEST_CONN_BD_ADDR_TYPE = 0x227, //!< Latest connected bluetooth devive address type. Read Only.
+        RPC_GAP_PARAM_HANDLE_CREATE_CONN_IND = 0x228, //!< App handle the create connection indication message.
+        RPC_GAP_PARAM_DEFAULT_PHYS_PREFER = 0x229, //!< Preferred values for the transmitter PHY and receiver PHY to be used for all subsequent connections over the LE transport.
+        RPC_GAP_PARAM_DEFAULT_TX_PHYS_PREFER = 0x22a, //!< The transmitter PHYs that the Host prefers the Controller to use.
+        RPC_GAP_PARAM_DEFAULT_RX_PHYS_PREFER = 0x22b, //!< The receiver PHYs that the Host prefers the Controller to use.
+        RPC_GAP_PARAM_DEFAULT_DATA_LEN_MAX_TX_OCTETS = 0x22e,
+        RPC_GAP_PARAM_DEFAULT_DATA_LEN_MAX_TX_TIME = 0x22f,
+        RPC_GAP_PARAM_LOCAL_FEATURES = 0x230, //!< Local supported features.
+        RPC_GAP_PARAM_DS_POOL_ID = 0x231, //!< Downstream PoolID.  Read only.  size is uint16.
+        RPC_GAP_PARAM_DS_DATA_OFFSET = 0x232, //!< Downstream pool buffer data offset.  Read only.  size is uint16.
+        RPC_GAP_PARAM_LE_REMAIN_CREDITS = 0x233, //!< Remain credits avaiable for TX.  Read only.  size is uint16.
+        RPC_GAP_PARAM_MAX_WL_SIZE = 0x234, //!< Max white list size.  Read only.  size is uint16.
+};
+
+/** @brief LE scan parameter type */
+enum RPC_T_LE_SCAN_PARAM_TYPE
+{
+    RPC_GAP_PARAM_SCAN_LOCAL_ADDR_TYPE   = 0x240,  //!< The type of address being used in the scan request packets. Read/Write.
+    RPC_GAP_PARAM_SCAN_MODE              = 0x241,  //!< Scan mode. Read/Write. Size is uint8. Default is GAP_SCAN_MODE_ACTIVE (@ref T_GAP_SCAN_MODE).
+    RPC_GAP_PARAM_SCAN_INTERVAL          = 0x242,  //!< Scan Interval. Read/Write. Size is uint16_t. Default is 0x10. Value range: 0x0004 - 0x4000 (2.5ms - 10240ms 0.625ms/step).
+    RPC_GAP_PARAM_SCAN_WINDOW            = 0x243,  //!< Scan Window. Read/Write. Size is uint16_t. Default is 0x10. Value range: 0x0004 - 0x4000 (2.5ms - 10240ms 0.625ms/step).
+    RPC_GAP_PARAM_SCAN_FILTER_POLICY     = 0x244,  //!< Scan Filter Policy.Read/Write. Size is uint8_t. Default is GAP_SCAN_FILTER_ANY (@ref T_GAP_SCAN_FILTER_POLICY).
+    RPC_GAP_PARAM_SCAN_FILTER_DUPLICATES = 0x245   //!< Scan Filter Duplicates.Read/Write. Size is uint8_t. Default is GAP_SCAN_FILTER_DUPLICATE_DISABLE (@ref T_GAP_SCAN_FILTER_DUPLICATE).
+};
+
+/** @brief  Definition of LE white list operation.*/
+enum RPC_T_GAP_WHITE_LIST_OP
+{
+    RPC_GAP_WHITE_LIST_OP_CLEAR = 0,    /**<  Clear white list. */
+    RPC_GAP_WHITE_LIST_OP_ADD,          /**<  Add a device to the white list. */
+    RPC_GAP_WHITE_LIST_OP_REMOVE        /**<  Remove a device from the white list. */
+};
+
+/** @brief GAP Remote Address Type */
+enum RPC_T_GAP_REMOTE_ADDR_TYPE
+{
+    RPC_GAP_REMOTE_ADDR_LE_PUBLIC          = 0x00, /**< LE Public device address type. */
+    RPC_GAP_REMOTE_ADDR_LE_RANDOM          = 0x01, /**< LE Random device address type. */
+};
+
+/** @brief Define random adress type */
+enum RPC_T_GAP_RAND_ADDR_TYPE
+{
+    RPC_GAP_RAND_ADDR_STATIC            = 0x00,/**<  Static random device address. */
+    RPC_GAP_RAND_ADDR_NON_RESOLVABLE    = 0x01,/**<  Non resolvable random device address. */
+    RPC_GAP_RAND_ADDR_RESOLVABLE        = 0x02 /**<  Resolvable random device address. */
+};
+
+/** @brief Define indentify address type */
+enum RPC_T_GAP_IDENT_ADDR_TYPE
+{
+    RPC_GAP_IDENT_ADDR_PUBLIC      = 0x00,    /*  low energy public address. */
+    RPC_GAP_IDENT_ADDR_RAND        = 0x01,    /*  low energy random address. */
+};
+
+/** @brief GAP gatt cccd not check. */
+enum RPC_T_GAP_CONFIG_GATT_CCCD_NOT_CHECK
+{
+    RPC_CONFIG_GATT_CCCD_CHECK,         /**< Check cccd when server sends notification or indication. */
+    RPC_CONFIG_GATT_CCCD_NOT_CHECK,     /**< Not check cccd when server sends notification or indication. */
+};
+
+/** @brief GAP Parameter List */
+enum RPC_T_GAP_PARAM_TYPE
+{
+    RPC_GAP_PARAM_BD_ADDR                        = 0x200,//!< Locol Device's Address. Read Only. Size is uint8[GAP_BD_ADDR_LEN]. This item is read from the controller.
+    RPC_GAP_PARAM_BOND_PAIRING_MODE              = 0x202,//!< Pairing Mode of LE and BR/EDR. Write Only. Size is uint8_t. Default is GAP_PAIRING_MODE_PAIRABLE (@ref BOND_PAIRING_MODE_DEFINES).
+    RPC_GAP_PARAM_BOND_AUTHEN_REQUIREMENTS_FLAGS = 0x203,//!< Man-In-The-Middle (MITM) basically turns on Passkey protection in the pairing algorithm. Read/Write. Size is uint8_t. Default is GAP_AUTHEN_NO_MITM_YES_BOND (@ref BOND_MITM_DEFINES).
+    RPC_GAP_PARAM_BOND_IO_CAPABILITIES           = 0x204,//!< I/O capabilities.  Read/Write. Size is uint8_t. Default is GAP_IO_CAP_NO_INPUT_NO_OUTPUT (@ref T_GAP_IO_CAP).
+    RPC_GAP_PARAM_BOND_OOB_ENABLED               = 0x205,//!< OOB data available for pairing algorithm. Read/Write. Size is uint8_t. Default is 0(disabled).
+    RPC_GAP_PARAM_BOND_LE_PAIRING_MODE           = 0x207,//!< LE Pairing Mode. Read/Write. Size is uint8_t. Default is GAP_PAIRING_MODE_PAIRABLE (@ref BOND_PAIRING_MODE_DEFINES).
+};
+
+/** @brief LE bond parameter types */
+enum RPC_T_LE_BOND_PARAM_TYPE
+{
+    RPC_GAP_PARAM_BOND_OOB_DATA             = 0x210,//!< OOB Data. Read/Write. size uint8_t[16]. Default is all 0's.
+    RPC_GAP_PARAM_BOND_FIXED_PASSKEY        = 0x211,//!< The fix passcode for MITM protection. Read/Write. size is uint32_t. Range is 0 - 999,999. Default is 0.
+    RPC_GAP_PARAM_BOND_FIXED_PASSKEY_ENABLE = 0x212,//!< The fix passcode available for pairing. Read/Write. size is uint8_t. Default is 0(disabled).
+    RPC_GAP_PARAM_BOND_SEC_REQ_ENABLE       = 0x213,//!< Send smp security request when connected. Read/Write. size is uint8_t. Default is 0(disabled).
+    RPC_GAP_PARAM_BOND_SEC_REQ_REQUIREMENT  = 0x214,//!< Security request requirements. Read/Write. size is uint8_t. Default is GAP_AUTHEN_BIT_BONDING_FLAG (@ref BOND_MITM_DEFINES)
+    RPC_GAP_PARAM_BOND_MIN_KEY_SIZE         = 0x215,//!< Minium LTK size required. Read/Write. size is uint8_t.
+    RPC_GAP_PARAM_BOND_KEY_MANAGER          = 0x218,//!< Key manager. Write only. size is uint8_t. Default is 0(disabled).
+    RPC_GAP_PARAM_BOND_SIGN_KEY_FLAG        = 0x219,//!< Sign key flag configure. Write only. size is uint8_t. Default is 0(disabled).
+};
+
+/** @brief  GAP Confirmation Cause List */
+enum RPC_T_GAP_CFM_CAUSE
+{
+    RPC_GAP_CFM_CAUSE_ACCEPT = 0x01,    /**< Accept for indication, only used when confirmation. */
+    RPC_GAP_CFM_CAUSE_REJECT = 0x02,    /**< Reject for indication, only used when confirmation. */
+};
+
+/** @brief Definition of security level. */
+enum RPC_T_GAP_SEC_LEVEL
+{
+    RPC_GAP_SEC_LEVEL_NO          = 0x00,   /**< No security (No authentication and no encryption).*/
+    RPC_GAP_SEC_LEVEL_UNAUTHEN    = 0x04,   /**< Unauthenticated pairing with encryption.*/
+    RPC_GAP_SEC_LEVEL_AUTHEN      = 0x05,   /**< Authenticated pairing with encryption.*/
+    RPC_GAP_SEC_LEVEL_SC_UNAUTHEN = 0x07,   /**< Unuthenticated LE Secure Connections pairing with encryption using a 128-bit strength encryption key.*/
+    RPC_GAP_SEC_LEVEL_SC_AUTHEN   = 0x08    /**< Authenticated LE Secure Connections pairing with encryption using a 128-bit strength encryption key.*/
+};
+
+/** @brief LE connection parameter types */
+enum RPC_T_LE_CONN_PARAM_TYPE
+{
+    RPC_GAP_PARAM_CONN_BD_ADDR         = 0x270, //!< Address of connected device. Read only. Size is uint8[B_MAX_ADV_LEN]. Set to all zeros when not connected.
+    RPC_GAP_PARAM_CONN_BD_ADDR_TYPE    = 0x271, //!< Address type of connected device. Read only. Size is uint8. Set to zero when not connected.
+    RPC_GAP_PARAM_CONN_INTERVAL        = 0x272, //!< Current connection interval.  Read only. Size is uint16.  Range is 7.5ms to 4 seconds (0x0006 to 0x0C80).  Default is 0 (no connection).
+    RPC_GAP_PARAM_CONN_LATENCY         = 0x273, //!< Current slave latency.  Read only.  Size is uint16.  Range is 0 to 499. Default is 0 (no slave latency or no connection).
+    RPC_GAP_PARAM_CONN_TIMEOUT         = 0x274, //!< Current timeout value.  Read only.  size is uint16.  Range is 100ms to 32 seconds.  Default is 0 (no connection).
+    RPC_GAP_PARAM_CONN_MTU_SIZE        = 0x275, //!< MTU size.  Read only.  size is uint16.
+    RPC_GAP_PARAM_CONN_LOCAL_BD_TYPE   = 0x276, //!< Local bluetooth address type.  Read only.  size is 1 byte.
+    RPC_GAP_PARAM_CONN_RX_PHY_TYPE     = 0x277, //!< Rx phy type.  Read only.  size is 1 byte.
+    RPC_GAP_PARAM_CONN_TX_PHY_TYPE     = 0x278, //!< Tx phy type.  Read only.  size is 1 byte.
+    RPC_GAP_PARAM_CONN_REMOTE_FEATURES = 0x279, //!< Remote supported features.  Read only.
+    RPC_GAP_PARAM_CONN_HANDLE          = 0x27b, //!< LE link connection handle. Read only.
+};
+
+/** @brief GAP connection states*/
+enum RPC_T_GAP_CONN_STATE
+{
+    RPC_GAP_CONN_STATE_DISCONNECTED, //!< Disconnected.
+    RPC_GAP_CONN_STATE_CONNECTING,   //!< Connecting.
+    RPC_GAP_CONN_STATE_CONNECTED,    //!< Connected.
+    RPC_GAP_CONN_STATE_DISCONNECTING //!< Disconnecting.
+};
+
+/** @brief GAP link roles */
+enum RPC_T_GAP_ROLE
+{
+    RPC_GAP_LINK_ROLE_UNDEFINED,    //!< Unknown.
+    RPC_GAP_LINK_ROLE_MASTER,       //!< Role is master.
+    RPC_GAP_LINK_ROLE_SLAVE         //!< Role is slave.
+};
+
+/** @brief  Connected device information.*/
+struct RPC_T_GAP_CONN_INFO
+{ 
+    RPC_T_GAP_CONN_STATE conn_state;             //!< Connection state
+    RPC_T_GAP_ROLE       role;                   //!< Device role
+    uint8[6]             remote_bd;              //!< Remote address
+    uint8                remote_bd_type;         //!< Remote address type
+};
+
+/** @brief  Definition of LE Coded PHY preference options.*/
+enum RPC_T_GAP_PHYS_OPTIONS
+{
+    RPC_GAP_PHYS_OPTIONS_CODED_PREFER_NO   = 0,/**< Host has no preferred coding when transmitting on the LE Coded PHY */
+    RPC_GAP_PHYS_OPTIONS_CODED_PREFER_S2   = 1,/**< Host prefers that S=2 coding be used when transmitting on the LE Coded PHY */
+    RPC_GAP_PHYS_OPTIONS_CODED_PREFER_S8   = 2 /**< Host prefers that S=8 coding be used when transmitting on the LE Coded PHY */
+};
+
+/** @brief GAP connection phy types*/
+enum RPC_T_GAP_CONN_PARAM_TYPE
+{
+    RPC_GAP_CONN_PARAM_1M = 0,
+};
+
+/** @brief  Definition of LE connection request parameter.*/
+struct RPC_T_GAP_LE_CONN_REQ_PARAM
+{
+    uint16 scan_interval;/**< Time interval from when the Controller started its last scan
+                                until it begins the subsequent scan on the primary advertising channel.
+
+                                Range: 0x0004 to 0x4000
+                                Time = N * 0.625 ms
+                                Time Range: 2.5 ms to 10.24 s
+
+                                Range: 0x0004 to 0xFFFF
+                                Time = N * 0.625 ms
+                                Time Range: 2.5 ms to 40.959375 s */
+    uint16 scan_window;/**< Duration of the scan on the primary advertising channel.
+                              Range: 0x0004 to 0x4000
+                              Time = N * 0.625 ms
+                              Time Range: 2.5 ms to 10.24 s
+
+                              Range: 0x0004 to 0xFFFF
+                              Time = N * 0.625 ms
+                              Time Range: 2.5 ms to 40.959375 s */
+    uint16 conn_interval_min;/**< Minimum value for the connection interval. This shall be less
+                                    than or equal to Conn_Interval_Max[i].
+                                    Range: 0x0006 to 0x0C80
+                                    Time = N * 1.25 ms
+                                    Time Range: 7.5 ms to 4 s */
+    uint16 conn_interval_max;/**< Maximum value for the connection interval. This shall be greater
+                                    than or equal to Conn_Interval_Max[i].
+                                    Range: 0x0006 to 0x0C80
+                                    Time = N * 1.25 ms
+                                    Time Range: 7.5 ms to 4 s */
+    uint16 conn_latency;/**< Slave latency for the connection in number of connection events.
+                               Range: 0x0000 to 0x01F3 */
+    uint16 supv_tout;/**< Supervision timeout for the LE Link.
+                            Range: 0x000A to 0x0C80
+                            Time = N * 10 ms
+                            Time Range: 100 ms to 32 s */
+    uint16 ce_len_min;/**< Informative parameter recommending the minimum length of connection
+                             event needed for this LE connection.
+                             Range: 0x0000 - 0xFFFF
+                             Time = N * 0.625 ms */
+    uint16 ce_len_max;/**< Informative parameter recommending the maximum length of connection
+                             event needed for this LE connection.
+                             Range: 0x0000 - 0xFFFF
+                             Time = N * 0.625 ms */
+};
+
+/** @brief Local Device Name */
+struct RPC_T_LOCAL_NAME
+{
+    uint8[40]  local_name;
+};
+
+/** @brief Local Device Appearance */
+struct RPC_T_LOCAL_APPEARANCE
+{
+    uint16 local_appearance;
+    uint8[2]  padding;
+};
+
+/** @brief Local IRK */
+struct RPC_T_LOCAL_IRK
+{
+    uint8[16] local_irk;
+};
+
+/** @brief Remote Bluetooth device address info */
+struct RPC_T_LE_REMOTE_BD
+{
+    uint8[6]  addr;
+    uint8  remote_bd_type;
+    uint8  bond_flags;
+};
+
+/** @brief LE CCCD info */
+struct RPC_T_LE_CCCD
+{
+    uint8 data_length;
+    uint8[3] padding;
+    uint8 data;
+};
+
+/** @brief LE Key Type */
+enum RPC_T_LE_KEY_TYPE
+{
+    RPC_LE_KEY_UNAUTHEN              = 0x04, /**< SSP generated link key without MITM protection. */
+    RPC_LE_KEY_AUTHEN                = 0x05, /**< SSP generated link key with MITM protection. */
+    RPC_LE_KEY_UNAUTHEN_P256         = 0x07, /**< Security Connections generated link key without MITM protection. */
+    RPC_LE_KEY_AUTHEN_P256           = 0x08, /**< Security Connections link key with MITM protection. */
+};
+
+/** @brief LE key entry */
+struct RPC_T_LE_KEY_ENTRY
+{
+    bool is_used;
+    uint8 idx;
+    uint16 flags;
+    uint8 local_bd_type;
+    uint8 app_data;
+    uint8[2] reserved;
+    RPC_T_LE_REMOTE_BD remote_bd;
+    RPC_T_LE_REMOTE_BD resolved_remote_bd;
+};
+
+
+
+/** @brief define local adress type */
+enum RPC_T_GAP_LOCAL_ADDR_TYPE
+{
+    RPC_GAP_LOCAL_ADDR_LE_PUBLIC           = 0x00,    /**<  Bluetooth low energy public address. */
+    RPC_GAP_LOCAL_ADDR_LE_RANDOM           = 0x01,    /**<  Bluetooth low energy random address. */
+};
+
+@group("ble_api")
+interface rpc_gap{
+    rpc_gap_set_param(RPC_T_GAP_PARAM_TYPE param, in binary value) -> RPC_T_GAP_CAUSE
+    rpc_gap_get_param(RPC_T_GAP_PARAM_TYPE param, out binary value) -> RPC_T_GAP_CAUSE
+    rpc_gap_set_pairable_mode() -> RPC_T_GAP_CAUSE
+};
+
+@group("ble_api")
+interface rpc_gap_bone{
+    rpc_le_bond_set_param(RPC_T_LE_BOND_PARAM_TYPE param, in binary value) -> RPC_T_GAP_CAUSE
+    rpc_le_bond_get_param(RPC_T_LE_BOND_PARAM_TYPE param, out binary value) -> RPC_T_GAP_CAUSE
+    rpc_le_bond_pair(uint8 conn_id) -> RPC_T_GAP_CAUSE
+    rpc_le_bond_get_display_key(uint8 conn_id, out uint32 key) -> RPC_T_GAP_CAUSE
+    rpc_le_bond_passkey_input_confirm(uint8 conn_id, uint32 passcode, RPC_T_GAP_CFM_CAUSE cause) -> RPC_T_GAP_CAUSE
+    rpc_le_bond_oob_input_confirm(uint8 conn_id, RPC_T_GAP_CFM_CAUSE cause) -> RPC_T_GAP_CAUSE
+    rpc_le_bond_just_work_confirm(uint8 conn_id, RPC_T_GAP_CFM_CAUSE cause) -> RPC_T_GAP_CAUSE
+    rpc_le_bond_passkey_display_confirm(uint8 conn_id, RPC_T_GAP_CFM_CAUSE cause) -> RPC_T_GAP_CAUSE
+    rpc_le_bond_user_confirm(uint8 conn_id, RPC_T_GAP_CFM_CAUSE cause) -> RPC_T_GAP_CAUSE
+    rpc_le_bond_cfg_local_key_distribute(uint8 init_dist, uint8 rsp_dist) -> RPC_T_GAP_CAUSE
+    rpc_le_bond_clear_all_keys() -> void
+    rpc_le_bond_delete_by_idx(uint8 idx) -> RPC_T_GAP_CAUSE
+    rpc_le_bond_delete_by_bd(in uint8[6] bd_addr, RPC_T_GAP_REMOTE_ADDR_TYPE bd_type) -> RPC_T_GAP_CAUSE
+    rpc_le_bond_get_sec_level(uint8 conn_id, out RPC_T_GAP_SEC_LEVEL sec_type) -> RPC_T_GAP_CAUSE
+};
+
+@group("ble_api")
+interface rpc_gap_le {
+    rpc_le_gap_init(uint8 link_num) -> bool
+    rpc_le_gap_msg_info_way(bool use_msg) -> void
+    rpc_le_get_max_link_num() -> uint8
+    rpc_le_set_gap_param(RPC_T_GAP_LE_PARAM_TYPE param, in binary value) -> RPC_T_GAP_CAUSE
+    rpc_le_get_gap_param(RPC_T_GAP_LE_PARAM_TYPE param, out binary value) -> RPC_T_GAP_CAUSE
+    rpc_le_modify_white_list(RPC_T_GAP_WHITE_LIST_OP operation, in uint8[6] bd_addr, RPC_T_GAP_REMOTE_ADDR_TYPE bd_type) -> RPC_T_GAP_CAUSE
+    rpc_le_gen_rand_addr(RPC_T_GAP_RAND_ADDR_TYPE rand_addr_type, out uint8[6] random_bd) -> RPC_T_GAP_CAUSE
+    rpc_le_set_rand_addr(in uint8[6] random_bd) -> RPC_T_GAP_CAUSE
+    rpc_le_cfg_local_identity_address(in uint8[6] addr, RPC_T_GAP_IDENT_ADDR_TYPE ident_addr_type) -> RPC_T_GAP_CAUSE
+    rpc_le_set_host_chann_classif(in uint8 p_channel_map) -> RPC_T_GAP_CAUSE
+    rpc_le_write_default_data_len(uint16 tx_octets, uint16 tx_time) -> RPC_T_GAP_CAUSE
+};
+
+
+@group("ble_api")
+interface rpc_gap_config {
+    rpc_gap_config_cccd_not_check(RPC_T_GAP_CONFIG_GATT_CCCD_NOT_CHECK cccd_not_check_flag) -> void
+    rpc_gap_config_ccc_bits_count(uint8 gatt_server_ccc_bits_count, uint8 gatt_storage_ccc_bits_count) -> void
+    rpc_gap_config_max_attribute_table_count(uint8 gatt_max_attribute_table_count) -> void
+    rpc_gap_config_max_mtu_size(uint16 att_max_mtu_size) -> void
+    rpc_gap_config_bte_pool_size(uint8 bte_pool_size) -> void
+    rpc_gap_config_bt_report_buf_num(uint8 bt_report_buf_num) -> void
+    rpc_gap_config_le_key_storage_flag(uint16 le_key_storage_flag) -> void
+    rpc_gap_config_max_le_paired_device(uint8 max_le_paired_device) -> void
+    rpc_gap_config_max_le_link_num(uint8 le_link_num) -> void
+};
+
+@group("ble_api")
+interface rpc_gap_adv {
+    rpc_le_adv_set_param(RPC_T_LE_ADV_PARAM_TYPE param, in binary value) -> RPC_T_GAP_CAUSE
+    rpc_le_adv_get_param(RPC_T_LE_ADV_PARAM_TYPE param, out binary value) -> RPC_T_GAP_CAUSE
+    rpc_le_adv_start() -> RPC_T_GAP_CAUSE
+    rpc_le_adv_stop() -> RPC_T_GAP_CAUSE;
+    rpc_le_adv_update_param() -> RPC_T_GAP_CAUSE;
+};
+
+@group("ble_api")
+interface rpc_gap_scan {
+    rpc_le_scan_set_param(RPC_T_LE_SCAN_PARAM_TYPE param, in binary value) -> RPC_T_GAP_CAUSE
+    rpc_le_scan_get_param(RPC_T_LE_SCAN_PARAM_TYPE param, out binary value) -> RPC_T_GAP_CAUSE
+    rpc_le_scan_start() -> RPC_T_GAP_CAUSE
+    rpc_le_scan_timer_start(uint32 tick) -> RPC_T_GAP_CAUSE
+    rpc_le_scan_stop() -> RPC_T_GAP_CAUSE;
+    rpc_le_scan_info_filter(bool enable, uint8 offset, uint8 len, in uint8[31] p_filter) -> bool
+};
+
+@group("ble_api")
+interface rpc_gap_conn {
+    rpc_le_get_conn_param(RPC_T_LE_CONN_PARAM_TYPE param, out binary value, uint8 conn_id) -> RPC_T_GAP_CAUSE
+    rpc_le_get_conn_info(uint8 conn_id, out RPC_T_GAP_CONN_INFO p_conn_info) -> bool
+    rpc_le_get_conn_addr(uint8 conn_id, out uint8[6] bd_addr, out uint8 bd_type) -> bool
+    rpc_le_get_conn_id(in uint8[6] bd_addr, uint8 bd_type, out uint8 p_conn_id) -> bool
+    rpc_le_get_active_link_num() -> uint8
+    rpc_le_get_idle_link_num() -> uint8
+    rpc_le_disconnect(uint8 conn_id) -> RPC_T_GAP_CAUSE
+    rpc_le_read_rssi(uint8 conn_id) -> RPC_T_GAP_CAUSE
+    rpc_le_set_data_len(uint8 conn_id, uint16 tx_octets, uint16 tx_time) -> RPC_T_GAP_CAUSE
+    rpc_le_set_phy(uint8 conn_id, uint8 all_phys, uint8 tx_phys, uint8 rx_phys, RPC_T_GAP_PHYS_OPTIONS phy_options) -> RPC_T_GAP_CAUSE
+    rpc_le_set_conn_param(RPC_T_GAP_CONN_PARAM_TYPE conn_type, in RPC_T_GAP_LE_CONN_REQ_PARAM p_conn_param) -> RPC_T_GAP_CAUSE
+    rpc_le_connect(uint8 init_phys, in uint8[6] remote_bd,  RPC_T_GAP_REMOTE_ADDR_TYPE remote_bd_type, RPC_T_GAP_LOCAL_ADDR_TYPE local_bd_type, uint16 scan_timeout) -> RPC_T_GAP_CAUSE
+    rpc_le_update_conn_param(uint8 conn_id, uint16 conn_interval_min, uint16  conn_interval_max, uint16 conn_latency, uint16 supervision_timeout, uint16 ce_length_min, uint16 ce_length_max) -> RPC_T_GAP_CAUSE
+};
+
+@group("ble_api")
+interface rpc_gap_storage {
+    rpc_flash_save_local_name(in RPC_T_LOCAL_NAME p_data) -> uint32
+    rpc_flash_load_local_name(out RPC_T_LOCAL_NAME p_data) -> uint32
+    rpc_flash_save_local_appearance(in RPC_T_LOCAL_APPEARANCE p_data) -> uint32
+    rpc_flash_load_local_appearance(out RPC_T_LOCAL_APPEARANCE p_data) -> uint32
+    rpc_le_find_key_entry(in uint8[6] bd_addr, RPC_T_GAP_REMOTE_ADDR_TYPE bd_type) ->  @nullable RPC_T_LE_KEY_ENTRY 
+    rpc_le_find_key_entry_by_idx(uint8 idx) ->  @nullable RPC_T_LE_KEY_ENTRY 
+    rpc_le_get_bond_dev_num() -> uint8
+    rpc_le_get_low_priority_bond() ->  @nullable RPC_T_LE_KEY_ENTRY 
+    rpc_le_get_high_priority_bond() ->  @nullable RPC_T_LE_KEY_ENTRY 
+    rpc_le_set_high_priority_bond(in uint8[6] bd_addr,  RPC_T_GAP_REMOTE_ADDR_TYPE bd_type) -> bool
+    rpc_le_resolve_random_address(in uint8[6] unresolved_addr, inout uint8[6] resolved_addr, inout RPC_T_GAP_IDENT_ADDR_TYPE resolved_addr_type) -> bool
+    rpc_le_get_cccd_data(in RPC_T_LE_KEY_ENTRY p_entry, out RPC_T_LE_CCCD p_data) -> bool
+    rpc_le_gen_bond_dev(in uint8[6] bd_addr, RPC_T_GAP_REMOTE_ADDR_TYPE bd_type, RPC_T_GAP_LOCAL_ADDR_TYPE local_bd_type, in binary local_ltk, RPC_T_LE_KEY_TYPE key_type, RPC_T_LE_CCCD p_cccd) -> bool
+    rpc_le_get_dev_bond_info_len() -> uint16
+    rpc_le_set_dev_bond_info(in binary p_data, out bool exist) ->  @nullable RPC_T_LE_KEY_ENTRY 
+    rpc_le_get_dev_bond_info(RPC_T_LE_KEY_ENTRY p_entry, out binary p_data) -> bool
+};
+
+
+
+//import "rpc_ble_gatt.erpc"
+// testdata/erpc_idl/rpc_ble_gatt.erpc
+/** @brief  GATT write type*/
+enum RPC_T_GATT_WRITE_TYPE
+{
+    RPC_GATT_WRITE_TYPE_REQ = 0x01,           /**<  ATT "Write Request"  */
+    RPC_GATT_WRITE_TYPE_CMD = 0x02,           /**<  ATT "Write Command"  */
+    RPC_GATT_WRITE_TYPE_SIGNED_CMD = 0x04     /**<  ATT "Signed Write Command"  */
+} ;
+
+/** @brief  GATT PDU type*/
+enum RPC_T_GATT_PDU_TYPE
+{
+    RPC_GATT_PDU_TYPE_ANY           = 0x00, /**<  Any PDU type. */
+    RPC_GATT_PDU_TYPE_NOTIFICATION  = 0x01, /**<  Notification PDU type. */
+    RPC_GATT_PDU_TYPE_INDICATION    = 0x02  /**<  Indication PDU type. */
+};
+
+@group("ble_api")
+interface rpc_gatt_client{
+    rpc_ble_client_init(uint8 num) -> bool
+    rpc_ble_add_client(uint8 app_id, uint8 link_num) -> uint8
+    rpc_client_init(uint8 client_num)->void
+    rpc_client_all_primary_srv_discovery(uint8 conn_id, uint8 client_id) -> RPC_T_GAP_CAUSE
+    rpc_client_by_uuid_srv_discovery(uint8 conn_id, uint8 client_id, uint16 uuid16)  -> RPC_T_GAP_CAUSE
+    rpc_client_by_uuid128_srv_discovery(uint8 conn_id, uint8 client_id,in uint8[16] p_uuid128)  -> RPC_T_GAP_CAUSE
+    rpc_client_relationship_discovery(uint8 conn_id, uint8 client_id,uint16 start_handle, uint16 end_handle)  -> RPC_T_GAP_CAUSE
+    rpc_client_all_char_discovery(uint8 conn_id, uint8 client_id, uint16 start_handle, uint16 end_handle)  -> RPC_T_GAP_CAUSE
+    rpc_client_by_uuid_char_discovery(uint8 conn_id, uint8 client_id, uint16 start_handle,uint16 end_handle, uint16 uuid16)  -> RPC_T_GAP_CAUSE
+    rpc_client_by_uuid128_char_discovery(uint8 conn_id, uint8 client_id, uint16 start_handle, uint16 end_handle, uint8[16] p_uuid128)  -> RPC_T_GAP_CAUSE
+    rpc_client_all_char_descriptor_discovery(uint8 conn_id, uint8 client_id, uint16 start_handle, uint16 end_handle)  -> RPC_T_GAP_CAUSE
+    rpc_client_attr_read(uint8 conn_id, uint8 client_id, uint16 handle)  -> RPC_T_GAP_CAUSE
+    rpc_client_attr_read_using_uuid(uint8 conn_id, uint8 client_id, uint16 start_handle, uint16 end_handle, uint16 uuid16, uint8[16] p_uuid128)  -> RPC_T_GAP_CAUSE
+    rpc_client_attr_write(uint8 conn_id, uint8 client_id, RPC_T_GATT_WRITE_TYPE write_type, uint16 handle, in binary data)  -> RPC_T_GAP_CAUSE
+    rpc_client_attr_ind_confirm(uint8 conn_id)  -> RPC_T_GAP_CAUSE
+};
+
+@group("ble_api")
+interface rpc_gatt_server{
+    rpc_ble_server_init(uint8 num) -> bool
+    rpc_ble_create_service(uint8[16] uuid, uint8 uuid_length, bool is_primary) -> uint8
+    rpc_ble_delete_service(uint8 app_id) -> bool
+    rpc_ble_service_start(uint8 app_id) -> uint8
+    rpc_ble_get_servie_handle(uint8 app_id) -> uint8
+    rpc_ble_create_char(uint8 app_id, uint8[16] uuid, uint8 uuid_length, uint8 properties, uint32 permissions) -> uint16
+    rpc_ble_create_desc(uint8 app_id, uint16 char_handle, uint8[16] uuid, uint8 uuid_length, uint8 flags, uint32 permissions, uint16 value_length, in binary p_value @retain @nullable) -> uint16
+    rpc_server_send_data(uint8 conn_id, uint8 service_id, uint16 attrib_index, in binary data, RPC_T_GATT_PDU_TYPE pdu_type) -> bool
+    rpc_ble_server_get_attr_value(uint8 app_id, uint16 attr_handle) -> @nullable binary;
+    rpc_server_exec_write_confirm(uint8 conn_id, uint16 cause, uint16 handle) -> bool
+    rpc_server_attr_write_confirm(uint8 conn_id, uint8 service_id, uint16 attrib_index, RPC_T_APP_RESULT cause) -> bool
+    rpc_server_attr_read_confirm(uint8 conn_id, uint8 service_id, uint16 attrib_index, in binary data, RPC_T_APP_RESULT cause) -> bool
+};
+//import "rpc_ble_callback.erpc"
+// testdata/erpc_idl/rpc_ble_callback.erpc
+/** @brief Event type to inform app*/
+enum RPC_T_SERVICE_CALLBACK_TYPE
+{
+    RPC_SERVICE_CALLBACK_TYPE_INDIFICATION_NOTIFICATION = 1,    /**< CCCD update event */
+    RPC_SERVICE_CALLBACK_TYPE_READ_CHAR_VALUE = 2,              /**< client read event */
+    RPC_SERVICE_CALLBACK_TYPE_WRITE_CHAR_VALUE = 3,             /**< client write event */
+};
+
+
+@group("ble_callback")
+interface rpc_ble_callback {
+    rpc_ble_handle_gap_msg(in binary gap_msg) -> RPC_T_APP_RESULT
+    rpc_ble_gap_callback(uint8 cb_type, in binary cb_data) -> RPC_T_APP_RESULT
+    rpc_ble_gattc_callback(uint8 gatt_if, uint8 conn_id, in binary cb_data, in binary extra_data) -> RPC_T_APP_RESULT
+    rpc_ble_gatts_callback(uint8 gatt_if, uint8 conn_id, uint16 attrib_index, RPC_T_SERVICE_CALLBACK_TYPE event, uint16 property, out binary read_cb_data @nullable, in binary write_cb_data @nullable, in binary app_cb_data @nullable) -> RPC_T_APP_RESULT
+}
+
+
+//import "rpc_wifi_conf.erpc"
+// testdata/erpc_idl/rpc_wifi_conf.erpc
+
+@group("wifi_api")
+interface rpc_wifi_drv {
+    rpc_wifi_connect(in string ssid, in string password @nullable, uint32 security_type,int32 key_id, uint32 semaphore) -> int32
+    rpc_wifi_connect_bssid(in binary bssid, in string ssid @nullable, in string password, uint32 security_type, int32 key_id, uint32 semaphore) -> int32
+    rpc_wifi_disconnect() -> int32
+    rpc_wifi_is_connected_to_ap() -> int32
+    rpc_wifi_is_up(uint32 itf) -> int32
+    rpc_wifi_is_ready_to_transceive(uint32 itf) -> int32
+    rpc_wifi_set_mac_address(in binary mac) -> int32
+    rpc_wifi_get_mac_address(out uint8[18] mac) -> int32
+    rpc_wifi_enable_powersave() -> int32
+    rpc_wifi_resume_powersave() -> int32
+    rpc_wifi_disable_powersave() -> int32
+    rpc_wifi_btcoex_set_bt_on() -> void
+    rpc_wifi_btcoex_set_bt_off() -> void
+    rpc_wifi_get_associated_client_list(out binary client_list_buffer, uint16 buffer_length) -> int32
+    rpc_wifi_get_ap_bssid(out uint8[6] bssid) -> int32
+    rpc_wifi_get_ap_info(out binary ap_info, out uint32 security) -> int32
+    rpc_wifi_set_country(uint32 country_code) -> int32
+    rpc_wifi_get_sta_max_data_rate(out uint8 inidata_rate) -> int32
+    rpc_wifi_get_rssi(out int32 pRSSI) -> int32
+    rpc_wifi_set_channel(int32 channel) -> int32
+    rpc_wifi_get_channel(out int32 channel) -> int32
+    rpc_wifi_change_channel_plan(uint8 channel_plan) -> int32
+    rpc_wifi_register_multicast_address(uint8[6] mac) -> int32
+    rpc_wifi_unregister_multicast_address(uint8[6] mac) -> int32
+    rpc_wifi_rf_on() -> int32
+    rpc_wifi_rf_off() -> int32
+    rpc_wifi_on(uint32 mode) -> int32
+    rpc_wifi_off() -> int32
+    rpc_wifi_set_mode(uint32 mode) -> int32
+    rpc_wifi_off_fastly() -> int32
+    rpc_wifi_set_power_mode(uint8 ips_mode, uint8 lps_mode) -> int32
+    rpc_wifi_set_tdma_param(uint8 slot_period, uint8 rfon_period_len_1, uint8 rfon_period_len_2, uint8 rfon_period_len_3) -> int32
+    rpc_wifi_set_lps_dtim(uint8 dtim) -> int32
+    rpc_wifi_get_lps_dtim(out uint8 dtim) -> int32
+    rpc_wifi_set_lps_thresh(uint8 mode) -> int32 
+    rpc_wifi_set_lps_level(uint8 lps_level) -> int32
+    rpc_wifi_set_mfp_support(uint8 value) -> int32
+    rpc_wifi_start_ap(in string ssid, in string password @nullable, uint32 security_type, int32 channel) -> int32
+    rpc_wifi_start_ap_with_hidden_ssid(in string ssid, in string password @nullable, uint32 security_type, int32 channel) -> int32
+    rpc_wifi_set_pscan_chan(binary channel_list,uint8 pscan_config) -> int32
+    rpc_wifi_get_setting(string ifname,out binary pSetting) -> int32
+    rpc_wifi_set_network_mode(uint32 mode) -> int32
+    rpc_wifi_get_network_mode(out uint32 pmode) -> int32
+    rpc_wifi_set_wps_phase(uint8 is_trigger_wps) -> int32
+    rpc_wifi_restart_ap(in binary ssid, in binary password, uint32 security_type, int32 channel) -> int32
+    rpc_wifi_config_autoreconnect(uint8 mode, uint8 retry_times, uint16 timeout) -> int32
+    rpc_wifi_set_autoreconnect(uint8 mode) -> int32
+    rpc_wifi_get_autoreconnect(out uint8 mode) -> int32
+    rpc_wifi_get_last_error() -> int32
+    rpc_wifi_add_custom_ie(in binary cus_ie) -> int32
+    rpc_wifi_update_custom_ie(in binary cus_ie, int32 ie_index) -> int32
+    rpc_wifi_del_custom_ie() -> int32
+    rpc_wifi_set_indicate_mgnt(int32 enable) -> void
+    rpc_wifi_get_drv_ability(out uint32 ability) -> int32
+    rpc_wifi_set_channel_plan(uint8 channel_plan) -> int32
+    rpc_wifi_get_channel_plan(out uint8 channel_plan) -> int32
+    rpc_wifi_enable_forwarding() -> int32
+    rpc_wifi_disable_forwarding() -> int32
+    rpc_wifi_set_ch_deauth(uint8 enable) -> int32
+    rpc_wifi_get_band_type() -> uint8
+    rpc_wifi_set_tx_pause_data(uint32 NewState) -> int32
+    rpc_wifi_get_reconnect_data(out binary wifi_info) -> int32
+    rpc_wifi_clear_reconnect_data() -> int32
+    rpc_wifi_scan_start() -> int32
+    rpc_wifi_is_scaning() -> bool
+    rpc_wifi_scan_get_ap_records(uint16 number, out binary _scanResult) -> int32
+    rpc_wifi_scan_get_ap_num() -> uint16
+}
+
+
+//import "rpc_wifi_tcpip.erpc"
+// testdata/erpc_idl/rpc_wifi_tcpip.erpc
+
+@group("wifi_api")
+interface rpc_wifi_tcpip{
+    rpc_tcpip_adapter_init() -> int32
+    rpc_tcpip_adapter_sta_start(in binary mac, in binary ip_info) -> int32
+    rpc_tcpip_adapter_ap_start(in binary mac, in binary ip_info) -> int32
+    rpc_tcpip_adapter_stop(uint32 tcpip_if) -> int32
+    rpc_tcpip_adapter_up(uint32 tcpip_if) -> int32
+    rpc_tcpip_adapter_down(uint32 tcpip_if) -> int32
+    rpc_tcpip_adapter_get_ip_info(uint32 tcpip_if, out binary ip_info) -> int32
+    rpc_tcpip_adapter_set_ip_info(uint32 tcpip_if, in binary ip_info) -> int32
+    rpc_tcpip_adapter_set_dns_info(uint32 tcpip_if, uint32 dns_type, in binary dns) -> int32
+    rpc_tcpip_adapter_get_dns_info(uint32 tcpip_if, uint32 dns_type, out binary dns) -> int32
+    rpc_tcpip_adapter_dhcps_start(uint32 tcpip_if) -> int32
+    rpc_tcpip_adapter_dhcps_stop(uint32 tcpip_if) -> int32
+    rpc_tcpip_adapter_dhcpc_start(uint32 tcpip_if) -> int32
+    rpc_tcpip_adapter_dhcpc_stop(uint32 tcpip_if) -> int32
+    rpc_tcpip_adapter_set_hostname(uint32 tcpip_if, in string hostname) -> int32
+    rpc_tcpip_adapter_get_hostname(uint32 tcpip_if, out string hostname @max_length(32)) -> int32
+    rpc_tcpip_adapter_get_mac(uint32 tcpip_if, out binary mac) -> int32
+    rpc_tcpip_adapter_set_mac(uint32 tcpip_if, in binary mac) -> int32
+	rpc_tcpip_api_call(in binary func,in binary call) -> int32
+	rpc_tcp_connect(in binary pcb_in, out binary pcb_out,in binary ipaddr,uint16 port,in binary connected) -> int32
+	rpc_tcp_recved(in binary pcb_in, out binary pcb_out,uint16 len) -> int32
+	rpc_tcp_abort(in binary pcb_in, out binary pcb_out) -> int32
+	rpc_tcp_write(in binary pcb_in, out binary pcb_out,in binary data,uint8 apiflags) -> int32
+	rpc_tcp_output(in binary pcb_in, out binary pcb_out) -> int32
+	rpc_tcp_close(in binary pcb_in, out binary pcb_out) -> int32
+	rpc_tcp_bind(in binary pcb_in, out binary pcb_out,in binary ipaddr,uint16 port) -> int32
+	rpc_tcp_new_ip_type(uint8 ip_type, out binary pcb_out) -> int32
+	rpc_tcp_arg(in binary pcb_in, out binary pcb_out,in binary func_arg) -> int32
+	rpc_tcp_err(in binary pcb_in, out binary pcb_out,in binary func_err) -> int32
+	rpc_tcp_recv(in binary pcb_in, out binary pcb_out,in binary func_recv) -> int32
+	rpc_tcp_sent(in binary pcb_in, out binary pcb_out,in binary func_sent) -> int32
+	rpc_tcp_accept(in binary pcb_in, out binary pcb_out,in binary func_accept) -> int32
+	rpc_tcp_poll(in binary pcb_in, out binary pcb_out,in binary func_poll,uint8 interval) -> int32
+	rpc_tcp_listen_with_backlog(in binary pcb_in, out binary pcb_out,uint8 backlog) -> int32
+	rpc_pbuf_free(in binary p) -> int32
+	rpc_ip4addr_ntoa(in binary ip4_addr_in)-> string
+	rpc_inet_chksum(in binary dataptr_in) -> uint16
+}
+//import "rpc_wifi_lwip.erpc"
+// testdata/erpc_idl/rpc_wifi_lwip.erpc
+
+@group("wifi_api")
+interface rpc_wifi_lwip{
+    rpc_lwip_accept(int32 s, in binary addr, inout uint32 addrlen) -> int32
+    rpc_lwip_bind(int32 s, in binary name, uint32 namelen) -> int32
+    rpc_lwip_shutdown(int32 s, int32 how) -> int32
+    rpc_lwip_getpeername (int32 s, out binary name, inout uint32 namelen) -> int32
+    rpc_lwip_getsockname (int32 s, out binary name, inout uint32 namelen) -> int32
+    rpc_lwip_getsockopt (int32 s, int32 level, int32 optname, in binary in_optval, out binary out_optval, inout uint32 optlen) -> int32
+    rpc_lwip_setsockopt (int32 s, int32 level, int32 optname, in binary optval, uint32 optlen) -> int32
+    rpc_lwip_close(int32 s) -> int32
+    rpc_lwip_connect(int32 s,  in binary name, uint32 namelen) -> int32
+    rpc_lwip_listen(int32 s, int32 backlog) -> int32
+    rpc_lwip_available(int32 s) -> int32
+    rpc_lwip_recv(int32 s, out binary mem, uint32 len, int32 flags, uint32 timeout) -> int32
+    rpc_lwip_read(int32 s, out binary mem, uint32 len, uint32 timeout) -> int32
+    rpc_lwip_recvfrom(int32 s, out binary mem, uint32 len, int32 flags, out binary from, inout uint32 fromlen, uint32 timeout) -> int32
+    rpc_lwip_send(int32 s, in binary dataptr, int32 flags) -> int32
+    rpc_lwip_sendmsg(int32 s, in binary msg_name, in binary msg_iov, in binary msg_control, int32 msg_flags, int32 flags) -> int32
+    rpc_lwip_sendto(int32 s, in binary dataptr, int32 flags, in binary to, uint32 tolen) -> int32
+    rpc_lwip_socket(int32 domain, int32 l_type, int32 protocol) -> int32
+    rpc_lwip_write(int32 s, in binary dataptr, uint32 size) -> int32
+    rpc_lwip_writev(int32 s, in binary iov, int32 iovcnt) -> int32
+    rpc_lwip_select(int32 maxfdp1, in binary readset @nullable, in binary writeset @nullable, in binary exceptset @nullable, in binary timeout @nullable) -> int32
+    rpc_lwip_ioctl(int32 s, uint32 cmd, in binary in_argp, out binary out_argp) -> int32
+    rpc_lwip_fcntl(int32 s, int32 cmd, int32 val) -> int32
+    rpc_lwip_errno() -> int32
+    rpc_netconn_gethostbyname(string name, out binary addr) -> int8
+    //rpc_lwip_gethostbyname(string name) -> @nullable binary 
+    //rpc_lwip_gethostbyname_r(string name, out binary ret, out binary buf, out binary result @retain, out uint32 h_errnop) -> int32
+    //rpc_lwip_getaddrinfo(string name, string servname, in binary hints, out binary res @retain) -> int32
+    rpc_dns_gethostbyname_addrtype(string hostname @retain, out binary addr  @retain, uint32 found, in binary callback_arg @nullable @retain, uint8 dns_addrtype) -> int8
+}
+
+
+@group("wifi_api")
+interface rpc_wifi_mbedtls{
+    rpc_wifi_ssl_client_create() -> uint32
+    rpc_wifi_ssl_client_destroy(uint32 ssl_client) -> void
+    rpc_wifi_ssl_init(uint32 ssl_client) -> void
+    rpc_wifi_ssl_set_socket(uint32 ssl_client, int32 socket) -> void
+    rpc_wifi_ssl_set_timeout(uint32 ssl_client, uint32 timeout) -> void
+    rpc_wifi_ssl_get_socket(uint32 ssl_client) -> int32
+    rpc_wifi_ssl_get_timeout(uint32 ssl_client) -> uint32
+    rpc_wifi_ssl_set_rootCA(uint32 ssl_client, string rootCABuff @retain) -> uint32
+    rpc_wifi_ssl_get_rootCA(uint32 ssl_client, out string rootCABuff @nullable @max_length(3092)) -> uint32
+    rpc_wifi_ssl_set_cliCert(uint32 ssl_client, string cli_cert @retain) ->uint32
+    rpc_wifi_ssl_get_cliCert(uint32 ssl_client, string cli_cert @nullable @max_length(2048)) -> uint32
+    rpc_wifi_ssl_set_cliKey(uint32 ssl_client, string cli_key @retain) -> uint32
+    rpc_wifi_ssl_get_cliKey(uint32 ssl_client, string cli_key @nullable @max_length(2048)) -> uint32
+    rpc_wifi_ssl_set_pskIdent(uint32 ssl_client, string pskIdent @retain) -> uint32
+    rpc_wifi_ssl_get_pskIdent(uint32 ssl_client, string pskIdent @nullable @max_length(256)) -> uint32
+    rpc_wifi_ssl_set_psKey(uint32 ssl_client, string psKey @retain) -> uint32
+    rpc_wifi_ssl_get_psKey(uint32 ssl_client, string psKey @nullable @max_length(256)) -> uint32
+    rpc_wifi_start_ssl_client(uint32 ssl_client, string host @nullable, uint32 port, int32 timeout) -> int32
+    rpc_wifi_stop_ssl_socket(uint32 ssl_client) -> void
+    rpc_wifi_data_to_read(uint32 ssl_client) -> int32
+    rpc_wifi_send_ssl_data(uint32 ssl_client, in binary data, uint16 len) -> int32
+    rpc_wifi_get_ssl_receive(uint32 ssl_client, out binary data, int32 length) -> int32
+    rpc_wifi_verify_ssl_fingerprint(uint32 ssl_client, string fp, string domain_name) -> bool
+    rpc_wifi_verify_ssl_dn(uint32 ssl_client, string domain_name) -> bool
+    rpc_wifi_ssl_strerror(int32 errnum, out binary buffer, uint32 buflen) -> void
+}
+//import "rpc_wifi_mdns.erpc"
+// testdata/erpc_idl/rpc_wifi_mdns.erpc
+
+@group("wifi_api")
+interface rpc_wifi_mdns{
+	rpc_mdns_init() -> int32
+	rpc_mdns_free() -> int32
+	rpc_mdns_service_add(in string instance_name,in string service_type,in string proto,uint16 port) -> int32
+	rpc_mdns_service_remove(in string service_type,in string proto) -> int32
+	rpc_mdns_service_txt_item_set(in string service_type,in string proto,in string key,in string value) -> int32
+	rpc_mdns_service_instance_name_set(in string service,in string proto,in string instance) -> int32
+	rpc_mdns_instance_name_set(in string instance_name) -> int32
+	rpc_mdns_hostname_set(in string hostname) -> int32
+	rpc_mdns_query_a(in string host_name, uint32 timeout,out binary addr) -> int32
+	rpc_mdns_query_ptr(in string service_type,in string proto, uint32 timeout,int32 max_results,out int32 result_total) -> int32
+	rpc_mdns_query_ptr_result_basic(int32 result_target,out binary scan_result) -> int32
+	rpc_mdns_query_ptr_result_txt(int32 result_target,int32 txt_target,out binary txt) -> int32
+	rpc_mdns_query_ptr_result_addr(int32 result_target,int32 addr_target,out binary addr) -> int32
+	rpc_mdns_query_results_free() -> int32
+}
+
+
+//import "rpc_wifi_callback.erpc"
+// testdata/erpc_idl/rpc_wifi_callback.erpc
+@group("wifi_callback")
+interface rpc_wifi_callback {
+    oneway rpc_wifi_event_callback(binary event)
+    rpc_wifi_dns_found(string hostname, in binary ipaddr, in binary arg @nullable) -> void
+	rpc_tcpip_api_call_fn(uint32 func,in binary call) -> int32
+	rpc_tcp_connected_fn(uint32 func,in binary arg,in binary tpcb,int32 err_val) -> int32
+	rpc_tcp_recv_fn(uint32 func,in binary arg,in binary tpcb,in binary p_data,in binary p_addr,int32 err_val) -> int32
+	rpc_tcp_accept_fn(uint32 func,in binary arg,in binary newpcb,int32 err_val) -> int32
+	rpc_tcp_err_fn(uint32 func,in binary arg,int32 err_val) -> int32
+	rpc_tcp_sent_fn(uint32 func,in binary arg,in binary tpcb,uint16 len) -> int32
+	rpc_tcp_poll_fn(uint32 func,in binary arg,in binary tpcb) -> int32
+}
