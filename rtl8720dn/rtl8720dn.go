@@ -7,7 +7,22 @@ type RTL8720DN struct {
 	seq      uint64
 	received chan bool
 	debug    bool
+
+	connectionType ConnectionType
+	socket         int32
+	client         uint32
+	length         int
+	root_ca        *string
 }
+
+type ConnectionType int
+
+const (
+	ConnectionTypeNone ConnectionType = iota
+	ConnectionTypeTCP
+	ConnectionTypeUDP
+	ConnectionTypeTLS
+)
 
 func New(r io.ReadWriter) *RTL8720DN {
 	ret := &RTL8720DN{
