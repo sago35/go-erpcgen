@@ -11,7 +11,6 @@ func (r *RTL8720DN) Rpc_system_version() (string, error) {
 	}
 	msg := startWriteMessage(0x00, 0x01, 0x01, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return "", err
@@ -22,7 +21,7 @@ func (r *RTL8720DN) Rpc_system_version() (string, error) {
 	var result string
 	result_length := binary.LittleEndian.Uint32(payload[widx:])
 	widx += 4
-	result = string(payload[widx:widx+int(result_length)])
+	result = string(payload[widx : widx+int(result_length)])
 
 	r.seq++
 	return result, err
@@ -58,7 +57,6 @@ func (r *RTL8720DN) Rpc_ble_init() (bool, error) {
 	}
 	msg := startWriteMessage(0x00, 0x02, 0x01, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return false, err
@@ -79,7 +77,6 @@ func (r *RTL8720DN) Rpc_ble_start() error {
 	}
 	msg := startWriteMessage(0x00, 0x02, 0x02, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return err
@@ -96,7 +93,6 @@ func (r *RTL8720DN) Rpc_ble_deinit() error {
 		fmt.Printf("rpc_ble_deinit()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x02, 0x03, uint32(r.seq))
-
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -178,7 +174,6 @@ func (r *RTL8720DN) Rpc_gap_set_pairable_mode() (RPC_T_GAP_CAUSE, error) {
 		fmt.Printf("rpc_gap_set_pairable_mode()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x03, 0x03, uint32(r.seq))
-
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -299,7 +294,7 @@ func (r *RTL8720DN) Rpc_le_bond_get_display_key(conn_id uint8, key uint32) (RPC_
 	<-r.received
 	widx := 8
 	// key : out uint32
-// not impl
+	// not impl
 
 	var result RPC_T_GAP_CAUSE
 	result = RPC_T_GAP_CAUSE(binary.LittleEndian.Uint32(payload[widx:]))
@@ -490,7 +485,6 @@ func (r *RTL8720DN) Rpc_le_bond_clear_all_keys() error {
 	}
 	msg := startWriteMessage(0x00, 0x04, 0x0B, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return err
@@ -572,7 +566,7 @@ func (r *RTL8720DN) Rpc_le_bond_get_sec_level(conn_id uint8, sec_type RPC_T_GAP_
 	<-r.received
 	widx := 8
 	// sec_type : out RPC_T_GAP_SEC_LEVEL
-// not impl
+	// not impl
 
 	var result RPC_T_GAP_CAUSE
 	result = RPC_T_GAP_CAUSE(binary.LittleEndian.Uint32(payload[widx:]))
@@ -625,7 +619,6 @@ func (r *RTL8720DN) Rpc_le_gap_msg_info_way(use_msg bool) error {
 
 	<-r.received
 
-
 	r.seq++
 	return err
 }
@@ -635,7 +628,6 @@ func (r *RTL8720DN) Rpc_le_get_max_link_num() (uint8, error) {
 		fmt.Printf("rpc_le_get_max_link_num()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x05, 0x03, uint32(r.seq))
-
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -769,7 +761,7 @@ func (r *RTL8720DN) Rpc_le_gen_rand_addr(rand_addr_type RPC_T_GAP_RAND_ADDR_TYPE
 	<-r.received
 	widx := 8
 	// random_bd : out uint8
-// not impl
+	// not impl
 
 	var result RPC_T_GAP_CAUSE
 	result = RPC_T_GAP_CAUSE(binary.LittleEndian.Uint32(payload[widx:]))
@@ -902,7 +894,6 @@ func (r *RTL8720DN) Rpc_gap_config_cccd_not_check(cccd_not_check_flag RPC_T_GAP_
 
 	<-r.received
 
-
 	r.seq++
 	return err
 }
@@ -925,7 +916,6 @@ func (r *RTL8720DN) Rpc_gap_config_ccc_bits_count(gatt_server_ccc_bits_count uin
 
 	<-r.received
 
-
 	r.seq++
 	return err
 }
@@ -945,7 +935,6 @@ func (r *RTL8720DN) Rpc_gap_config_max_attribute_table_count(gatt_max_attribute_
 	}
 
 	<-r.received
-
 
 	r.seq++
 	return err
@@ -968,7 +957,6 @@ func (r *RTL8720DN) Rpc_gap_config_max_mtu_size(att_max_mtu_size uint16) error {
 
 	<-r.received
 
-
 	r.seq++
 	return err
 }
@@ -989,7 +977,6 @@ func (r *RTL8720DN) Rpc_gap_config_bte_pool_size(bte_pool_size uint8) error {
 
 	<-r.received
 
-
 	r.seq++
 	return err
 }
@@ -1009,7 +996,6 @@ func (r *RTL8720DN) Rpc_gap_config_bt_report_buf_num(bt_report_buf_num uint8) er
 	}
 
 	<-r.received
-
 
 	r.seq++
 	return err
@@ -1032,7 +1018,6 @@ func (r *RTL8720DN) Rpc_gap_config_le_key_storage_flag(le_key_storage_flag uint1
 
 	<-r.received
 
-
 	r.seq++
 	return err
 }
@@ -1053,7 +1038,6 @@ func (r *RTL8720DN) Rpc_gap_config_max_le_paired_device(max_le_paired_device uin
 
 	<-r.received
 
-
 	r.seq++
 	return err
 }
@@ -1073,7 +1057,6 @@ func (r *RTL8720DN) Rpc_gap_config_max_le_link_num(le_link_num uint8) error {
 	}
 
 	<-r.received
-
 
 	r.seq++
 	return err
@@ -1149,7 +1132,6 @@ func (r *RTL8720DN) Rpc_le_adv_start() (RPC_T_GAP_CAUSE, error) {
 	}
 	msg := startWriteMessage(0x00, 0x07, 0x03, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -1170,7 +1152,6 @@ func (r *RTL8720DN) Rpc_le_adv_stop() (RPC_T_GAP_CAUSE, error) {
 	}
 	msg := startWriteMessage(0x00, 0x07, 0x04, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -1190,7 +1171,6 @@ func (r *RTL8720DN) Rpc_le_adv_update_param() (RPC_T_GAP_CAUSE, error) {
 		fmt.Printf("rpc_le_adv_update_param()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x07, 0x05, uint32(r.seq))
-
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -1276,7 +1256,6 @@ func (r *RTL8720DN) Rpc_le_scan_start() (RPC_T_GAP_CAUSE, error) {
 	}
 	msg := startWriteMessage(0x00, 0x08, 0x03, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -1323,7 +1302,6 @@ func (r *RTL8720DN) Rpc_le_scan_stop() (RPC_T_GAP_CAUSE, error) {
 		fmt.Printf("rpc_le_scan_stop()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x08, 0x05, uint32(r.seq))
-
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -1426,7 +1404,7 @@ func (r *RTL8720DN) Rpc_le_get_conn_info(conn_id uint8, p_conn_info RPC_T_GAP_CO
 	<-r.received
 	widx := 8
 	// p_conn_info : out RPC_T_GAP_CONN_INFO
-// not impl
+	// not impl
 
 	var result bool
 	result = binary.LittleEndian.Uint32(payload[widx:]) == 1
@@ -1452,9 +1430,9 @@ func (r *RTL8720DN) Rpc_le_get_conn_addr(conn_id uint8, bd_addr uint8, bd_type u
 	<-r.received
 	widx := 8
 	// bd_addr : out uint8
-// not impl
+	// not impl
 	// bd_type : out uint8
-// not impl
+	// not impl
 
 	var result bool
 	result = binary.LittleEndian.Uint32(payload[widx:]) == 1
@@ -1482,7 +1460,7 @@ func (r *RTL8720DN) Rpc_le_get_conn_id(bd_addr uint8, bd_type uint8, p_conn_id u
 	<-r.received
 	widx := 8
 	// p_conn_id : out uint8
-// not impl
+	// not impl
 
 	var result bool
 	result = binary.LittleEndian.Uint32(payload[widx:]) == 1
@@ -1496,7 +1474,6 @@ func (r *RTL8720DN) Rpc_le_get_active_link_num() (uint8, error) {
 		fmt.Printf("rpc_le_get_active_link_num()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x09, 0x05, uint32(r.seq))
-
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -1517,7 +1494,6 @@ func (r *RTL8720DN) Rpc_le_get_idle_link_num() (uint8, error) {
 		fmt.Printf("rpc_le_get_idle_link_num()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x09, 0x06, uint32(r.seq))
-
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -1792,7 +1768,6 @@ func (r *RTL8720DN) Rpc_flash_load_local_name(p_data RPC_T_LOCAL_NAME) (uint32, 
 	}
 	msg := startWriteMessage(0x00, 0x0A, 0x02, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -1801,7 +1776,7 @@ func (r *RTL8720DN) Rpc_flash_load_local_name(p_data RPC_T_LOCAL_NAME) (uint32, 
 	<-r.received
 	widx := 8
 	// p_data : out RPC_T_LOCAL_NAME
-// not impl
+	// not impl
 
 	var result uint32
 	result = uint32(binary.LittleEndian.Uint32(payload[widx:]))
@@ -1843,7 +1818,6 @@ func (r *RTL8720DN) Rpc_flash_load_local_appearance(p_data RPC_T_LOCAL_APPEARANC
 	}
 	msg := startWriteMessage(0x00, 0x0A, 0x04, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -1852,7 +1826,7 @@ func (r *RTL8720DN) Rpc_flash_load_local_appearance(p_data RPC_T_LOCAL_APPEARANC
 	<-r.received
 	widx := 8
 	// p_data : out RPC_T_LOCAL_APPEARANCE
-// not impl
+	// not impl
 
 	var result uint32
 	result = uint32(binary.LittleEndian.Uint32(payload[widx:]))
@@ -1920,7 +1894,6 @@ func (r *RTL8720DN) Rpc_le_get_bond_dev_num() (uint8, error) {
 	}
 	msg := startWriteMessage(0x00, 0x0A, 0x07, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -1941,7 +1914,6 @@ func (r *RTL8720DN) Rpc_le_get_low_priority_bond() (RPC_T_LE_KEY_ENTRY, error) {
 	}
 	msg := startWriteMessage(0x00, 0x0A, 0x08, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -1961,7 +1933,6 @@ func (r *RTL8720DN) Rpc_le_get_high_priority_bond() (RPC_T_LE_KEY_ENTRY, error) 
 		fmt.Printf("rpc_le_get_high_priority_bond()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0A, 0x09, uint32(r.seq))
-
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -2030,9 +2001,9 @@ func (r *RTL8720DN) Rpc_le_resolve_random_address(unresolved_addr uint8, resolve
 	<-r.received
 	widx := 8
 	// resolved_addr : inout uint8
-// not impl
+	// not impl
 	// resolved_addr_type : inout RPC_T_GAP_IDENT_ADDR_TYPE
-// not impl
+	// not impl
 
 	var result bool
 	result = binary.LittleEndian.Uint32(payload[widx:]) == 1
@@ -2061,7 +2032,7 @@ func (r *RTL8720DN) Rpc_le_get_cccd_data(p_entry RPC_T_LE_KEY_ENTRY, p_data RPC_
 	<-r.received
 	widx := 8
 	// p_data : out RPC_T_LE_CCCD
-// not impl
+	// not impl
 
 	var result bool
 	result = binary.LittleEndian.Uint32(payload[widx:]) == 1
@@ -2123,7 +2094,6 @@ func (r *RTL8720DN) Rpc_le_get_dev_bond_info_len() (uint16, error) {
 	}
 	msg := startWriteMessage(0x00, 0x0A, 0x0E, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -2156,7 +2126,7 @@ func (r *RTL8720DN) Rpc_le_set_dev_bond_info(p_data []byte, exist bool) (RPC_T_L
 	<-r.received
 	widx := 8
 	// exist : out bool
-// not impl
+	// not impl
 
 	var result RPC_T_LE_KEY_ENTRY
 	result = RPC_T_LE_KEY_ENTRY(binary.LittleEndian.Uint32(payload[widx:]))
@@ -2264,7 +2234,6 @@ func (r *RTL8720DN) Rpc_client_init(client_num uint8) error {
 	}
 
 	<-r.received
-
 
 	r.seq++
 	return err
@@ -3289,7 +3258,6 @@ func (r *RTL8720DN) Rpc_wifi_disconnect() (int32, error) {
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x03, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -3315,7 +3283,6 @@ func (r *RTL8720DN) Rpc_wifi_is_connected_to_ap() (int32, error) {
 		fmt.Printf("rpc_wifi_is_connected_to_ap()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x04, uint32(r.seq))
-
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -3440,7 +3407,6 @@ func (r *RTL8720DN) Rpc_wifi_get_mac_address(mac uint8) (int32, error) {
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x08, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -3449,7 +3415,7 @@ func (r *RTL8720DN) Rpc_wifi_get_mac_address(mac uint8) (int32, error) {
 	<-r.received
 	widx := 8
 	// mac : out uint8
-// not impl
+	// not impl
 
 	var result int32
 	x := binary.LittleEndian.Uint32(payload[widx:])
@@ -3469,7 +3435,6 @@ func (r *RTL8720DN) Rpc_wifi_enable_powersave() (int32, error) {
 		fmt.Printf("rpc_wifi_enable_powersave()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x09, uint32(r.seq))
-
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -3497,7 +3462,6 @@ func (r *RTL8720DN) Rpc_wifi_resume_powersave() (int32, error) {
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x0A, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -3523,7 +3487,6 @@ func (r *RTL8720DN) Rpc_wifi_disable_powersave() (int32, error) {
 		fmt.Printf("rpc_wifi_disable_powersave()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x0B, uint32(r.seq))
-
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -3551,7 +3514,6 @@ func (r *RTL8720DN) Rpc_wifi_btcoex_set_bt_on() error {
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x0C, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return err
@@ -3568,7 +3530,6 @@ func (r *RTL8720DN) Rpc_wifi_btcoex_set_bt_off() error {
 		fmt.Printf("rpc_wifi_btcoex_set_bt_off()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x0D, uint32(r.seq))
-
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -3625,7 +3586,6 @@ func (r *RTL8720DN) Rpc_wifi_get_ap_bssid(bssid uint8) (int32, error) {
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x0F, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -3634,7 +3594,7 @@ func (r *RTL8720DN) Rpc_wifi_get_ap_bssid(bssid uint8) (int32, error) {
 	<-r.received
 	widx := 8
 	// bssid : out uint8
-// not impl
+	// not impl
 
 	var result int32
 	x := binary.LittleEndian.Uint32(payload[widx:])
@@ -3655,7 +3615,6 @@ func (r *RTL8720DN) Rpc_wifi_get_ap_info(ap_info []byte, security uint32) (int32
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x10, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -3671,7 +3630,7 @@ func (r *RTL8720DN) Rpc_wifi_get_ap_info(ap_info []byte, security uint32) (int32
 		widx += int(ap_info_length)
 	}
 	// security : out uint32
-// not impl
+	// not impl
 
 	var result int32
 	x := binary.LittleEndian.Uint32(payload[widx:])
@@ -3725,7 +3684,6 @@ func (r *RTL8720DN) Rpc_wifi_get_sta_max_data_rate(inidata_rate uint8) (int32, e
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x12, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -3734,7 +3692,7 @@ func (r *RTL8720DN) Rpc_wifi_get_sta_max_data_rate(inidata_rate uint8) (int32, e
 	<-r.received
 	widx := 8
 	// inidata_rate : out uint8
-// not impl
+	// not impl
 
 	var result int32
 	x := binary.LittleEndian.Uint32(payload[widx:])
@@ -3755,7 +3713,6 @@ func (r *RTL8720DN) Rpc_wifi_get_rssi(pRSSI int32) (int32, error) {
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x13, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -3764,7 +3721,7 @@ func (r *RTL8720DN) Rpc_wifi_get_rssi(pRSSI int32) (int32, error) {
 	<-r.received
 	widx := 8
 	// pRSSI : out int32
-// not impl
+	// not impl
 
 	var result int32
 	x := binary.LittleEndian.Uint32(payload[widx:])
@@ -3818,7 +3775,6 @@ func (r *RTL8720DN) Rpc_wifi_get_channel(channel int32) (int32, error) {
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x15, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -3827,7 +3783,7 @@ func (r *RTL8720DN) Rpc_wifi_get_channel(channel int32) (int32, error) {
 	<-r.received
 	widx := 8
 	// channel : out int32
-// not impl
+	// not impl
 
 	var result int32
 	x := binary.LittleEndian.Uint32(payload[widx:])
@@ -3938,7 +3894,6 @@ func (r *RTL8720DN) Rpc_wifi_rf_on() (int32, error) {
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x19, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -3964,7 +3919,6 @@ func (r *RTL8720DN) Rpc_wifi_rf_off() (int32, error) {
 		fmt.Printf("rpc_wifi_rf_off()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x1A, uint32(r.seq))
-
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -4025,7 +3979,6 @@ func (r *RTL8720DN) Rpc_wifi_off() (int32, error) {
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x1C, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -4084,7 +4037,6 @@ func (r *RTL8720DN) Rpc_wifi_off_fastly() (int32, error) {
 		fmt.Printf("rpc_wifi_off_fastly()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x1E, uint32(r.seq))
-
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -4210,7 +4162,6 @@ func (r *RTL8720DN) Rpc_wifi_get_lps_dtim(dtim uint8) (int32, error) {
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x22, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -4219,7 +4170,7 @@ func (r *RTL8720DN) Rpc_wifi_get_lps_dtim(dtim uint8) (int32, error) {
 	<-r.received
 	widx := 8
 	// dtim : out uint8
-// not impl
+	// not impl
 
 	var result int32
 	x := binary.LittleEndian.Uint32(payload[widx:])
@@ -4532,7 +4483,6 @@ func (r *RTL8720DN) Rpc_wifi_get_network_mode(pmode uint32) (int32, error) {
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x2B, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -4541,7 +4491,7 @@ func (r *RTL8720DN) Rpc_wifi_get_network_mode(pmode uint32) (int32, error) {
 	<-r.received
 	widx := 8
 	// pmode : out uint32
-// not impl
+	// not impl
 
 	var result int32
 	x := binary.LittleEndian.Uint32(payload[widx:])
@@ -4701,7 +4651,6 @@ func (r *RTL8720DN) Rpc_wifi_get_autoreconnect(mode uint8) (int32, error) {
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x30, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -4710,7 +4659,7 @@ func (r *RTL8720DN) Rpc_wifi_get_autoreconnect(mode uint8) (int32, error) {
 	<-r.received
 	widx := 8
 	// mode : out uint8
-// not impl
+	// not impl
 
 	var result int32
 	x := binary.LittleEndian.Uint32(payload[widx:])
@@ -4730,7 +4679,6 @@ func (r *RTL8720DN) Rpc_wifi_get_last_error() (int32, error) {
 		fmt.Printf("rpc_wifi_get_last_error()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x31, uint32(r.seq))
-
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -4825,7 +4773,6 @@ func (r *RTL8720DN) Rpc_wifi_del_custom_ie() (int32, error) {
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x34, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -4865,7 +4812,6 @@ func (r *RTL8720DN) Rpc_wifi_set_indicate_mgnt(enable int32) error {
 
 	<-r.received
 
-
 	r.seq++
 	return err
 }
@@ -4876,7 +4822,6 @@ func (r *RTL8720DN) Rpc_wifi_get_drv_ability(ability uint32) (int32, error) {
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x36, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -4885,7 +4830,7 @@ func (r *RTL8720DN) Rpc_wifi_get_drv_ability(ability uint32) (int32, error) {
 	<-r.received
 	widx := 8
 	// ability : out uint32
-// not impl
+	// not impl
 
 	var result int32
 	x := binary.LittleEndian.Uint32(payload[widx:])
@@ -4936,7 +4881,6 @@ func (r *RTL8720DN) Rpc_wifi_get_channel_plan(channel_plan uint8) (int32, error)
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x38, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -4945,7 +4889,7 @@ func (r *RTL8720DN) Rpc_wifi_get_channel_plan(channel_plan uint8) (int32, error)
 	<-r.received
 	widx := 8
 	// channel_plan : out uint8
-// not impl
+	// not impl
 
 	var result int32
 	x := binary.LittleEndian.Uint32(payload[widx:])
@@ -4965,7 +4909,6 @@ func (r *RTL8720DN) Rpc_wifi_enable_forwarding() (int32, error) {
 		fmt.Printf("rpc_wifi_enable_forwarding()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x39, uint32(r.seq))
-
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -4992,7 +4935,6 @@ func (r *RTL8720DN) Rpc_wifi_disable_forwarding() (int32, error) {
 		fmt.Printf("rpc_wifi_disable_forwarding()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x3A, uint32(r.seq))
-
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -5050,7 +4992,6 @@ func (r *RTL8720DN) Rpc_wifi_get_band_type() (uint8, error) {
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x3C, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -5104,7 +5045,6 @@ func (r *RTL8720DN) Rpc_wifi_get_reconnect_data(wifi_info []byte) (int32, error)
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x3E, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -5139,7 +5079,6 @@ func (r *RTL8720DN) Rpc_wifi_clear_reconnect_data() (int32, error) {
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x3F, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -5166,7 +5105,6 @@ func (r *RTL8720DN) Rpc_wifi_scan_start() (int32, error) {
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x40, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -5192,7 +5130,6 @@ func (r *RTL8720DN) Rpc_wifi_is_scaning() (bool, error) {
 		fmt.Printf("rpc_wifi_is_scaning()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x41, uint32(r.seq))
-
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -5252,7 +5189,6 @@ func (r *RTL8720DN) Rpc_wifi_scan_get_ap_num() (uint16, error) {
 	}
 	msg := startWriteMessage(0x00, 0x0E, 0x43, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -5272,7 +5208,6 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_init() (int32, error) {
 		fmt.Printf("rpc_tcpip_adapter_init()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x0F, 0x01, uint32(r.seq))
-
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -5814,7 +5749,7 @@ func (r *RTL8720DN) Rpc_tcpip_adapter_get_hostname(tcpip_if uint32, hostname str
 	hostname_length := binary.LittleEndian.Uint32(payload[widx:])
 	widx += 4
 	if hostname_length > 0 {
-		hostname = string(payload[widx:widx+int(hostname_length)])
+		hostname = string(payload[widx : widx+int(hostname_length)])
 		widx += int(hostname_length)
 	}
 
@@ -6607,7 +6542,7 @@ func (r *RTL8720DN) Rpc_ip4addr_ntoa(ip4_addr_in []byte) (string, error) {
 	var result string
 	result_length := binary.LittleEndian.Uint32(payload[widx:])
 	widx += 4
-	result = string(payload[widx:widx+int(result_length)])
+	result = string(payload[widx : widx+int(result_length)])
 
 	r.seq++
 	return result, err
@@ -6666,7 +6601,7 @@ func (r *RTL8720DN) Rpc_lwip_accept(s int32, addr []byte, addrlen uint32) (int32
 	<-r.received
 	widx := 8
 	// addrlen : inout uint32
-// not impl
+	// not impl
 
 	var result int32
 	x := binary.LittleEndian.Uint32(payload[widx:])
@@ -6792,7 +6727,7 @@ func (r *RTL8720DN) Rpc_lwip_getpeername(s int32, name []byte, namelen uint32) (
 		widx += int(name_length)
 	}
 	// namelen : inout uint32
-// not impl
+	// not impl
 
 	var result int32
 	x := binary.LittleEndian.Uint32(payload[widx:])
@@ -6839,7 +6774,7 @@ func (r *RTL8720DN) Rpc_lwip_getsockname(s int32, name []byte, namelen uint32) (
 		widx += int(name_length)
 	}
 	// namelen : inout uint32
-// not impl
+	// not impl
 
 	var result int32
 	x := binary.LittleEndian.Uint32(payload[widx:])
@@ -6899,7 +6834,7 @@ func (r *RTL8720DN) Rpc_lwip_getsockopt(s int32, level int32, optname int32, in_
 		widx += int(out_optval_length)
 	}
 	// optlen : inout uint32
-// not impl
+	// not impl
 
 	var result int32
 	x := binary.LittleEndian.Uint32(payload[widx:])
@@ -7269,7 +7204,7 @@ func (r *RTL8720DN) Rpc_lwip_recvfrom(s int32, mem []byte, length uint32, flags 
 		widx += int(from_length)
 	}
 	// fromlen : inout uint32
-// not impl
+	// not impl
 
 	var result int32
 	x := binary.LittleEndian.Uint32(payload[widx:])
@@ -7713,7 +7648,6 @@ func (r *RTL8720DN) Rpc_lwip_errno() (int32, error) {
 	}
 	msg := startWriteMessage(0x00, 0x10, 0x18, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -7831,7 +7765,6 @@ func (r *RTL8720DN) Rpc_wifi_ssl_client_create() (uint32, error) {
 	}
 	msg := startWriteMessage(0x00, 0x11, 0x01, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -7865,7 +7798,6 @@ func (r *RTL8720DN) Rpc_wifi_ssl_client_destroy(ssl_client uint32) error {
 
 	<-r.received
 
-
 	r.seq++
 	return err
 }
@@ -7888,7 +7820,6 @@ func (r *RTL8720DN) Rpc_wifi_ssl_init(ssl_client uint32) error {
 	}
 
 	<-r.received
-
 
 	r.seq++
 	return err
@@ -7918,7 +7849,6 @@ func (r *RTL8720DN) Rpc_wifi_ssl_set_socket(ssl_client uint32, socket int32) err
 
 	<-r.received
 
-
 	r.seq++
 	return err
 }
@@ -7946,7 +7876,6 @@ func (r *RTL8720DN) Rpc_wifi_ssl_set_timeout(ssl_client uint32, timeout uint32) 
 	}
 
 	<-r.received
-
 
 	r.seq++
 	return err
@@ -8069,7 +7998,7 @@ func (r *RTL8720DN) Rpc_wifi_ssl_get_rootCA(ssl_client uint32, rootCABuff string
 		widx += 4
 	}
 	if rootCABuff_length > 0 {
-		rootCABuff = string(payload[widx:widx+int(rootCABuff_length)])
+		rootCABuff = string(payload[widx : widx+int(rootCABuff_length)])
 		widx += int(rootCABuff_length)
 	}
 
@@ -8410,7 +8339,6 @@ func (r *RTL8720DN) Rpc_wifi_stop_ssl_socket(ssl_client uint32) error {
 
 	<-r.received
 
-
 	r.seq++
 	return err
 }
@@ -8627,7 +8555,6 @@ func (r *RTL8720DN) Rpc_wifi_ssl_strerror(errnum int32, buffer []byte, buflen ui
 		widx += int(buffer_length)
 	}
 
-
 	r.seq++
 	return err
 }
@@ -8637,7 +8564,6 @@ func (r *RTL8720DN) Rpc_mdns_init() (int32, error) {
 		fmt.Printf("rpc_mdns_init()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x12, 0x01, uint32(r.seq))
-
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -8664,7 +8590,6 @@ func (r *RTL8720DN) Rpc_mdns_free() (int32, error) {
 		fmt.Printf("rpc_mdns_free()\r\n")
 	}
 	msg := startWriteMessage(0x00, 0x12, 0x02, uint32(r.seq))
-
 
 	err := r.performRequest(msg)
 	if err != nil {
@@ -8973,7 +8898,7 @@ func (r *RTL8720DN) Rpc_mdns_query_ptr(service_type string, proto string, timeou
 	<-r.received
 	widx := 8
 	// result_total : out int32
-// not impl
+	// not impl
 
 	var result int32
 	x := binary.LittleEndian.Uint32(payload[widx:])
@@ -9124,7 +9049,6 @@ func (r *RTL8720DN) Rpc_mdns_query_results_free() (int32, error) {
 	}
 	msg := startWriteMessage(0x00, 0x12, 0x0E, uint32(r.seq))
 
-
 	err := r.performRequest(msg)
 	if err != nil {
 		return 0, err
@@ -9162,7 +9086,6 @@ func (r *RTL8720DN) Rpc_wifi_event_callback(event []byte) error {
 
 	<-r.received
 
-
 	r.seq++
 	return err
 }
@@ -9194,7 +9117,6 @@ func (r *RTL8720DN) Rpc_wifi_dns_found(hostname string, ipaddr []byte, arg []byt
 	}
 
 	<-r.received
-
 
 	r.seq++
 	return err
@@ -9495,4 +9417,3 @@ func (r *RTL8720DN) Rpc_tcp_poll_fn(fn uint32, arg []byte, tpcb []byte) (int32, 
 	r.seq++
 	return result, err
 }
-
