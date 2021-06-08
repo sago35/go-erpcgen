@@ -10,17 +10,21 @@ import (
 	"tinygo.org/x/drivers/net/tls"
 )
 
+// You can override the setting with the init() in another source code.
+// func init() {
+//    ssid = "your-ssid"
+//    password = "your-password"
+//    debug = true
+//    server = "tinygo.org"
+//    test_root_ca = "..."
+// }
+
 var (
 	ssid     string
 	password string
+	server   string = "www.example.com"
+	debug           = false
 )
-
-var (
-	debug = false
-)
-
-// IP address of the server aka "hub". Replace with your own info.
-const server = "www.example.com"
 
 // Set the test_root_ca created by the following command
 // $ openssl s_client -showcerts -verify 5 -connect www.example.com:443 < /dev/null

@@ -44,3 +44,11 @@ func (r *RTL8720DN) SetSeq(s uint64) {
 func (r *RTL8720DN) Debug(b bool) {
 	r.debug = b
 }
+
+func (r *RTL8720DN) SetRootCA(s *string) {
+	r.root_ca = s
+}
+
+func (r *RTL8720DN) Version() (string, error) {
+	return r.Rpc_system_version()
+}

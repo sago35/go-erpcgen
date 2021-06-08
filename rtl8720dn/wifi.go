@@ -1,10 +1,7 @@
 package rtl8720dn
 
 import (
-	"encoding/binary"
 	"fmt"
-	"strconv"
-	"strings"
 	"time"
 )
 
@@ -72,30 +69,4 @@ func (r *RTL8720DN) GetIP() (ip, subnet, gateway IPAddress, err error) {
 	gateway = IPAddress(ip_info[8:12])
 
 	return ip, subnet, gateway, nil
-}
-
-type IPAddress []byte
-
-func (addr IPAddress) String() string {
-	if len(addr) < 4 {
-		return ""
-	}
-	return strconv.Itoa(int(addr[0])) + "." + strconv.Itoa(int(addr[1])) + "." + strconv.Itoa(int(addr[2])) + "." + strconv.Itoa(int(addr[3]))
-}
-
-func ParseIPv4(s string) (IPAddress, error) {
-	v := strings.Split(s, ".")
-	v0, _ := strconv.Atoi(v[0])
-	v1, _ := strconv.Atoi(v[1])
-	v2, _ := strconv.Atoi(v[2])
-	v3, _ := strconv.Atoi(v[3])
-	return IPAddress([]byte{byte(v0), byte(v1), byte(v2), byte(v3)}), nil
-}
-
-func (addr IPAddress) AsUint32() uint32 {
-	if len(addr) < 4 {
-		return 0
-	}
-	b := []byte(string(addr))
-	return binary.BigEndian.Uint32(b[0:4])
 }

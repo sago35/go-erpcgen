@@ -19,7 +19,7 @@ func run() error {
 		return err
 	}
 
-	ver, err := rtl.Rpc_system_version()
+	ver, err := rtl.Version()
 	if err != nil {
 		return err
 	}

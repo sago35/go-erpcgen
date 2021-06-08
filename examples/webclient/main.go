@@ -8,17 +8,20 @@ import (
 	"tinygo.org/x/drivers/net"
 )
 
+// You can override the setting with the init() in another source code.
+// func init() {
+//    ssid = "your-ssid"
+//    password = "your-password"
+//    debug = true
+//    server = "tinygo.org"
+// }
+
 var (
 	ssid     string
 	password string
+	server   string = "tinygo.org"
+	debug           = false
 )
-
-var (
-	debug = false
-)
-
-// IP address of the server aka "hub". Replace with your own info.
-const server = "tinygo.org"
 
 var buf [0x400]byte
 

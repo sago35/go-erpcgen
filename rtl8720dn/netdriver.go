@@ -1,10 +1,8 @@
 package rtl8720dn
 
 import (
-	"bytes"
 	"fmt"
 	"strconv"
-	"strings"
 )
 
 // Here is the implementation of tinygo-org/x/drivers/net.DeviceDriver.
@@ -155,6 +153,7 @@ func (r *RTL8720DN) ConnectUDPSocket(addr, sendport, listenport string) error {
 	if r.debug {
 		fmt.Printf("ConnectUDPSocket(%q, %q, %q)\r\n", addr, sendport, listenport)
 	}
+	fmt.Printf("not implemented yet\r\n")
 	return nil
 }
 
@@ -188,6 +187,7 @@ func (r *RTL8720DN) StartSocketSend(size int) error {
 	if r.debug {
 		fmt.Printf("StartSocketSend(%d)\r\n", size)
 	}
+	// No implementation required
 	return nil
 }
 
@@ -265,6 +265,7 @@ func (r *RTL8720DN) IsSocketDataAvailable() bool {
 	if r.debug {
 		fmt.Printf("IsSocketDataAvailable()\r\n")
 	}
+	fmt.Printf("not implemented yet\r\n")
 	return true
 }
 
@@ -272,52 +273,6 @@ func (r *RTL8720DN) Response(timeout int) ([]byte, error) {
 	if r.debug {
 		fmt.Printf("Response(%d))\r\n", timeout)
 	}
+	// No implementation required
 	return nil, nil
-}
-
-// optional
-
-func (r *RTL8720DN) SetRootCA(s *string) {
-	r.root_ca = s
-}
-
-type IP []byte
-
-// ParseIP parses s as an IP address, returning the result.
-func ParseIP(s string) IP {
-	ret := make([]byte, 4)
-
-	sp := strings.Split(strings.TrimRight(s, "\x00"), ".")
-	x, _ := strconv.ParseUint(sp[0], 10, 8)
-	ret[0] = byte(x)
-
-	x, _ = strconv.ParseUint(sp[1], 10, 8)
-	ret[1] = byte(x)
-
-	x, _ = strconv.ParseUint(sp[2], 10, 8)
-	ret[2] = byte(x)
-
-	x, _ = strconv.ParseUint(sp[3], 10, 8)
-	ret[3] = byte(x)
-
-	return IP([]byte(ret))
-}
-
-// String returns the string form of the IP address ip.
-func (ip IP) String() string {
-	return string(ip)
-}
-
-type httpHeader []byte
-
-func (h httpHeader) ContentLength() int {
-	contentLength := -1
-	idx := bytes.Index(h, []byte("Content-Length: "))
-	if 0 <= idx {
-		_, err := fmt.Sscanf(string(h[idx+16:]), "%d", &contentLength)
-		if err != nil {
-			return -1
-		}
-	}
-	return contentLength
 }

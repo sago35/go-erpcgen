@@ -1,69 +1,51 @@
 package rtl8720dn
 
 import (
+	"bytes"
+	"encoding/binary"
 	"fmt"
+	"strconv"
+	"strings"
 )
 
-var (
-	headerBuf            [4]byte
-	readBuf              [4]byte
-	startWriteMessageBuf [1024]byte
-)
+type httpHeader []byte
 
-const (
-	xVersion = 1
-)
-
-func startWriteMessage(msgType, service, requestNumber, sequence uint32) []byte {
-	startWriteMessageBuf[0] = byte(msgType)
-	startWriteMessageBuf[1] = byte(requestNumber)
-	startWriteMessageBuf[2] = byte(service)
-	startWriteMessageBuf[3] = byte(xVersion)
-
-	startWriteMessageBuf[4] = byte(sequence)
-	startWriteMessageBuf[5] = byte(sequence >> 8)
-	startWriteMessageBuf[6] = byte(sequence >> 16)
-	startWriteMessageBuf[7] = byte(sequence >> 24)
-
-	return startWriteMessageBuf[:8]
+func (h httpHeader) ContentLength() int {
+	contentLength := -1
+	idx := bytes.Index(h, []byte("Content-Length: "))
+	if 0 <= idx {
+		_, err := fmt.Sscanf(string(h[idx+16:]), "%d", &contentLength)
+		if err != nil {
+			return -1
+		}
+	}
+	return contentLength
 }
 
-func (r *RTL8720DN) performRequest(msg []byte) error {
-	crc := computeCRC16(msg)
-	headerBuf[0] = byte(len(msg))
-	headerBuf[1] = byte(len(msg) >> 8)
-	headerBuf[2] = byte(crc)
-	headerBuf[3] = byte(crc >> 8)
+// TODO: IPAddress implementation should be moved under drivers/net
+// The same implementation exists in wifinina.
+type IPAddress []byte
 
-	if r.debug {
-		fmt.Printf("tx : %2d : ", len(headerBuf))
-		dumpHex(headerBuf[:])
-		fmt.Printf("\r\n")
+func (addr IPAddress) String() string {
+	if len(addr) < 4 {
+		return ""
 	}
+	return strconv.Itoa(int(addr[0])) + "." + strconv.Itoa(int(addr[1])) + "." + strconv.Itoa(int(addr[2])) + "." + strconv.Itoa(int(addr[3]))
+}
 
-	r.port.Write(headerBuf[:])
+func ParseIPv4(s string) (IPAddress, error) {
+	v := strings.Split(s, ".")
+	v0, _ := strconv.Atoi(v[0])
+	v1, _ := strconv.Atoi(v[1])
+	v2, _ := strconv.Atoi(v[2])
+	v3, _ := strconv.Atoi(v[3])
+	return IPAddress([]byte{byte(v0), byte(v1), byte(v2), byte(v3)}), nil
+}
 
-	if r.debug {
-		fmt.Printf("tx : %2d : ", len(msg))
-		dumpHex(msg)
-		fmt.Printf("\r\n")
+func (addr IPAddress) AsUint32() uint32 {
+	if len(addr) < 4 {
+		return 0
 	}
-	r.port.Write(msg)
-
-	//n, err := io.ReadFull(r.port, headerBuf[:])
-	//if err != nil {
-	//	return err
-	//}
-	//if Debug {
-	//	fmt.Printf("rx : %2d : %#v\n", n, headerBuf[:n])
-	//}
-
-	//n, err = io.ReadFull(r.port, startWriteMessageBuf[:8])
-	//if err != nil {
-	//	return err
-	//}
-	//if Debug {
-	//	fmt.Printf("rx : %2d : %#v\n", n, startWriteMessageBuf[:n])
-	//}
-	return nil
+	b := []byte(string(addr))
+	return binary.BigEndian.Uint32(b[0:4])
 }
