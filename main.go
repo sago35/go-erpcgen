@@ -335,6 +335,12 @@ func (a GoArgument) String() string {
 }
 
 func (a GoArgument) ArgString() string {
+	if a.Out {
+		switch a.Type() {
+		case "uint8", "int8", "bool", "uint16", "int16", "uint32", "int32":
+			return fmt.Sprintf("%s *%s", a.Name, a.Type())
+		}
+	}
 	return fmt.Sprintf("%s %s", a.Name, a.Type())
 }
 
@@ -437,34 +443,42 @@ func generateGoCode(p *Program) error {
 						if !a.In {
 							continue
 						}
+						name := a.Name
+						if a.Out {
+							switch a.Type() {
+							case "uint8", "int8", "bool", "uint16", "int16", "uint32", "int32":
+								name = "*" + name
+							}
+						}
+
 						fmt.Printf("	// %s\n", a.String())
 						if a.Size() > 0 {
 							if a.Type() == "bool" {
-								fmt.Printf("	if %s {\n", a.Name)
+								fmt.Printf("	if %s {\n", name)
 								fmt.Printf("		msg = append(msg, 1)\n")
 								fmt.Printf("	} else {\n")
 								fmt.Printf("		msg = append(msg, 0)\n")
 								fmt.Printf("	}\n")
 							} else {
 								for i := 0; i < a.Size(); i++ {
-									fmt.Printf("	msg = append(msg, byte(%s>>%d))\n", a.Name, i*8)
+									fmt.Printf("	msg = append(msg, byte(%s>>%d))\n", name, i*8)
 								}
 							}
 						} else if a.Type() == "string" || a.Type() == "[]byte" {
 							if a.Nullable {
-								fmt.Printf("	if len(%s) == 0 {\n", a.Name)
+								fmt.Printf("	if len(%s) == 0 {\n", name)
 								fmt.Printf("		msg = append(msg, 1)\n")
 								fmt.Printf("	} else {\n")
 								fmt.Printf("		msg = append(msg, 0)\n")
-								fmt.Printf("		msg = append(msg, byte(len(%s)), byte(len(%s)>>8), byte(len(%s)>>16), byte(len(%s)>>24))\n", a.Name, a.Name, a.Name, a.Name)
-								fmt.Printf("		msg = append(msg, []byte(%s)...)\n", a.Name)
+								fmt.Printf("		msg = append(msg, byte(len(%s)), byte(len(%s)>>8), byte(len(%s)>>16), byte(len(%s)>>24))\n", name, name, name, name)
+								fmt.Printf("		msg = append(msg, []byte(%s)...)\n", name)
 								fmt.Printf("	}\n")
 							} else {
-								fmt.Printf("	msg = append(msg, byte(len(%s)), byte(len(%s)>>8), byte(len(%s)>>16), byte(len(%s)>>24))\n", a.Name, a.Name, a.Name, a.Name)
-								fmt.Printf("	msg = append(msg, []byte(%s)...)\n", a.Name)
+								fmt.Printf("	msg = append(msg, byte(len(%s)), byte(len(%s)>>8), byte(len(%s)>>16), byte(len(%s)>>24))\n", name, name, name, name)
+								fmt.Printf("	msg = append(msg, []byte(%s)...)\n", name)
 							}
 						} else {
-							fmt.Printf("	msg = append(msg, %s...)\n", a.Name)
+							fmt.Printf("	msg = append(msg, %s...)\n", name)
 						}
 					}
 				}
@@ -505,36 +519,62 @@ func generateGoCode(p *Program) error {
 						if !a.Out {
 							continue
 						}
+						name := a.Name
+						switch a.Type() {
+						case "uint8", "int8", "bool", "uint16", "int16", "uint32", "int32":
+							name = "*" + name
+						}
+
 						fmt.Printf("	// %s\n", a.String())
-						if a.Size() > 0 {
-							if a.Type() == "bool" {
-								fmt.Println("// not impl")
-							} else {
-								fmt.Println("// not impl")
-							}
-						} else if a.Type() == "string" || a.Type() == "[]byte" {
+						switch a.Type() {
+						case "bool":
+							fmt.Printf("	%s = payload[widx] != 0\n", name)
+							fmt.Printf("	widx += 1\n")
+						case "uint8":
+							fmt.Printf("	%s = payload[widx]\n", name)
+							fmt.Printf("	widx += 1\n")
+						case "uint16":
+							fmt.Printf("	%s = binary.LittleEndian.Uint16(payload[widx:])\n", name)
+							fmt.Printf("	widx += 2\n")
+						case "uint32":
+							fmt.Printf("	%s = binary.LittleEndian.Uint32(payload[widx:])\n", name)
+							fmt.Printf("	widx += 4\n")
+						case "int8":
+							fmt.Printf("	%s = int8(payload[widx])\n", name)
+							fmt.Printf("	widx += 1\n")
+						case "int16":
+							fmt.Printf("	%s = int16(binary.LittleEndian.Uint16(payload[widx:]))\n", name)
+							fmt.Printf("	widx += 2\n")
+						case "int32":
+							fmt.Printf("	%s = int32(binary.LittleEndian.Uint32(payload[widx:]))\n", name)
+							fmt.Printf("	widx += 4\n")
+						case "string", "[]byte":
 							if a.Nullable {
-								fmt.Printf("	%s_length := binary.LittleEndian.Uint32(payload[widx:])\n", a.Name)
+								fmt.Printf("	%s_length := binary.LittleEndian.Uint32(payload[widx:])\n", name)
 								fmt.Printf("	widx += 1\n")
-								fmt.Printf("	if %s_length == 1 {\n", a.Name)
-								fmt.Printf("		%s_length = binary.LittleEndian.Uint32(payload[widx:])\n", a.Name)
+								fmt.Printf("	if %s_length == 1 {\n", name)
+								fmt.Printf("		%s_length = binary.LittleEndian.Uint32(payload[widx:])\n", name)
 								fmt.Printf("		widx += 4\n")
 								fmt.Printf("	}\n")
 							} else {
-								fmt.Printf("	%s_length := binary.LittleEndian.Uint32(payload[widx:])\n", a.Name)
+								fmt.Printf("	%s_length := binary.LittleEndian.Uint32(payload[widx:])\n", name)
 								fmt.Printf("	widx += 4\n")
 							}
 
-							fmt.Printf("	if %s_length > 0 {\n", a.Name)
+							fmt.Printf("	if %s_length > 0 {\n", name)
 							if a.Type() == "string" {
-								fmt.Printf("		%s = string(payload[widx:widx+int(%s_length)])\n", a.Name, a.Name)
+								fmt.Printf("		%s = string(payload[widx:widx+int(%s_length)])\n", name, name)
 							} else {
-								fmt.Printf("		copy(%s, payload[widx:widx+int(%s_length)])\n", a.Name, a.Name)
+								fmt.Printf("		copy(%s, payload[widx:widx+int(%s_length)])\n", name, name)
 							}
-							fmt.Printf("		widx += int(%s_length)\n", a.Name)
+							fmt.Printf("		widx += int(%s_length)\n", name)
 							fmt.Printf("	}\n")
-						} else {
-							fmt.Println("// not impl")
+						default:
+							if a.Size() > 0 {
+								fmt.Println("// not impl (a.Size() > 0)")
+							} else {
+								fmt.Println("// not impl")
+							}
 						}
 					}
 					fmt.Printf("\n")
