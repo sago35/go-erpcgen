@@ -76,7 +76,7 @@ func run() error {
 	fmt.Printf("WiFi connected!\r\n")
 
 	ip_info := make([]byte, 12)
-	_, err = rtl.Rpc_tcpip_adapter_get_ip_info(0, ip_info)
+	_, err = rtl.Rpc_tcpip_adapter_get_ip_info(0, &ip_info)
 	if err != nil {
 		return err
 	}
@@ -114,8 +114,8 @@ func run() error {
 
 	seconds := 0
 	for {
-		addr := [4]byte{}
-		_, err = rtl.Rpc_netconn_gethostbyname(server, addr[:])
+		addr := make([]byte, 4)
+		_, err = rtl.Rpc_netconn_gethostbyname(server, &addr)
 		if err != nil {
 			return err
 		}

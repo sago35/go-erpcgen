@@ -79,7 +79,7 @@ func run() error {
 	}
 
 	ip_info := make([]byte, 12)
-	_, err = rtl.Rpc_tcpip_adapter_get_ip_info(0, ip_info)
+	_, err = rtl.Rpc_tcpip_adapter_get_ip_info(0, &ip_info)
 	if err != nil {
 		return err
 	}
@@ -87,7 +87,7 @@ func run() error {
 	ip.Dump()
 
 	addr := make([]byte, 15)
-	_, err = rtl.Rpc_dns_gethostbyname_addrtype(hostname, addr, 0x00004d4d, []byte{0x00, 0x08, 0x00, 0x00, 0x00, 0x4d, 0x4d, 0x00, 0x00, 0xB0, 0xD6, 0x00, 0x20}, 0x02)
+	_, err = rtl.Rpc_dns_gethostbyname_addrtype(hostname, &addr, 0x00004d4d, []byte{0x00, 0x08, 0x00, 0x00, 0x00, 0x4d, 0x4d, 0x00, 0x00, 0xB0, 0xD6, 0x00, 0x20}, 0x02)
 	if err != nil {
 		return err
 	}
@@ -134,8 +134,9 @@ func run() error {
 		return err
 	}
 
-	optlen := uint32(4)
-	_, err = rtl.Rpc_lwip_getsockopt(socket, 0x00000FFF, 0x00001007, []byte{0xA5, 0xA5, 0xA5, 0xA5}, nil, optlen)
+	optval := make([]byte, 4)
+	optlen := uint32(len(optval))
+	_, err = rtl.Rpc_lwip_getsockopt(socket, 0x00000FFF, 0x00001007, []byte{0xA5, 0xA5, 0xA5, 0xA5}, &optval, &optlen)
 	if err != nil {
 		return err
 	}
@@ -167,7 +168,7 @@ func run() error {
 	//rtl.Debug(true)
 	time.Sleep(1 * time.Second)
 	rcvBuf := make([]byte, 0x0400)
-	n, err := rtl.Rpc_lwip_recv(socket, rcvBuf, uint32(len(rcvBuf)), 0x00000008, 0x00002800)
+	n, err := rtl.Rpc_lwip_recv(socket, &rcvBuf, uint32(len(rcvBuf)), 0x00000008, 0x00002800)
 	if err != nil {
 		return err
 	}
@@ -178,7 +179,7 @@ func run() error {
 	}
 
 	for length > 0 {
-		n, err := rtl.Rpc_lwip_recv(socket, rcvBuf, uint32(len(rcvBuf)), 0x00000008, 0x00002800)
+		n, err := rtl.Rpc_lwip_recv(socket, &rcvBuf, uint32(len(rcvBuf)), 0x00000008, 0x00002800)
 		if err != nil {
 			return err
 		}

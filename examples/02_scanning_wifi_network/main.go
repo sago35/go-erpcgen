@@ -59,7 +59,7 @@ func run() error {
 		fmt.Printf("%d networks found\r\n", num)
 
 		result := buf[:66*num]
-		_, err = rtl.Rpc_wifi_scan_get_ap_records(num, result[:])
+		_, err = rtl.Rpc_wifi_scan_get_ap_records(num, &result)
 		if err != nil {
 			return err
 		}

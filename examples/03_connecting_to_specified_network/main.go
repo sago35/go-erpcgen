@@ -77,7 +77,7 @@ func run() error {
 	}
 
 	ip_info := make([]byte, 12)
-	_, err = rtl.Rpc_tcpip_adapter_get_ip_info(0, ip_info)
+	_, err = rtl.Rpc_tcpip_adapter_get_ip_info(0, &ip_info)
 	if err != nil {
 		return err
 	}

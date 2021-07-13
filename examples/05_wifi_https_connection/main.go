@@ -142,7 +142,7 @@ func run() error {
 	rcvBuf := make([]byte, 0x0400)
 
 	for {
-		n, err := rtl.Rpc_wifi_get_ssl_receive(client, rcvBuf, int32(len(rcvBuf)))
+		n, err := rtl.Rpc_wifi_get_ssl_receive(client, &rcvBuf, int32(cap(rcvBuf)))
 		if err != nil {
 			return err
 		}

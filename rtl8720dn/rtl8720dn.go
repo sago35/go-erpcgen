@@ -32,8 +32,6 @@ func New(r io.ReadWriter) *RTL8720DN {
 		debug: false,
 	}
 
-	go ret.readThread()
-
 	return ret
 }
 
