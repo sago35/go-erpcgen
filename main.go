@@ -337,7 +337,7 @@ func (a GoArgument) String() string {
 func (a GoArgument) ArgString() string {
 	if a.Out {
 		switch a.Type() {
-		case "uint8", "int8", "bool", "uint16", "int16", "uint32", "int32", "[]byte":
+		case "uint8", "int8", "bool", "uint16", "int16", "uint32", "int32":
 			return fmt.Sprintf("%s *%s", a.Name, a.Type())
 		}
 	}
@@ -427,15 +427,13 @@ func generateGoCode(p *Program) error {
 				funcName := x.Name.Value
 				funcName = strings.ToUpper(funcName[0:1]) + funcName[1:]
 				if typ == "" || typ == "void" {
-					fmt.Printf("func (r *RTL8720DN) %s(%s) error {\n", funcName, strings.Join(argStr, ", "))
+					fmt.Printf("func (r *RTL8720DN) %s(%s) {\n", funcName, strings.Join(argStr, ", "))
 				} else {
-					fmt.Printf("func (r *RTL8720DN) %s(%s) (%s, error) {\n", funcName, strings.Join(argStr, ", "), typ)
+					fmt.Printf("func (r *RTL8720DN) %s(%s) %s {\n", funcName, strings.Join(argStr, ", "), typ)
 				}
 
-				fmt.Printf("	r.sema <- true\n")
-				fmt.Printf("	defer func() {\n")
-				fmt.Printf("		<-r.sema\n")
-				fmt.Printf("	}()\n")
+				fmt.Printf("	r.Lock()\n")
+				fmt.Printf("	defer r.Unlock()\n")
 				fmt.Printf("\n")
 
 				fmt.Printf("	if r.debug {\n")
@@ -490,20 +488,7 @@ func generateGoCode(p *Program) error {
 				}
 				fmt.Printf("\n")
 
-				fmt.Printf("	err := r.performRequest(msg)\n")
-				fmt.Printf("	if err != nil {\n")
-				if typ == "" || typ == "void" {
-					fmt.Printf("		return err\n")
-				} else if typ == "bool" {
-					fmt.Printf("		return false, err\n")
-				} else if typ == "string" {
-					fmt.Printf("		return \"\", err\n")
-				} else if typ == "[]byte" {
-					fmt.Printf("		return nil, err\n")
-				} else {
-					fmt.Printf("		return 0, err\n")
-				}
-				fmt.Printf("	}\n")
+				fmt.Printf("	r.performRequest(msg)\n")
 				fmt.Printf("\n")
 				fmt.Printf("	r.read()\n")
 
@@ -527,7 +512,7 @@ func generateGoCode(p *Program) error {
 						}
 						name := a.Name
 						switch a.Type() {
-						case "uint8", "int8", "bool", "uint16", "int16", "uint32", "int32", "[]byte":
+						case "uint8", "int8", "bool", "uint16", "int16", "uint32", "int32":
 							name = "*" + name
 						}
 
@@ -575,7 +560,6 @@ func generateGoCode(p *Program) error {
 							}
 							fmt.Printf("		widx += int(%s_length)\n", a.Name)
 							fmt.Printf("	}\n")
-							fmt.Printf("	%s = (%s)[:%s_length]\n", name, name, a.Name)
 						default:
 							if a.Size() > 0 {
 								fmt.Println("// not impl (a.Size() > 0)")
@@ -604,6 +588,7 @@ func generateGoCode(p *Program) error {
 				} else if typ == "int32" || typ == "int16" || typ == "int8" {
 					fmt.Printf("	var result %s\n", typ)
 					fmt.Printf("	x := binary.LittleEndian.Uint32(payload[widx:])\n")
+					/*
 					switch typ {
 					case "int32":
 						fmt.Printf("	if x >= 0x80000000 {\n")
@@ -624,6 +609,7 @@ func generateGoCode(p *Program) error {
 						fmt.Printf("		result = %s(int(x))\n", typ)
 						fmt.Printf("	}\n")
 					}
+					*/
 					fmt.Printf("	result = %s(x)\n", typ)
 				} else {
 					fmt.Printf("	var result %s\n", typ)
@@ -633,9 +619,9 @@ func generateGoCode(p *Program) error {
 				fmt.Printf("\n")
 				fmt.Printf("	r.seq++\n")
 				if typ == "" || typ == "void" {
-					fmt.Printf("	return err\n")
+					fmt.Printf("	return\n")
 				} else {
-					fmt.Printf("	return result, err\n")
+					fmt.Printf("	return result\n")
 				}
 				fmt.Printf("}\n")
 				fmt.Printf("\n")
