@@ -425,16 +425,11 @@ func generateGoCode(p *Program) error {
 				}
 
 				funcName := x.Name.Value
-				funcName = strings.ToUpper(funcName[0:1]) + funcName[1:]
 				if typ == "" || typ == "void" {
-					fmt.Printf("func (r *RTL8720DN) %s(%s) {\n", funcName, strings.Join(argStr, ", "))
+					fmt.Printf("func (r *rtl8720dn) %s(%s) {\n", funcName, strings.Join(argStr, ", "))
 				} else {
-					fmt.Printf("func (r *RTL8720DN) %s(%s) %s {\n", funcName, strings.Join(argStr, ", "), typ)
+					fmt.Printf("func (r *rtl8720dn) %s(%s) %s {\n", funcName, strings.Join(argStr, ", "), typ)
 				}
-
-				fmt.Printf("	r.Lock()\n")
-				fmt.Printf("	defer r.Unlock()\n")
-				fmt.Printf("\n")
 
 				fmt.Printf("	if r.debug {\n")
 				fmt.Printf("		fmt.Printf(\"%s()\\r\\n\")\n", x.Name.Value)
