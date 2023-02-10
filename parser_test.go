@@ -56,6 +56,7 @@ interface rpc_wifi_lwip{
     rpc_func(uint8 u8, uint16 u16, uint32 u32, int8 i8, int16 i16, int32 i32, bool b) -> void
     rpc_wifi_ssl_set_rootCA(string rootCABuff @retain) -> uint32
     rpc_wifi_ssl_get_rootCA(out string rootCABuff @nullable @max_length(3092)) -> uint32
+    rpc_wifi_get_mac_address(out uint8[18] mac) -> int32
 }
 
 struct RPC_T_LOCAL_APPEARANCE
