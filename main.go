@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"path/filepath"
+	"strconv"
 	"strings"
 )
 
@@ -289,11 +290,12 @@ FOR_LOOP:
 }
 
 type GoArgument struct {
-	In       bool
-	Out      bool
-	Name     string
-	Typ      []string
-	Nullable bool
+	In        bool
+	Out       bool
+	Name      string
+	ArraySize int
+	Typ       []string
+	Nullable  bool
 }
 
 func (a GoArgument) Type() string {
@@ -309,6 +311,8 @@ func (a GoArgument) Size() int {
 		ret = 2
 	case "uint32", "int32":
 		ret = 4
+	case "[]uint8":
+		ret = a.ArraySize
 	}
 	if strings.HasPrefix(a.Type(), "RPC_T") {
 		ret = 4
@@ -327,6 +331,9 @@ func (a GoArgument) String() string {
 	}
 
 	str = append(str, a.Type())
+	if a.ArraySize != 0 {
+		str = append(str, fmt.Sprintf("(%d)", a.ArraySize))
+	}
 
 	if a.Nullable {
 		str = append(str, "nullable")
@@ -406,6 +413,13 @@ func generateGoCode(p *Program) error {
 						if t == "binary" {
 							t = "[]byte"
 							//a.Nullable = true
+						} else if arg.ArraySize != "" {
+							sz, err := strconv.ParseUint(arg.ArraySize, 10, 0)
+							if err != nil {
+								return err
+							}
+							t = "[]" + t
+							a.ArraySize = int(sz)
 						}
 						a.Typ = append(a.Typ, t)
 					}
@@ -459,8 +473,12 @@ func generateGoCode(p *Program) error {
 								fmt.Printf("		msg = append(msg, 0)\n")
 								fmt.Printf("	}\n")
 							} else {
-								for i := 0; i < a.Size(); i++ {
-									fmt.Printf("	msg = append(msg, byte(%s>>%d))\n", name, i*8)
+								if a.Type() == "[]uint8" {
+									fmt.Printf("	msg = append(msg, %s...)\n", name)
+								} else {
+									for i := 0; i < a.Size(); i++ {
+										fmt.Printf("	msg = append(msg, byte(%s>>%d))\n", name, i*8)
+									}
 								}
 							}
 						} else if a.Type() == "string" || a.Type() == "[]byte" {
@@ -555,6 +573,13 @@ func generateGoCode(p *Program) error {
 							}
 							fmt.Printf("		widx += int(%s_length)\n", a.Name)
 							fmt.Printf("	}\n")
+						case "[]uint8":
+							if a.Nullable {
+								fmt.Printf("	// not impl : nullable\n")
+							} else {
+								fmt.Printf("	copy(%s, payload[widx:widx+%d])\n", a.Name, a.ArraySize)
+								fmt.Printf("	widx += %d\n", a.ArraySize)
+							}
 						default:
 							if a.Size() > 0 {
 								fmt.Println("// not impl (a.Size() > 0)")
