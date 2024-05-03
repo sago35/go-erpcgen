@@ -3,6 +3,7 @@ use warnings;
 use utf8;
 
 use Path::Tiny;
+binmode STDOUT;
 
 my $p = path("testdata/erpc_idl/rpc_system.erpc");
 
